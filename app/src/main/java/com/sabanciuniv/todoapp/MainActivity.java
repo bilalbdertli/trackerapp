@@ -24,6 +24,8 @@ public class MainActivity extends AppCompatActivity {
     List<ToDo> todos =new ArrayList<>();
     TextView zeroTodos;
 
+    TodoRecViewAdapter todoRecViewAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
         recView =findViewById(R.id.recTodo);
         zeroTodos = findViewById(R.id.zeroTodo);
         getSupportActionBar().setTitle("To-Do's of the Day");
+
 
 
     }
