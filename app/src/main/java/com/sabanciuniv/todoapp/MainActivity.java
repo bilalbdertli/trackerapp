@@ -7,6 +7,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,11 +23,13 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     RecyclerView recView;
-    List<ToDo> todos =new ArrayList<>();
+    List<ToDo> todoList =new ArrayList<>();
     TextView zeroTodos;
 
-    TodoRecViewAdapter todoRecViewAdapter;
+    //Adding the trials
 
+
+    //end of trial
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,7 +37,17 @@ public class MainActivity extends AppCompatActivity {
         recView =findViewById(R.id.recTodo);
         zeroTodos = findViewById(R.id.zeroTodo);
         getSupportActionBar().setTitle("To-Do's of the Day");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        //extra
+        ToDo todo1 = new ToDo("finish the mobile app", "01/08/2023");
+        ToDo todo2 = new ToDo("finish the js course", "05/08/2023");
+        ToDo todo3 = new ToDo("finish the work on the website", "10/08/2023");
+        todoList.add(todo1);
+        todoList.add(todo2);
+        todoList.add(todo3);
+        TodoRecViewAdapter todoRecViewAdapter = new TodoRecViewAdapter(todoList, MainActivity.this);
+        recView.setAdapter(todoRecViewAdapter);
 
 
     }
@@ -62,8 +76,23 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        recView.setVisibility(View.VISIBLE);
-        zeroTodos.setVisibility(View.INVISIBLE);
+
+
+        if(todoList.size() == 0){
+            Toast.makeText(this, "11asdasdasdasd", Toast.LENGTH_SHORT).show();
+
+
+            recView.setVisibility(View.INVISIBLE);
+            zeroTodos.setVisibility(View.VISIBLE);
+        }
+        else{
+            Toast.makeText(this, "22asdasdasdasd", Toast.LENGTH_SHORT).show();
+
+
+            recView.setVisibility(View.VISIBLE);
+            zeroTodos.setVisibility(View.INVISIBLE);
+        }
+
 
     }
 }
