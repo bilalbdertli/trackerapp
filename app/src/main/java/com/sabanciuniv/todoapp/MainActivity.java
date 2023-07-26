@@ -3,6 +3,7 @@ package com.sabanciuniv.todoapp;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
@@ -40,17 +41,29 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         //extra
+
         ToDo todo1 = new ToDo("finish the mobile app", "01/08/2023");
         ToDo todo2 = new ToDo("finish the js course", "05/08/2023");
         ToDo todo3 = new ToDo("finish the work on the website", "10/08/2023");
         todoList.add(todo1);
         todoList.add(todo2);
         todoList.add(todo3);
+
+        ToDo newToDo = getIntent().getSerializableExtra("newTodo", ToDo.class);
+        if(newToDo != null){todoList.add(newToDo);
+        }
+
+
         TodoRecViewAdapter todoRecViewAdapter = new TodoRecViewAdapter(todoList, MainActivity.this);
         recView.setAdapter(todoRecViewAdapter);
+        recView.setLayoutManager(new LinearLayoutManager(this));
+
 
 
     }
+
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -66,7 +79,8 @@ public class MainActivity extends AppCompatActivity {
             finish();
         }else if(item.getItemId()==R.id.mnPostComment){
             //to post activity
-            Toast.makeText(this, "asdasdasdasd", Toast.LENGTH_SHORT).show();
+            Intent i = new Intent(this, AddNewTodo.class);
+            startActivity(i);
 
         }
 
@@ -78,20 +92,21 @@ public class MainActivity extends AppCompatActivity {
         super.onStart();
 
 
+
         if(todoList.size() == 0){
-            Toast.makeText(this, "11asdasdasdasd", Toast.LENGTH_SHORT).show();
 
 
             recView.setVisibility(View.INVISIBLE);
             zeroTodos.setVisibility(View.VISIBLE);
         }
         else{
-            Toast.makeText(this, "22asdasdasdasd", Toast.LENGTH_SHORT).show();
 
 
             recView.setVisibility(View.VISIBLE);
             zeroTodos.setVisibility(View.INVISIBLE);
         }
+
+
 
 
     }

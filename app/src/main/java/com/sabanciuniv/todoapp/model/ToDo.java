@@ -1,6 +1,8 @@
 package com.sabanciuniv.todoapp.model;
 
-public class ToDo {
+import java.io.Serializable;
+
+public class ToDo implements Serializable {
     public String toDo, dueDate;
 
     public ToDo(String toDo, String dueDate) {
