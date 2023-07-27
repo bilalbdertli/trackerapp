@@ -1,6 +1,7 @@
 package com.sabanciuniv.todoapp;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +21,7 @@ public class TodoRecViewAdapter extends RecyclerView.Adapter<TodoRecViewAdapter.
     List<ToDo> data;
     Context context;
 
+
     public TodoRecViewAdapter(List<ToDo> data, Context context) {
         this.data = data;
         this.context = context;
@@ -35,8 +37,17 @@ public class TodoRecViewAdapter extends RecyclerView.Adapter<TodoRecViewAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull TodoViewHolder holder, int position) {
-        holder.titleTodo.setText(data.get(position).getToDo());
+        holder.titleTodo.setText(data.get(position).getTitle());
         holder.dueDate.setText(data.get(position).getDueDate());
+        holder.row.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(context, TodoDetails.class);
+                i.putExtra("todoDetails", data.get(holder.getAdapterPosition()));
+                context.startActivity(i);
+            }
+        });
+
 
     }
 
@@ -50,12 +61,16 @@ public class TodoRecViewAdapter extends RecyclerView.Adapter<TodoRecViewAdapter.
         TextView titleTodo;
         TextView dueDate;
         CheckBox isDone;
+
+        View row;
+
+
        public TodoViewHolder(@NonNull View itemView) {
            super(itemView);
            titleTodo = itemView.findViewById(R.id.txtTitleTodo);
            dueDate = itemView.findViewById(R.id.txtDueDate);
            isDone = itemView.findViewById(R.id.checkBox);
-
+           row = itemView.findViewById(R.id.detailsContainer);
 
 
            isDone.setOnClickListener(v->{

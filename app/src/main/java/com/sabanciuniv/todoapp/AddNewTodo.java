@@ -11,14 +11,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.sabanciuniv.todoapp.model.ToDo;
 
 public class AddNewTodo extends AppCompatActivity {
 
-    EditText txtNewDuedate;
+    EditText txtNewDueDate;
     EditText txtNewTodo;
+    EditText txtNewTitle;
     Button btnAddTodo;
     ProgressBar progress;
     TextView txtError;
@@ -28,8 +28,9 @@ public class AddNewTodo extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_new_todo);
-        txtNewDuedate = findViewById(R.id.txtNewDuedate);
-        txtNewTodo = findViewById(R.id.txtNewTodo);
+        txtNewDueDate = findViewById(R.id.txtNewDuedate);
+        txtNewTodo = findViewById(R.id.txtNewDescription);
+        txtNewTitle = findViewById(R.id.txtNewTitle);
         txtError = findViewById(R.id.txtError);
         progress = findViewById(R.id.progressBar);
         btnAddTodo = findViewById(R.id.btnAddTodo);
@@ -37,13 +38,14 @@ public class AddNewTodo extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         btnAddTodo.setOnClickListener(v->{
-            if(!(txtNewTodo.getText().toString().equals("") || txtNewDuedate.getText().toString().equals(""))){
+            if(!(txtNewTodo.getText().toString().equals("") || txtNewDueDate.getText().toString().equals("") || txtNewTitle.getText().toString().equals("") )){
                 progress.setVisibility(View.VISIBLE);
-                txtNewDuedate.setEnabled(false);
+                txtNewDueDate.setEnabled(false);
                 txtNewTodo.setEnabled(false);
+                txtNewTitle.setEnabled(false);
                 btnAddTodo.setEnabled(false);
 
-                ToDo newToDo  =  new ToDo(txtNewTodo.getText().toString(), txtNewDuedate.getText().toString());
+                ToDo newToDo  =  new ToDo(txtNewTodo.getText().toString(), txtNewTitle.getText().toString(), txtNewDueDate.getText().toString());
                 Intent i = new Intent(this, MainActivity.class);
                 i.putExtra("newTodo", newToDo);
                 startActivity(i);

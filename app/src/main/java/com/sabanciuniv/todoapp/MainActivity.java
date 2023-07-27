@@ -42,9 +42,9 @@ public class MainActivity extends AppCompatActivity {
 
         //extra
 
-        ToDo todo1 = new ToDo("finish the mobile app", "01/08/2023");
-        ToDo todo2 = new ToDo("finish the js course", "05/08/2023");
-        ToDo todo3 = new ToDo("finish the work on the website", "10/08/2023");
+        ToDo todo1 = new ToDo("the description of the todo for the title named as finish the mobile app", "finish the mobile app", "tomorrow" );
+        ToDo todo2 = new ToDo("the description of the todo for the title named as finish the js course", "finish the js course", "01/08/2023" );
+        ToDo todo3 = new ToDo("the description of the todo for the title named as finish the work on website ", "finish the work on website", "01/08/2023" );
         todoList.add(todo1);
         todoList.add(todo2);
         todoList.add(todo3);
