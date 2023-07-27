@@ -53,10 +53,10 @@ public class MainActivity extends AppCompatActivity {
         if(newToDo != null){todoList.add(newToDo);
         }
 
-
         TodoRecViewAdapter todoRecViewAdapter = new TodoRecViewAdapter(todoList, MainActivity.this);
         recView.setAdapter(todoRecViewAdapter);
         recView.setLayoutManager(new LinearLayoutManager(this));
+
 
 
 

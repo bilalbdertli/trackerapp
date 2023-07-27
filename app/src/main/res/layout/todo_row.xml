@@ -44,4 +44,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtDueDate" />
 
+    <CheckBox
+        android:id="@+id/checkBox"
+        android:layout_width="82dp"
+        android:layout_height="33dp"
+        android:layout_marginTop="8dp"
+        android:text="Done"
+        app:layout_constraintEnd_toStartOf="@+id/txtDueDate"
+        app:layout_constraintHorizontal_bias="0.21"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtTitleTodo" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

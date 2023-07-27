@@ -1,10 +1,13 @@
 package com.sabanciuniv.todoapp;
 
 import android.content.Context;
+import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -46,11 +49,32 @@ public class TodoRecViewAdapter extends RecyclerView.Adapter<TodoRecViewAdapter.
 
         TextView titleTodo;
         TextView dueDate;
-
+        CheckBox isDone;
        public TodoViewHolder(@NonNull View itemView) {
            super(itemView);
            titleTodo = itemView.findViewById(R.id.txtTitleTodo);
            dueDate = itemView.findViewById(R.id.txtDueDate);
+           isDone = itemView.findViewById(R.id.checkBox);
+
+
+
+           isDone.setOnClickListener(v->{
+               Toast.makeText(context.getApplicationContext(), titleTodo.getText().toString(), Toast.LENGTH_SHORT).show();
+               /*titleTodo.setPaintFlags(titleTodo.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);*/
+
+               int currentFlags = titleTodo.getPaintFlags();
+               if ((currentFlags & Paint.STRIKE_THRU_TEXT_FLAG) == Paint.STRIKE_THRU_TEXT_FLAG) {
+                   // The STRIKE_THRU_TEXT_FLAG is currently set, remove it
+                   titleTodo.setPaintFlags(currentFlags & ~Paint.STRIKE_THRU_TEXT_FLAG);
+
+               } else {
+                   // The STRIKE_THRU_TEXT_FLAG is not set, add it
+                   titleTodo.setPaintFlags(currentFlags | Paint.STRIKE_THRU_TEXT_FLAG);
+
+               }
+
+           });
+
        }
    }
 }
