@@ -16,27 +16,27 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.sabanciuniv.todoapp.databinding.ActivityMainBinding;
 import com.sabanciuniv.todoapp.model.ToDo;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+    private ActivityMainBinding binding;
 
-    RecyclerView recView;
     List<ToDo> todoList =new ArrayList<>();
-    TextView zeroTodos;
-
-    //Adding the trials
 
 
-    //end of trial
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        recView =findViewById(R.id.recTodo);
-        zeroTodos = findViewById(R.id.zeroTodo);
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
+
+
         getSupportActionBar().setTitle("To-Do's of the Day");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -54,10 +54,8 @@ public class MainActivity extends AppCompatActivity {
         }
 
         TodoRecViewAdapter todoRecViewAdapter = new TodoRecViewAdapter(todoList, MainActivity.this);
-        recView.setAdapter(todoRecViewAdapter);
-        recView.setLayoutManager(new LinearLayoutManager(this));
-
-
+        binding.recTodo.setAdapter(todoRecViewAdapter);
+        binding.recTodo.setLayoutManager(new LinearLayoutManager(this));
 
 
     }
@@ -96,14 +94,14 @@ public class MainActivity extends AppCompatActivity {
         if(todoList.size() == 0){
 
 
-            recView.setVisibility(View.INVISIBLE);
-            zeroTodos.setVisibility(View.VISIBLE);
+            binding.recTodo.setVisibility(View.INVISIBLE);
+            binding.zeroTodo.setVisibility(View.VISIBLE);
         }
         else{
 
 
-            recView.setVisibility(View.VISIBLE);
-            zeroTodos.setVisibility(View.INVISIBLE);
+            binding.recTodo.setVisibility(View.VISIBLE);
+            binding.zeroTodo.setVisibility(View.INVISIBLE);
         }
 
 

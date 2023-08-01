@@ -12,46 +12,38 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.sabanciuniv.todoapp.databinding.ActivityAddNewTodoBinding;
 import com.sabanciuniv.todoapp.model.ToDo;
 
 public class AddNewTodo extends AppCompatActivity {
 
-    EditText txtNewDueDate;
-    EditText txtNewTodo;
-    EditText txtNewTitle;
-    Button btnAddTodo;
-    ProgressBar progress;
-    TextView txtError;
+    private ActivityAddNewTodoBinding binding;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_new_todo);
-        txtNewDueDate = findViewById(R.id.txtNewDuedate);
-        txtNewTodo = findViewById(R.id.txtNewDescription);
-        txtNewTitle = findViewById(R.id.txtNewTitle);
-        txtError = findViewById(R.id.txtError);
-        progress = findViewById(R.id.progressBar);
-        btnAddTodo = findViewById(R.id.btnAddTodo);
+        binding = ActivityAddNewTodoBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
         getSupportActionBar().setTitle("Add a New To-Do");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        btnAddTodo.setOnClickListener(v->{
-            if(!(txtNewTodo.getText().toString().equals("") || txtNewDueDate.getText().toString().equals("") || txtNewTitle.getText().toString().equals("") )){
-                progress.setVisibility(View.VISIBLE);
-                txtNewDueDate.setEnabled(false);
-                txtNewTodo.setEnabled(false);
-                txtNewTitle.setEnabled(false);
-                btnAddTodo.setEnabled(false);
+        binding.btnAddTodo.setOnClickListener(v->{
+            if(!(binding.txtNewDescription.getText().toString().equals("") || binding.txtNewDuedate.getText().toString().equals("") || binding.txtNewTitle.getText().toString().equals("") )){
+                binding.progressBar.setVisibility(View.VISIBLE);
+                binding.txtNewDuedate.setEnabled(false);
+                binding.txtNewDescription.setEnabled(false);
+                binding.txtNewTitle.setEnabled(false);
+                binding.btnAddTodo.setEnabled(false);
 
-                ToDo newToDo  =  new ToDo(txtNewTodo.getText().toString(), txtNewTitle.getText().toString(), txtNewDueDate.getText().toString());
+                ToDo newToDo  =  new ToDo(binding.txtNewDescription.getText().toString(), binding.txtNewTitle.getText().toString(), binding.txtNewDuedate.getText().toString());
                 Intent i = new Intent(this, MainActivity.class);
                 i.putExtra("newTodo", newToDo);
                 startActivity(i);
             }
             else{
-                txtError.setVisibility(View.VISIBLE);
+                binding.txtError.setVisibility(View.VISIBLE);
 
             }
 

@@ -13,6 +13,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.sabanciuniv.todoapp.databinding.TodoRowBinding;
 import com.sabanciuniv.todoapp.model.ToDo;
 
 import java.util.List;
@@ -30,16 +31,20 @@ public class TodoRecViewAdapter extends RecyclerView.Adapter<TodoRecViewAdapter.
     @NonNull
     @Override
     public TodoViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        /*
         View root = LayoutInflater.from(context).inflate(R.layout.todo_row, parent, false);
         TodoViewHolder holder = new TodoViewHolder(root);
-        return holder;
+        return holder;*/
+        return new TodoViewHolder(TodoRowBinding.inflate(LayoutInflater.from(parent.getContext()),parent,false));
+
+
     }
 
     @Override
     public void onBindViewHolder(@NonNull TodoViewHolder holder, int position) {
-        holder.titleTodo.setText(data.get(position).getTitle());
-        holder.dueDate.setText(data.get(position).getDueDate());
-        holder.row.setOnClickListener(new View.OnClickListener() {
+        holder.binding.txtTitleTodo.setText(data.get(position).getTitle());
+        holder.binding.txtDueDate.setText(data.get(position).getDueDate());
+        holder.binding.detailsContainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(context, TodoDetails.class);
@@ -57,39 +62,28 @@ public class TodoRecViewAdapter extends RecyclerView.Adapter<TodoRecViewAdapter.
     }
 
     class TodoViewHolder extends RecyclerView.ViewHolder{
+        private TodoRowBinding binding;
 
-        TextView titleTodo;
-        TextView dueDate;
-        CheckBox isDone;
+        public  TodoViewHolder(TodoRowBinding binding){
+            super(binding.getRoot());
+            this.binding = binding;
 
-        View row;
-
-
-       public TodoViewHolder(@NonNull View itemView) {
-           super(itemView);
-           titleTodo = itemView.findViewById(R.id.txtTitleTodo);
-           dueDate = itemView.findViewById(R.id.txtDueDate);
-           isDone = itemView.findViewById(R.id.checkBox);
-           row = itemView.findViewById(R.id.detailsContainer);
+            binding.checkBox.setOnClickListener(v->{
+                Toast.makeText(context.getApplicationContext(), binding.txtTitleTodo.getText().toString(), Toast.LENGTH_SHORT).show();
 
 
-           isDone.setOnClickListener(v->{
-               Toast.makeText(context.getApplicationContext(), titleTodo.getText().toString(), Toast.LENGTH_SHORT).show();
-               /*titleTodo.setPaintFlags(titleTodo.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);*/
+                int currentFlags = binding.txtTitleTodo.getPaintFlags();
+                if ((currentFlags & Paint.STRIKE_THRU_TEXT_FLAG) == Paint.STRIKE_THRU_TEXT_FLAG) {
+                    // The STRIKE_THRU_TEXT_FLAG is currently set, remove it
+                    binding.txtTitleTodo.setPaintFlags(currentFlags & ~Paint.STRIKE_THRU_TEXT_FLAG);
 
-               int currentFlags = titleTodo.getPaintFlags();
-               if ((currentFlags & Paint.STRIKE_THRU_TEXT_FLAG) == Paint.STRIKE_THRU_TEXT_FLAG) {
-                   // The STRIKE_THRU_TEXT_FLAG is currently set, remove it
-                   titleTodo.setPaintFlags(currentFlags & ~Paint.STRIKE_THRU_TEXT_FLAG);
+                } else {
+                    // The STRIKE_THRU_TEXT_FLAG is not set, add it
+                    binding.txtTitleTodo.setPaintFlags(currentFlags | Paint.STRIKE_THRU_TEXT_FLAG);
 
-               } else {
-                   // The STRIKE_THRU_TEXT_FLAG is not set, add it
-                   titleTodo.setPaintFlags(currentFlags | Paint.STRIKE_THRU_TEXT_FLAG);
+                }
 
-               }
-
-           });
-
-       }
+            });
+        }
    }
 }
