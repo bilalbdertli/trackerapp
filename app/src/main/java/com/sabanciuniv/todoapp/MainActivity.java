@@ -25,7 +25,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
 
-    List<ToDo> todoList =new ArrayList<>();
+    List<ToDo> todoList;
 
 
 
@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
+        todoList = new ArrayList<>();
 
 
         getSupportActionBar().setTitle("To-Do's of the Day");
@@ -49,9 +49,9 @@ public class MainActivity extends AppCompatActivity {
         todoList.add(todo2);
         todoList.add(todo3);
 
-        ToDo newToDo = getIntent().getSerializableExtra("newTodo", ToDo.class);
-        if(newToDo != null){todoList.add(newToDo);
-        }
+
+
+
 
         TodoRecViewAdapter todoRecViewAdapter = new TodoRecViewAdapter(todoList, MainActivity.this);
         binding.recTodo.setAdapter(todoRecViewAdapter);
@@ -68,6 +68,15 @@ public class MainActivity extends AppCompatActivity {
 
         getMenuInflater().inflate(R.menu.menu_main,menu);
         return true;
+    }
+
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        ToDo newToDo = intent.getSerializableExtra("newTodo", ToDo.class);
+        todoList.add(newToDo);
+        binding.recTodo.getAdapter().notifyItemInserted(todoList.size()-1);
     }
 
     @Override
