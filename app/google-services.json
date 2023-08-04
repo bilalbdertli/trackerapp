@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "649052990655",
+    "project_id": "todoapp-d824a",
+    "storage_bucket": "todoapp-d824a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:649052990655:android:353671b07daa1970f02a0a",
+        "android_client_info": {
+          "package_name": "com.sabanciuniv.todoapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "649052990655-ojq9ravpjb8ms32r0ke33frnclsn1gnv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAbxElib1QgPfO9Ww_PQWMp8fCgQ6VmOkU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "649052990655-ojq9ravpjb8ms32r0ke33frnclsn1gnv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
