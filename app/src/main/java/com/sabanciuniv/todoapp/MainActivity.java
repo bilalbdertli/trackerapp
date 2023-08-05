@@ -45,12 +45,10 @@ public class MainActivity extends AppCompatActivity {
 
             }
             else{
-                Toast.makeText(MainActivity.this.getApplicationContext(), "thereexists", Toast.LENGTH_SHORT).show();
-                for(int i = 0; i < todoList.size();i++){
-                    Log.i("DEV", todoList.get(i).getTitle());
-                }
-                binding.recTodo.setVisibility(View.VISIBLE);
-                binding.zeroTodo.setVisibility(View.INVISIBLE);
+
+                TodoRecViewAdapter todoRecViewAdapter = new TodoRecViewAdapter(todoList, MainActivity.this);
+                binding.recTodo.setAdapter(todoRecViewAdapter);
+                binding.recTodo.setLayoutManager(new LinearLayoutManager(MainActivity.this));
             }
             return true;
         }
@@ -61,9 +59,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        TodoRecViewAdapter todoRecViewAdapter = new TodoRecViewAdapter(todoList, MainActivity.this);
-        binding.recTodo.setAdapter(todoRecViewAdapter);
-        binding.recTodo.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+
 
         getSupportActionBar().setTitle("To-Do's of the Day");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
