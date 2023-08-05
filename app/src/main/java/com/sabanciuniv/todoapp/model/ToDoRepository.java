@@ -30,7 +30,7 @@ public class ToDoRepository {
             @Override
             public void run() {
                 try {
-                    URL url = new URL("http://localhost:8080/todoapp/todoapp/getAll");
+                    URL url = new URL("http://172.18.96.1:8080/todoapp/todoapp/getAll");
                     HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
                     BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
@@ -41,7 +41,6 @@ public class ToDoRepository {
                         stringBuilder.append(line);
                     }
                     JSONArray jsonArray = new JSONArray(stringBuilder.toString());
-                    Log.i("dev", jsonArray.toString());
                     for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject currentToDo = jsonArray.getJSONObject(i);
                         retVal.add(new ToDo(currentToDo.getString("description"), currentToDo.getString("title"), currentToDo.getString("dueDate")));

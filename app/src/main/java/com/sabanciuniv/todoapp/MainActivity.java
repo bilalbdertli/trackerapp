@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -38,16 +39,16 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(MainActivity.this.getApplicationContext(), "none", Toast.LENGTH_SHORT).show();
 
             if(todoList.size() == 0){
-                TodoRecViewAdapter todoRecViewAdapter = new TodoRecViewAdapter(todoList, MainActivity.this);
-                binding.recTodo.setAdapter(todoRecViewAdapter);
-                binding.recTodo.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+
                 binding.recTodo.setVisibility(View.INVISIBLE);
                 binding.zeroTodo.setVisibility(View.VISIBLE);
 
             }
             else{
                 Toast.makeText(MainActivity.this.getApplicationContext(), "thereexists", Toast.LENGTH_SHORT).show();
-
+                for(int i = 0; i < todoList.size();i++){
+                    Log.i("DEV", todoList.get(i).getTitle());
+                }
                 binding.recTodo.setVisibility(View.VISIBLE);
                 binding.zeroTodo.setVisibility(View.INVISIBLE);
             }
@@ -60,26 +61,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
+        TodoRecViewAdapter todoRecViewAdapter = new TodoRecViewAdapter(todoList, MainActivity.this);
+        binding.recTodo.setAdapter(todoRecViewAdapter);
+        binding.recTodo.setLayoutManager(new LinearLayoutManager(MainActivity.this));
 
         getSupportActionBar().setTitle("To-Do's of the Day");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        //extra
-        /*
-        ToDo todo1 = new ToDo("the description of the todo for the title named as finish the mobile app", "finish the mobile app", "tomorrow" );
-        ToDo todo2 = new ToDo("the description of the todo for the title named as finish the js course", "finish the js course", "01/08/2023" );
-        ToDo todo3 = new ToDo("the description of the todo for the title named as finish the work on website ", "finish the work on website", "01/08/2023" );
-        todoList.add(todo1);
-        todoList.add(todo2);
-        todoList.add(todo3);
-        */
-
-
-
-
-
-
 
     }
 
@@ -120,6 +107,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        binding.recTodo.setVisibility(View.VISIBLE);
+        binding.zeroTodo.setVisibility(View.INVISIBLE);
         repo.getAllToDos(((ToDoApplication)getApplication()).srv,dataHandler);
 
         /*
