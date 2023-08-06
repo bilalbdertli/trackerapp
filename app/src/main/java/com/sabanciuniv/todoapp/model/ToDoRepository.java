@@ -11,6 +11,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -64,6 +65,65 @@ public class ToDoRepository {
 
             }
         });
+    }
+
+    public void addToDo(ExecutorService srv, Handler handler, String  title,String toDo, String dueDate){
+
+        JSONObject obj = new JSONObject();
+        try {
+            obj.put("description",toDo);
+            obj.put("title",title);
+            obj.put("dueDate",dueDate);
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        srv.execute(()->{
+
+            try {
+                URL url = new URL("http://172.18.96.1:8080/todoapp/todoapp/addToDo");
+                HttpURLConnection conn = (HttpURLConnection)url.openConnection();
+                conn.setDoInput(true);
+                conn.setDoOutput(true);
+
+                conn.setRequestMethod("POST");
+                conn.setRequestProperty("content-type","application/json");
+
+                BufferedOutputStream writer = new BufferedOutputStream(conn.getOutputStream());
+                writer.write(obj.toString().getBytes());
+                writer.flush();
+
+
+                BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                StringBuilder buffer = new StringBuilder();
+                String line = "";
+
+                while((line=reader.readLine())!=null){
+                    buffer.append(line);
+                }
+
+                handler.sendEmptyMessage(0);
+
+
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+
+        });
+
+
+
+
+
+
+
+
+
     }
 
 
