@@ -1,12 +1,14 @@
 package com.sabanciuniv.todoapp.model;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 public class ToDo implements Serializable {
-    public String toDo, title, dueDate;
+    public String toDo, title;
+    public LocalDateTime dueDate;
     public boolean isChecked;
 
-    public ToDo(String toDo, String title, String dueDate) {
+    public ToDo(String toDo, String title, LocalDateTime dueDate) {
         this.toDo = toDo;
         this.title = title;
         this.dueDate = dueDate;
@@ -23,11 +25,11 @@ public class ToDo implements Serializable {
         this.toDo = toDo;
     }
 
-    public String getDueDate() {
+    public LocalDateTime getDueDate() {
         return dueDate;
     }
 
-    public void setDueDate(String dueDate) {
+    public void setDueDate(LocalDateTime dueDate) {
         this.dueDate = dueDate;
     }
 

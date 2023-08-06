@@ -3,6 +3,7 @@ package com.sabanciuniv.todoapp;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -10,19 +11,25 @@ import android.os.Message;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CalendarView;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.sabanciuniv.todoapp.databinding.ActivityAddNewTodoBinding;
 import com.sabanciuniv.todoapp.model.ToDo;
 import com.sabanciuniv.todoapp.model.ToDoRepository;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.concurrent.ExecutorService;
 
 public class AddNewTodo extends AppCompatActivity {
 
     private ActivityAddNewTodoBinding binding;
+
+    LocalDateTime selectedCalenderDate;
 
     Handler handler = new Handler(new Handler.Callback() {
         @Override
@@ -41,10 +48,19 @@ public class AddNewTodo extends AppCompatActivity {
         binding = ActivityAddNewTodoBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+
         getSupportActionBar().setTitle("Add a New To-Do");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         ExecutorService srv = ((ToDoApplication)getApplication()).srv;
+
+        binding.chooseCalendar.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+            @Override
+            public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
+                selectedCalenderDate = LocalDateTime.of(year, month, dayOfMonth, 0, 0, 0);
+
+            }
+        });
 
         binding.btnAddTodo.setOnClickListener(v->{
             if(!(binding.txtNewDescription.getText().toString().equals("") || binding.txtNewDuedate.getText().toString().equals("") || binding.txtNewTitle.getText().toString().equals("") )){
@@ -55,14 +71,20 @@ public class AddNewTodo extends AppCompatActivity {
                 binding.btnAddTodo.setEnabled(false);
 
 
+
+                Toast.makeText(AddNewTodo.this.getApplicationContext(),  selectedCalenderDate.toLocalDate().toString() , Toast.LENGTH_SHORT).show();
+
+
+
                 ToDoRepository repo = new ToDoRepository();
-                repo.addToDo(srv, handler, binding.txtNewTitle.getText().toString(), binding.txtNewDescription.getText().toString(), binding.txtNewDuedate.getText().toString());
+                repo.addToDo(srv, handler, binding.txtNewTitle.getText().toString(), binding.txtNewDescription.getText().toString(), selectedCalenderDate);
 
 
                 /*
                 Intent i = new Intent(this, MainActivity.class);
                 i.putExtra("newTodo", newToDo);
-                startActivity(i);*/
+                startActivity(i);
+                */
             }
             else{
                 binding.txtError.setVisibility(View.VISIBLE);

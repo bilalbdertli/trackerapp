@@ -43,7 +43,7 @@ public class TodoRecViewAdapter extends RecyclerView.Adapter<TodoRecViewAdapter.
     @Override
     public void onBindViewHolder(@NonNull TodoViewHolder holder, int position) {
         holder.binding.txtTitleTodo.setText(data.get(position).getTitle());
-        holder.binding.txtDueDate.setText(data.get(position).getDueDate());
+        holder.binding.txtDueDate.setText(data.get(position).getDueDate().toLocalDate().toString());
         holder.binding.detailsContainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

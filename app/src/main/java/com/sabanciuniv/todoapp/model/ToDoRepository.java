@@ -18,7 +18,11 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 
@@ -44,7 +48,10 @@ public class ToDoRepository {
                     JSONArray jsonArray = new JSONArray(stringBuilder.toString());
                     for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject currentToDo = jsonArray.getJSONObject(i);
-                        retVal.add(new ToDo(currentToDo.getString("description"), currentToDo.getString("title"), currentToDo.getString("dueDate")));
+                        Log.i("DEV", currentToDo.getString("dueDate"));
+                        Log.i("DEVTRIAL", LocalDateTime.now().minusMonths(5).toString());
+
+                        retVal.add(new ToDo(currentToDo.getString("description"), currentToDo.getString("title"), LocalDateTime.now()));
 
                     }
                 }
@@ -67,7 +74,7 @@ public class ToDoRepository {
         });
     }
 
-    public void addToDo(ExecutorService srv, Handler handler, String  title,String toDo, String dueDate){
+    public void addToDo(ExecutorService srv, Handler handler, String  title,String toDo, LocalDateTime dueDate){
 
         JSONObject obj = new JSONObject();
         try {
