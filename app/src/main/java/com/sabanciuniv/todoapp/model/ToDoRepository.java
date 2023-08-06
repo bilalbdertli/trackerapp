@@ -35,7 +35,7 @@ public class ToDoRepository {
             @Override
             public void run() {
                 try {
-                    URL url = new URL("http://172.18.96.1:8080/todoapp/todoapp/getAll");
+                    URL url = new URL("http://192.168.1.8:8080/todoapp/todoapp/getAll");
                     HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
                     BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
@@ -51,7 +51,7 @@ public class ToDoRepository {
                         Log.i("DEV", currentToDo.getString("dueDate"));
                         Log.i("DEVTRIAL", LocalDateTime.now().minusMonths(5).toString());
 
-                        retVal.add(new ToDo(currentToDo.getString("description"), currentToDo.getString("title"), LocalDateTime.now()));
+                        retVal.add(new ToDo(currentToDo.getString("description"), currentToDo.getString("title"), currentToDo.getString("dueDate")));
 
                     }
                 }
@@ -74,7 +74,7 @@ public class ToDoRepository {
         });
     }
 
-    public void addToDo(ExecutorService srv, Handler handler, String  title,String toDo, LocalDateTime dueDate){
+    public void addToDo(ExecutorService srv, Handler handler, String  title,String toDo, String dueDate){
 
         JSONObject obj = new JSONObject();
         try {
@@ -90,7 +90,7 @@ public class ToDoRepository {
         srv.execute(()->{
 
             try {
-                URL url = new URL("http://172.18.96.1:8080/todoapp/todoapp/addToDo");
+                URL url = new URL("http://192.168.1.8:8080/todoapp/todoapp/addToDo");
                 HttpURLConnection conn = (HttpURLConnection)url.openConnection();
                 conn.setDoInput(true);
                 conn.setDoOutput(true);

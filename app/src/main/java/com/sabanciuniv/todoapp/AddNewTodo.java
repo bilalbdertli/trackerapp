@@ -23,6 +23,7 @@ import com.sabanciuniv.todoapp.model.ToDoRepository;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.concurrent.ExecutorService;
 
 public class AddNewTodo extends AppCompatActivity {
@@ -57,7 +58,7 @@ public class AddNewTodo extends AppCompatActivity {
         binding.chooseCalendar.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
-                selectedCalenderDate = LocalDateTime.of(year, month, dayOfMonth, 0, 0, 0);
+                selectedCalenderDate = LocalDateTime.of(year, month+1, dayOfMonth, 10, 10, 10);
 
             }
         });
@@ -72,12 +73,12 @@ public class AddNewTodo extends AppCompatActivity {
 
 
 
-                Toast.makeText(AddNewTodo.this.getApplicationContext(),  selectedCalenderDate.toLocalDate().toString() , Toast.LENGTH_SHORT).show();
+                Toast.makeText(AddNewTodo.this.getApplicationContext(),  selectedCalenderDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")) , Toast.LENGTH_SHORT).show();
 
 
 
                 ToDoRepository repo = new ToDoRepository();
-                repo.addToDo(srv, handler, binding.txtNewTitle.getText().toString(), binding.txtNewDescription.getText().toString(), selectedCalenderDate);
+                repo.addToDo(srv, handler, binding.txtNewTitle.getText().toString(), binding.txtNewDescription.getText().toString(), selectedCalenderDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
 
 
                 /*

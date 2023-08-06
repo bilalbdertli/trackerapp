@@ -5,10 +5,10 @@ import java.time.LocalDateTime;
 
 public class ToDo implements Serializable {
     public String toDo, title;
-    public LocalDateTime dueDate;
+    public String dueDate;
     public boolean isChecked;
 
-    public ToDo(String toDo, String title, LocalDateTime dueDate) {
+    public ToDo(String toDo, String title, String dueDate) {
         this.toDo = toDo;
         this.title = title;
         this.dueDate = dueDate;
@@ -25,11 +25,11 @@ public class ToDo implements Serializable {
         this.toDo = toDo;
     }
 
-    public LocalDateTime getDueDate() {
+    public String getDueDate() {
         return dueDate;
     }
 
-    public void setDueDate(LocalDateTime dueDate) {
+    public void setDueDate(String dueDate) {
         this.dueDate = dueDate;
     }
 
