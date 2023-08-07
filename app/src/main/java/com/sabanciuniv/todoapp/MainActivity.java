@@ -5,7 +5,9 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.app.Application;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -37,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
 
             todoList = (List<ToDo>)msg.obj;
             Toast.makeText(MainActivity.this.getApplicationContext(), "none", Toast.LENGTH_SHORT).show();
-
+            binding.prgBar.setVisibility(View.INVISIBLE);
             if(todoList.size() == 0){
 
                 binding.recTodo.setVisibility(View.INVISIBLE);
@@ -60,9 +62,9 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-
         getSupportActionBar().setTitle("To-Do's of the Day");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
 
     }
 
@@ -105,24 +107,30 @@ public class MainActivity extends AppCompatActivity {
         super.onStart();
         binding.recTodo.setVisibility(View.VISIBLE);
         binding.zeroTodo.setVisibility(View.INVISIBLE);
+        binding.prgBar.setVisibility(View.VISIBLE);
         repo.getAllToDos(((ToDoApplication)getApplication()).srv,dataHandler);
 
-        /*
-        if(todoList.size() == 0){
+        binding.refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                binding.refreshLayout.setRefreshing(false);
+                repo.getAllToDos(((ToDoApplication)getApplication()).srv,dataHandler);
 
-
-            binding.recTodo.setVisibility(View.INVISIBLE);
-            binding.zeroTodo.setVisibility(View.VISIBLE);
-        }
-        else{
-
-
-            binding.recTodo.setVisibility(View.VISIBLE);
-            binding.zeroTodo.setVisibility(View.INVISIBLE);
-        }
-        */
-
+            }
+        });
 
 
     }
+
+    /*
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // Refresh the answers when coming back from posting an answer
+
+        repo.getAllToDos(((ToDoApplication)getApplication()).srv,dataHandler);
+
+
+    }
+    */
 }
