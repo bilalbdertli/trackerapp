@@ -6,6 +6,7 @@ import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
 import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -67,9 +68,8 @@ public class TodoRecViewAdapter extends RecyclerView.Adapter<TodoRecViewAdapter.
         public  TodoViewHolder(TodoRowBinding binding){
             super(binding.getRoot());
             this.binding = binding;
-
+            /*
             binding.checkBox.setOnClickListener(v->{
-                Toast.makeText(context.getApplicationContext(), binding.txtTitleTodo.getText().toString(), Toast.LENGTH_SHORT).show();
 
 
                 int currentFlags = binding.txtTitleTodo.getPaintFlags();
@@ -80,6 +80,24 @@ public class TodoRecViewAdapter extends RecyclerView.Adapter<TodoRecViewAdapter.
                 } else {
                     // The STRIKE_THRU_TEXT_FLAG is not set, add it
                     binding.txtTitleTodo.setPaintFlags(currentFlags | Paint.STRIKE_THRU_TEXT_FLAG);
+
+                }
+
+
+            });
+            */
+            binding.txtTitleTodo.setOnClickListener(v->{
+                binding.txtTitleTodo.toggle();
+                int currentFlags = binding.txtTitleTodo.getPaintFlags();
+
+                if(!(binding.txtTitleTodo.isChecked())){
+                    binding.txtTitleTodo.setPaintFlags(currentFlags & ~Paint.STRIKE_THRU_TEXT_FLAG);
+
+                }
+
+                else{
+                    binding.txtTitleTodo.setPaintFlags(currentFlags | Paint.STRIKE_THRU_TEXT_FLAG);
+
 
                 }
 
