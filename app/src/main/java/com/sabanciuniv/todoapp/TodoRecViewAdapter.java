@@ -17,12 +17,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.sabanciuniv.todoapp.databinding.TodoRowBinding;
 import com.sabanciuniv.todoapp.model.ToDo;
+import com.sabanciuniv.todoapp.model.ToDoRepository;
 
 import java.util.List;
 
 public class TodoRecViewAdapter extends RecyclerView.Adapter<TodoRecViewAdapter.TodoViewHolder> {
     List<ToDo> data;
     Context context;
+    ToDoRepository repo = new ToDoRepository();
+    
 
 
     public TodoRecViewAdapter(List<ToDo> data, Context context) {
@@ -46,6 +49,7 @@ public class TodoRecViewAdapter extends RecyclerView.Adapter<TodoRecViewAdapter.
     public void onBindViewHolder(@NonNull TodoViewHolder holder, int position) {
         holder.binding.txtTitleTodo.setText(data.get(position).getTitle());
         holder.binding.txtDueDate.setText(data.get(position).getDueDate());
+        holder.binding.txtTitleTodo.setChecked(data.get(position).isChecked());
         holder.binding.detailsContainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -53,6 +57,22 @@ public class TodoRecViewAdapter extends RecyclerView.Adapter<TodoRecViewAdapter.
                 i.putExtra("todoDetails", data.get(holder.getAdapterPosition()));
                 context.startActivity(i);
             }
+        });
+
+        holder.binding.txtTitleTodo.setOnClickListener(v->{
+            int currentFlags = holder.binding.txtTitleTodo.getPaintFlags();
+            holder.binding.txtTitleTodo.toggle();
+            if(!(holder.binding.txtTitleTodo.isChecked())){
+                holder.binding.txtTitleTodo.setPaintFlags(currentFlags & ~Paint.STRIKE_THRU_TEXT_FLAG);
+
+            }
+
+            else{
+                holder.binding.txtTitleTodo.setPaintFlags(currentFlags | Paint.STRIKE_THRU_TEXT_FLAG);
+                Log.i("DEV", data.get(holder.getAdapterPosition()).getId());
+
+            }
+
         });
 
 
@@ -87,22 +107,7 @@ public class TodoRecViewAdapter extends RecyclerView.Adapter<TodoRecViewAdapter.
 
             });
             */
-            binding.txtTitleTodo.setOnClickListener(v->{
-                binding.txtTitleTodo.toggle();
-                int currentFlags = binding.txtTitleTodo.getPaintFlags();
 
-                if(!(binding.txtTitleTodo.isChecked())){
-                    binding.txtTitleTodo.setPaintFlags(currentFlags & ~Paint.STRIKE_THRU_TEXT_FLAG);
-
-                }
-
-                else{
-                    binding.txtTitleTodo.setPaintFlags(currentFlags | Paint.STRIKE_THRU_TEXT_FLAG);
-                    Log.i("DEV", "CHECKED RIGHT NOW");
-
-                }
-
-            });
         }
    }
 }

@@ -42,8 +42,8 @@ public class ToDo implements Serializable {
         this.title = title;
     }
 
-    public String isChecked() {
-        return String.valueOf(isChecked);
+    public boolean isChecked() {
+        return isChecked;
     }
 
     public void setChecked(boolean checked) {

@@ -132,6 +132,44 @@ public class ToDoRepository {
 
     }
 
+    public void changeChecked(ExecutorService srv, String id){
+
+        srv.execute(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    URL url = new URL("http://192.168.1.7:8080/todoapp/todoapp/updateToDo/" + id );
+                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+
+                    String line = "";
+                    StringBuilder stringBuilder = new StringBuilder();
+                    while ((line = reader.readLine()) != null) {
+                        stringBuilder.append(line);
+                    }
+                    String reply = (stringBuilder.toString());
+                    Log.i("RESPONSE", reply);
+
+
+                }
+                catch (MalformedURLException e){
+                    e.printStackTrace();
+                }
+                catch (IOException e){
+                    e.printStackTrace();
+                }
+
+                /*
+                Message msgErr = new Message();
+                msgErr.obj = retVal;
+                uiHandler.sendMessage(msgErr);
+                */
+
+
+            }
+        });
+    }
 
 
 
