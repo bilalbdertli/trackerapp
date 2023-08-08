@@ -3,6 +3,7 @@ package com.sabanciuniv.todoapp;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Paint;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -97,7 +98,7 @@ public class TodoRecViewAdapter extends RecyclerView.Adapter<TodoRecViewAdapter.
 
                 else{
                     binding.txtTitleTodo.setPaintFlags(currentFlags | Paint.STRIKE_THRU_TEXT_FLAG);
-
+                    Log.i("DEV", "CHECKED RIGHT NOW");
 
                 }
 

@@ -5,14 +5,15 @@ import java.time.LocalDateTime;
 
 public class ToDo implements Serializable {
     public String toDo, title;
-    public String dueDate;
+    public String dueDate, id;
     public boolean isChecked;
 
-    public ToDo(String toDo, String title, String dueDate) {
+    public ToDo(String toDo, String title, String dueDate, boolean isChecked, String id) {
         this.toDo = toDo;
         this.title = title;
         this.dueDate = dueDate;
-        this.isChecked = false;
+        this.isChecked = isChecked;
+        this.id = id;
     }
 
     public ToDo() {}
@@ -41,11 +42,16 @@ public class ToDo implements Serializable {
         this.title = title;
     }
 
-    public boolean isChecked() {
-        return isChecked;
+    public String isChecked() {
+        return String.valueOf(isChecked);
     }
 
     public void setChecked(boolean checked) {
         isChecked = checked;
     }
+
+    public String getId() {
+        return id;
+    }
+
 }
