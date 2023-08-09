@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.sabanciuniv.todoapp.databinding.TodoRowBinding;
@@ -25,12 +26,13 @@ public class TodoRecViewAdapter extends RecyclerView.Adapter<TodoRecViewAdapter.
     List<ToDo> data;
     Context context;
     ToDoRepository repo = new ToDoRepository();
-    
 
+    MutableLiveData<ToDo> dataHolder;
 
-    public TodoRecViewAdapter(List<ToDo> data, Context context) {
+    public TodoRecViewAdapter(List<ToDo> data, Context context, MutableLiveData<ToDo> dataHolder ) {
         this.data = data;
         this.context = context;
+        this.dataHolder = dataHolder;
     }
 
     @NonNull
@@ -50,6 +52,14 @@ public class TodoRecViewAdapter extends RecyclerView.Adapter<TodoRecViewAdapter.
         holder.binding.txtTitleTodo.setText(data.get(position).getTitle());
         holder.binding.txtDueDate.setText(data.get(position).getDueDate());
         holder.binding.txtTitleTodo.setChecked(data.get(position).isChecked());
+        int currentFlags = holder.binding.txtTitleTodo.getPaintFlags();
+        if(holder.binding.txtTitleTodo.isChecked()){
+            holder.binding.txtTitleTodo.setPaintFlags(currentFlags | Paint.STRIKE_THRU_TEXT_FLAG);
+
+        }else{
+            holder.binding.txtTitleTodo.setPaintFlags(currentFlags & ~Paint.STRIKE_THRU_TEXT_FLAG);
+
+        }
         holder.binding.detailsContainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -60,7 +70,6 @@ public class TodoRecViewAdapter extends RecyclerView.Adapter<TodoRecViewAdapter.
         });
 
         holder.binding.txtTitleTodo.setOnClickListener(v->{
-            int currentFlags = holder.binding.txtTitleTodo.getPaintFlags();
             holder.binding.txtTitleTodo.toggle();
             if(!(holder.binding.txtTitleTodo.isChecked())){
                 holder.binding.txtTitleTodo.setPaintFlags(currentFlags & ~Paint.STRIKE_THRU_TEXT_FLAG);
@@ -72,8 +81,11 @@ public class TodoRecViewAdapter extends RecyclerView.Adapter<TodoRecViewAdapter.
                 Log.i("DEV", data.get(holder.getAdapterPosition()).getId());
 
             }
+            dataHolder.postValue(data.get(holder.getAdapterPosition()));
+
 
         });
+
 
 
     }

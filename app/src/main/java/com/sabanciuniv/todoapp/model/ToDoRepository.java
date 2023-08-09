@@ -140,6 +140,10 @@ public class ToDoRepository {
                 try {
                     URL url = new URL("http://192.168.1.7:8080/todoapp/todoapp/updateToDo/" + id );
                     HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                    connection.setDoInput(true);
+                    connection.setDoOutput(true);
+
+                    connection.setRequestMethod("PUT");
 
                     BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
 

@@ -3,6 +3,7 @@ package com.sabanciuniv.todoapp;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -25,13 +26,14 @@ import com.sabanciuniv.todoapp.model.ToDoRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
 
 public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
 
     List<ToDo> todoList = new ArrayList<>();
 
-
+    MutableLiveData<ToDo> dataHolder = new MutableLiveData<>();
     ToDoRepository repo = new ToDoRepository();
     Handler dataHandler =new Handler(new Handler.Callback() {
         @Override
@@ -48,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
             }
             else{
 
-                TodoRecViewAdapter todoRecViewAdapter = new TodoRecViewAdapter(todoList, MainActivity.this);
+                TodoRecViewAdapter todoRecViewAdapter = new TodoRecViewAdapter(todoList, MainActivity.this, dataHolder);
                 binding.recTodo.setAdapter(todoRecViewAdapter);
                 binding.recTodo.setLayoutManager(new LinearLayoutManager(MainActivity.this));
             }
@@ -59,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
@@ -119,6 +122,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        dataHolder.observe(this, toDo -> {
+            repo.changeChecked(((ToDoApplication)getApplication()).srv, toDo.getId());
+        });
 
     }
 
