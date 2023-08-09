@@ -33,7 +33,6 @@ public class MainActivity extends AppCompatActivity {
 
     List<ToDo> todoList = new ArrayList<>();
 
-    MutableLiveData<ToDo> dataHolder = new MutableLiveData<>();
     ToDoRepository repo = new ToDoRepository();
     Handler dataHandler =new Handler(new Handler.Callback() {
         @Override
@@ -50,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
             }
             else{
 
-                TodoRecViewAdapter todoRecViewAdapter = new TodoRecViewAdapter(todoList, MainActivity.this, dataHolder);
+                TodoRecViewAdapter todoRecViewAdapter = new TodoRecViewAdapter(todoList, MainActivity.this);
                 binding.recTodo.setAdapter(todoRecViewAdapter);
                 binding.recTodo.setLayoutManager(new LinearLayoutManager(MainActivity.this));
             }
@@ -121,10 +120,10 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-
+        /*
         dataHolder.observe(this, toDo -> {
             repo.changeChecked(((ToDoApplication)getApplication()).srv, toDo.getId());
-        });
+        });*/
 
     }
 

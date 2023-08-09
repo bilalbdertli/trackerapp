@@ -27,12 +27,12 @@ public class TodoRecViewAdapter extends RecyclerView.Adapter<TodoRecViewAdapter.
     Context context;
     ToDoRepository repo = new ToDoRepository();
 
-    MutableLiveData<ToDo> dataHolder;
 
-    public TodoRecViewAdapter(List<ToDo> data, Context context, MutableLiveData<ToDo> dataHolder ) {
+
+    public TodoRecViewAdapter(List<ToDo> data, Context context ) {
         this.data = data;
         this.context = context;
-        this.dataHolder = dataHolder;
+
     }
 
     @NonNull
@@ -81,7 +81,7 @@ public class TodoRecViewAdapter extends RecyclerView.Adapter<TodoRecViewAdapter.
                 Log.i("DEV", data.get(holder.getAdapterPosition()).getId());
 
             }
-            dataHolder.postValue(data.get(holder.getAdapterPosition()));
+            /*dataHolder.postValue(data.get(holder.getAdapterPosition()));*/
 
 
         });
