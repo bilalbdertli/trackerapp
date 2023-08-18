@@ -35,7 +35,7 @@ public class ToDoRepository {
             @Override
             public void run() {
                 try {
-                    URL url = new URL("http://192.168.1.7:8080/todoapp/todoapp/getAll");
+                    URL url = new URL("http://192.168.1.12:8080/todoapp/todoapp/getAll");
                     HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
                     BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
@@ -89,7 +89,7 @@ public class ToDoRepository {
         srv.execute(()->{
 
             try {
-                URL url = new URL("http://192.168.1.7:8080/todoapp/todoapp/addToDo");
+                URL url = new URL("http://192.168.1.12:8080/todoapp/todoapp/addToDo");
                 HttpURLConnection conn = (HttpURLConnection)url.openConnection();
                 conn.setDoInput(true);
                 conn.setDoOutput(true);
@@ -138,7 +138,7 @@ public class ToDoRepository {
             @Override
             public void run() {
                 try {
-                    URL url = new URL("http://192.168.1.7:8080/todoapp/todoapp/updateToDo/" + id );
+                    URL url = new URL("http://192.168.1.12:8080/todoapp/todoapp/updateToDo/" + id );
                     HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                     connection.setDoInput(true);
                     connection.setDoOutput(true);
