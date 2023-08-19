@@ -39,16 +39,15 @@ public class MainActivity extends AppCompatActivity {
         public boolean handleMessage(@NonNull Message msg) {
 
             todoList = (List<ToDo>)msg.obj;
-            Toast.makeText(MainActivity.this.getApplicationContext(), "none", Toast.LENGTH_SHORT).show();
+
+            /*Toast.makeText(MainActivity.this.getApplicationContext(), "none", Toast.LENGTH_SHORT).show();*/
             binding.prgBar.setVisibility(View.INVISIBLE);
             if(todoList.size() == 0){
-
                 binding.recTodo.setVisibility(View.INVISIBLE);
                 binding.zeroTodo.setVisibility(View.VISIBLE);
 
             }
             else{
-
                 TodoRecViewAdapter todoRecViewAdapter = new TodoRecViewAdapter(todoList, MainActivity.this);
                 binding.recTodo.setAdapter(todoRecViewAdapter);
                 binding.recTodo.setLayoutManager(new LinearLayoutManager(MainActivity.this));
@@ -65,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         getSupportActionBar().setTitle("To-Do's of the Day");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 
 
     }

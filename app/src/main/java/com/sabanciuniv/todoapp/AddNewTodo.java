@@ -73,7 +73,7 @@ public class AddNewTodo extends AppCompatActivity {
 
 
 
-                Toast.makeText(AddNewTodo.this.getApplicationContext(),  selectedCalenderDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")) , Toast.LENGTH_SHORT).show();
+                /*Toast.makeText(AddNewTodo.this.getApplicationContext(),  selectedCalenderDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")) , Toast.LENGTH_SHORT).show();*/
 
 
 
