@@ -28,6 +28,7 @@ import java.util.concurrent.ExecutorService;
 
 public class ToDoRepository {
 
+    private final String host = "https://todoapp-1-c1be29230266.herokuapp.com";
     public void getAllToDos(ExecutorService srv, Handler uiHandler){
         List<ToDo> retVal =new ArrayList<>();
 
@@ -35,7 +36,7 @@ public class ToDoRepository {
             @Override
             public void run() {
                 try {
-                    URL url = new URL("http://192.168.1.12:8080/todoapp/todoapp/getAll");
+                    URL url = new URL(host + "/todoapp/todoapp/getAll");
                     HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
                     BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
@@ -89,7 +90,7 @@ public class ToDoRepository {
         srv.execute(()->{
 
             try {
-                URL url = new URL("http://192.168.1.12:8080/todoapp/todoapp/addToDo");
+                URL url = new URL(host + "/todoapp/todoapp/addToDo");
                 HttpURLConnection conn = (HttpURLConnection)url.openConnection();
                 conn.setDoInput(true);
                 conn.setDoOutput(true);
@@ -138,7 +139,7 @@ public class ToDoRepository {
             @Override
             public void run() {
                 try {
-                    URL url = new URL("http://192.168.1.12:8080/todoapp/todoapp/updateToDo/" + id );
+                    URL url = new URL(host + "/todoapp/todoapp/updateToDo/" + id );
                     HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                     connection.setDoInput(true);
                     connection.setDoOutput(true);

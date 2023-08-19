@@ -30,7 +30,7 @@ public class AddNewTodo extends AppCompatActivity {
 
     private ActivityAddNewTodoBinding binding;
 
-    LocalDateTime selectedCalenderDate;
+    LocalDateTime selectedCalenderDate = LocalDateTime.now();
 
     Handler handler = new Handler(new Handler.Callback() {
         @Override
