@@ -79,14 +79,14 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-
+    /*
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         ToDo newToDo = intent.getSerializableExtra("newTodo", ToDo.class);
         todoList.add(newToDo);
         binding.recTodo.getAdapter().notifyItemInserted(todoList.size()-1);
-    }
+    }*/
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {

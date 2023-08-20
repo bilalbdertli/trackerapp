@@ -10,17 +10,17 @@
         android:id="@+id/detailsContainer"
         android:layout_width="0dp"
         android:layout_height="100dp"
-        android:layout_marginStart="16dp"
         android:layout_gravity="center"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
+        app:cardBackgroundColor="@color/black"
+        app:cardCornerRadius="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:cardCornerRadius="20dp"
-        app:cardBackgroundColor="@color/material_dynamic_tertiary30"
-        >
+        app:layout_constraintTop_toTopOf="parent">
+
 
         <CheckedTextView
             android:id="@+id/txtTitleTodo"
@@ -43,10 +43,10 @@
             android:id="@+id/txtDueDate"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:text="TextView"
             android:layout_marginStart="255dp"
             android:layout_marginTop="65dp"
-            android:layout_marginEnd="30dp"/>
+            android:layout_marginEnd="30dp"
+            android:text="TextView" />
 
         <CheckBox
             android:id="@+id/checkBox"

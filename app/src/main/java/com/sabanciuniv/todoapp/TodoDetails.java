@@ -26,11 +26,11 @@ public class TodoDetails extends AppCompatActivity {
         getSupportActionBar().setTitle("Details of To-Do");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        ToDo current = getIntent().getSerializableExtra("todoDetails", ToDo.class);
+        ToDo current = (ToDo) getIntent().getSerializableExtra("todoDetails");
         if(current != null){
-            binding.seeDetailsTitle.setText(current.getTitle().toString());
-            binding.seeDetailsDesc.setText(current.getToDo().toString());
-            binding.seeDetailsDueDate.setText(current.getDueDate().toString());
+            binding.seeDetailsTitle.setText(current.getTitle());
+            binding.seeDetailsDesc.setText(current.getToDo());
+            binding.seeDetailsDueDate.setText(current.getDueDate());
         }
     }
 
