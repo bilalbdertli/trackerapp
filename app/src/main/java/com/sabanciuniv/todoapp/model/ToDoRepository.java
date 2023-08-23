@@ -176,6 +176,50 @@ public class ToDoRepository {
         });
     }
 
+    public void deleteToDoById(ExecutorService srv, String id, Handler uiHandler){
+        srv.execute(new Runnable() {
+            @Override
+            public void run() {
+
+                String reply = "Could not connect to the services, please try again later.";
+
+                try {
+                    URL url = new URL(host + "/todoapp/todoapp/deleteToDo/" + id );
+                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                    connection.setDoInput(true);
+                    connection.setDoOutput(true);
+
+                    connection.setRequestMethod("DELETE");
+
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+
+                    String line = "";
+                    StringBuilder stringBuilder = new StringBuilder();
+                    while ((line = reader.readLine()) != null) {
+                        stringBuilder.append(line);
+                    }
+                    reply = (stringBuilder.toString());
+                    Log.i("RESPONSE TO DELETION", reply);
+
+
+                }
+                catch (MalformedURLException e){
+                    e.printStackTrace();
+                }
+                catch (IOException e){
+                    e.printStackTrace();
+                }
+
+
+                Message msgErr = new Message();
+                msgErr.obj = reply;
+                uiHandler.sendMessage(msgErr);
+
+
+
+            }
+        });
+    }
 
 
 
