@@ -64,9 +64,8 @@ public class AddNewTodo extends AppCompatActivity {
         });
 
         binding.btnAddTodo.setOnClickListener(v->{
-            if(!(binding.txtNewDescription.getText().toString().equals("") || binding.txtNewDuedate.getText().toString().equals("") || binding.txtNewTitle.getText().toString().equals("") )){
+            if(!(binding.txtNewDescription.getText().toString().equals("") ||  binding.txtNewTitle.getText().toString().equals("") )){
                 binding.progressBar.setVisibility(View.VISIBLE);
-                binding.txtNewDuedate.setEnabled(false);
                 binding.txtNewDescription.setEnabled(false);
                 binding.txtNewTitle.setEnabled(false);
                 binding.btnAddTodo.setEnabled(false);
