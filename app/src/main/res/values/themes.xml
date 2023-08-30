@@ -8,7 +8,7 @@
         <item name="android:windowLightStatusBar">true</item>
         <item name="colorPrimary">@color/white</item>
 
-        <item name="colorSurfaceContainer">@color/yellow</item>
+        <item name="colorSurfaceContainer">@color/darkBlue</item>
 
     </style>
 
