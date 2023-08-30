@@ -51,9 +51,9 @@ public class TodoRecViewAdapter extends RecyclerView.Adapter<TodoRecViewAdapter.
     public void onBindViewHolder(@NonNull TodoViewHolder holder, int position) {
         holder.binding.txtTitleTodo.setText(data.get(position).getTitle());
         holder.binding.txtDueDate.setText(data.get(position).getDueDate());
-        holder.binding.txtTitleTodo.setChecked(data.get(position).isChecked());
+        holder.binding.checkBox.setChecked(data.get(position).isChecked());
         int currentFlags = holder.binding.txtTitleTodo.getPaintFlags();
-        if(holder.binding.txtTitleTodo.isChecked()){
+        if(holder.binding.checkBox.isChecked()){
             holder.binding.txtTitleTodo.setPaintFlags(currentFlags | Paint.STRIKE_THRU_TEXT_FLAG);
 
         }else{
@@ -69,16 +69,14 @@ public class TodoRecViewAdapter extends RecyclerView.Adapter<TodoRecViewAdapter.
             }
         });
 
-        holder.binding.txtTitleTodo.setOnClickListener(v->{
-            holder.binding.txtTitleTodo.toggle();
-            if(!(holder.binding.txtTitleTodo.isChecked())){
+        holder.binding.checkBox.setOnClickListener(v->{
+            if(!(holder.binding.checkBox.isChecked())){
                 holder.binding.txtTitleTodo.setPaintFlags(currentFlags & ~Paint.STRIKE_THRU_TEXT_FLAG);
 
             }
 
             else{
                 holder.binding.txtTitleTodo.setPaintFlags(currentFlags | Paint.STRIKE_THRU_TEXT_FLAG);
-                Log.i("DEV", data.get(holder.getAdapterPosition()).getId());
 
             }
             /*dataHolder.postValue(data.get(holder.getAdapterPosition()));*/

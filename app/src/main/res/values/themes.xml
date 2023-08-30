@@ -7,6 +7,9 @@
         <item name="android:statusBarColor">@android:color/white</item>
         <item name="android:windowLightStatusBar">true</item>
         <item name="colorPrimary">@color/white</item>
+
+        <item name="colorSurfaceContainer">@color/yellow</item>
+
     </style>
 
 
