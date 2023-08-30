@@ -4,9 +4,9 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 public class ToDo implements Serializable {
-    public String toDo, title;
-    public String dueDate, id;
-    public boolean isChecked;
+    private String toDo, title;
+    private String dueDate, id;
+    private boolean isChecked, isLoading;
 
     public ToDo(String toDo, String title, String dueDate, boolean isChecked, String id) {
         this.toDo = toDo;
@@ -14,6 +14,7 @@ public class ToDo implements Serializable {
         this.dueDate = dueDate;
         this.isChecked = isChecked;
         this.id = id;
+        this.isLoading = false;
     }
 
     public ToDo() {}
@@ -54,4 +55,11 @@ public class ToDo implements Serializable {
         return id;
     }
 
+    public boolean isLoading() {
+        return isLoading;
+    }
+
+    public void setLoading(boolean loading) {
+        isLoading = loading;
+    }
 }

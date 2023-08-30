@@ -9,6 +9,12 @@
         <item name="colorPrimary">@color/white</item>
 
         <item name="colorSurfaceContainer">@color/darkBlue</item>
+        <item name="colorOnPrimaryFixed">@color/lightPrimary</item>
+        <item name="colorOnSecondaryFixed">@color/lightSecondary</item>
+        <item name="colorOnTertiaryFixed">@color/lightTertiary</item>
+        <item name="colorOnTertiaryFixedVariant">@color/lightQuaternary</item>
+
+
 
     </style>
 

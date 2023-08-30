@@ -5,4 +5,15 @@
     <color name="blue">#03d3fc</color>
     <color name="grey">#708090</color>
     <color name="darkBlue">#062952</color>
+
+    <color name="darkPrimary">#1A120B</color>
+    <color name="darkSecondary">#3C2A21</color>
+    <color name="darkTertiary">#D5CEA3</color>
+    <color name="darkQuaternary">#E5E5CB</color>
+
+    <color name="lightPrimary">#E4FBFF</color>
+    <color name="lightSecondary">#B8B5FF</color>
+    <color name="lightTertiary">#7868E6</color>
+    <color name="lightQuaternary">#EDEEF7</color>
+
 </resources>
