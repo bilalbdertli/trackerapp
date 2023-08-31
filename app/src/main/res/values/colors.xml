@@ -11,9 +11,11 @@
     <color name="darkTertiary">#D5CEA3</color>
     <color name="darkQuaternary">#E5E5CB</color>
 
-    <color name="lightPrimary">#E4FBFF</color>
-    <color name="lightSecondary">#B8B5FF</color>
-    <color name="lightTertiary">#7868E6</color>
-    <color name="lightQuaternary">#EDEEF7</color>
-
+    <color name="lightPrimary">#F3F4ED</color>
+    <color name="lightSecondary">#536162</color>
+    <color name="lightTertiary">#424642</color>
+    <color name="lightQuaternary">#C06014</color>
+    <!--
+           #FFF8EA #9E7676 #815B5B #594545
+    -->
 </resources>

@@ -29,9 +29,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements TodoRecViewAdapter.CheckListener {
     private ActivityMainBinding binding;
 
+    private final TodoRecViewAdapter.CheckListener checkListener = new TodoRecViewAdapter.CheckListener() {
+        @Override
+        public void onButtonClicked(String id) {
+            repo.changeChecked(((ToDoApplication)getApplication()).srv, id);
+        }
+    };
     List<ToDo> todoList = new ArrayList<>();
 
     ToDoRepository repo = new ToDoRepository();
@@ -49,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
             else{
-                TodoRecViewAdapter todoRecViewAdapter = new TodoRecViewAdapter(todoList, MainActivity.this);
+                TodoRecViewAdapter todoRecViewAdapter = new TodoRecViewAdapter(todoList, MainActivity.this, checkListener);
                 binding.recTodo.setAdapter(todoRecViewAdapter);
                 binding.recTodo.setLayoutManager(new LinearLayoutManager(MainActivity.this));
             }
@@ -126,6 +132,12 @@ public class MainActivity extends AppCompatActivity {
         });*/
 
     }
+
+    @Override
+    public void onButtonClicked(String id) {
+        repo.changeChecked(((ToDoApplication)getApplication()).srv, id);
+    }
+
 
     /*
     @Override

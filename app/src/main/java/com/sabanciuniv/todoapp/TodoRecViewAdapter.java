@@ -27,12 +27,17 @@ public class TodoRecViewAdapter extends RecyclerView.Adapter<TodoRecViewAdapter.
     Context context;
     ToDoRepository repo = new ToDoRepository();
 
+    public CheckListener checkListener;
+
+    public interface CheckListener{
+        void onButtonClicked(String id);
+    }
 
 
-    public TodoRecViewAdapter(List<ToDo> data, Context context ) {
+    public TodoRecViewAdapter(List<ToDo> data, Context context, CheckListener checkListener ) {
         this.data = data;
         this.context = context;
-
+        this.checkListener = checkListener;
     }
 
     @NonNull
@@ -70,15 +75,25 @@ public class TodoRecViewAdapter extends RecyclerView.Adapter<TodoRecViewAdapter.
         });
 
         holder.binding.checkBox.setOnClickListener(v->{
-            if(!(holder.binding.checkBox.isChecked())){
-                holder.binding.txtTitleTodo.setPaintFlags(currentFlags & ~Paint.STRIKE_THRU_TEXT_FLAG);
+            if(!(data.get(holder.getAdapterPosition()).isLoading())){
+                data.get(holder.getAdapterPosition()).setLoading(true);
+                if(!(holder.binding.checkBox.isChecked())){
+                    holder.binding.txtTitleTodo.setPaintFlags(currentFlags & ~Paint.STRIKE_THRU_TEXT_FLAG);
+
+                }
+
+                else{
+                    holder.binding.txtTitleTodo.setPaintFlags(currentFlags | Paint.STRIKE_THRU_TEXT_FLAG);
+
+                }
+                checkListener.onButtonClicked(data.get(holder.getAdapterPosition()).getId());
+                data.get(holder.getAdapterPosition()).setLoading(false);
 
             }
-
             else{
-                holder.binding.txtTitleTodo.setPaintFlags(currentFlags | Paint.STRIKE_THRU_TEXT_FLAG);
-
+                Log.i("BUSY", "CANNOT DO RIGHT NOW");
             }
+
             /*dataHolder.postValue(data.get(holder.getAdapterPosition()));*/
 
 
