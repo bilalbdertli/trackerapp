@@ -6,18 +6,23 @@
         <item name="colorSecondaryVariant">@color/black</item>
         <item name="android:statusBarColor">@android:color/white</item>
         <item name="android:windowLightStatusBar">true</item>
-        <item name="colorPrimary">@color/white</item>
 
         <item name="colorSurfaceContainer">@color/darkBlue</item>
         <item name="colorOnPrimaryFixed">@color/lightPrimary</item>
         <item name="colorOnSecondaryFixed">@color/lightSecondary</item>
         <item name="colorOnTertiaryFixed">@color/lightTertiary</item>
         <item name="colorOnTertiaryFixedVariant">@color/lightQuaternary</item>
+        <item name="colorPrimary">?attr/colorOnTertiaryFixedVariant</item>
 
 
 
     </style>
+    <style name="checkbox_checked" parent="Theme.Material3.Light">
+        <item name="colorAccent">@color/lightQuaternary </item>
+        <item name="android:textColorSecondary">@color/lightQuaternary </item>
+        <item name="colorPrimary">@color/blue</item>
 
+    </style>
 
     <style name="Theme.ToDoApp" parent="Base.Theme.ToDoApp" />
 </resources>

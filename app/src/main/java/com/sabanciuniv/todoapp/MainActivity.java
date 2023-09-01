@@ -69,7 +69,6 @@ public class MainActivity extends AppCompatActivity implements TodoRecViewAdapte
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        getWindow().getDecorView().setBackgroundColor(Color.rgb(232,190,172));
         getSupportActionBar().setTitle("To-Do's of the Day");
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 
