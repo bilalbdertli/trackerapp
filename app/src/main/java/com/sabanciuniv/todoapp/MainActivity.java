@@ -21,6 +21,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.elevation.SurfaceColors;
 import com.sabanciuniv.todoapp.databinding.ActivityMainBinding;
 import com.sabanciuniv.todoapp.model.ToDo;
 import com.sabanciuniv.todoapp.model.ToDoRepository;
@@ -71,7 +72,8 @@ public class MainActivity extends AppCompatActivity implements TodoRecViewAdapte
         setContentView(binding.getRoot());
         getSupportActionBar().setTitle("To-Do's of the Day");
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-
+        getWindow().setStatusBarColor(SurfaceColors.SURFACE_2.getColor(this));
+        getWindow().setNavigationBarColor(SurfaceColors.SURFACE_2.getColor(this));
 
     }
 

@@ -1,11 +1,11 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Base.Theme.ToDoApp" parent="Theme.Material3.DayNight">
+    <style name="Base.Theme.ToDoApp" parent="Theme.Material3.Dark">
         <!-- Customize your dark theme here. -->
-        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+
         <item name="colorSecondaryVariant">@color/white</item>
         <item name="android:statusBarColor">
-            @color/black
+            @android:color/transparent
         </item>
         <item name="colorSurfaceContainer">@color/grey</item>
         <item name="colorOnPrimaryFixed">@color/darkPrimary</item>
@@ -13,6 +13,10 @@
         <item name="colorOnTertiaryFixed">@color/darkTertiary</item>
         <item name="colorOnTertiaryFixedVariant">@color/darkQuaternary</item>
         <item name="colorPrimary">@color/blue</item>
+        <!-- Following affect the toolbar and its text color:
+
+        <item name="colorOnSurface">@color/darkBlue</item>-->
+        <item name="colorSurface">@color/lightSecondary</item>
 
     </style>
     <style name="checkbox_checked" parent="Theme.Material3.Light">
