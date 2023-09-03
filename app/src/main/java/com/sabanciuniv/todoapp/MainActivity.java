@@ -25,6 +25,7 @@ import com.google.android.material.elevation.SurfaceColors;
 import com.sabanciuniv.todoapp.databinding.ActivityMainBinding;
 import com.sabanciuniv.todoapp.model.ToDo;
 import com.sabanciuniv.todoapp.model.ToDoRepository;
+import com.sabanciuniv.todoapp.model.TrialActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -103,7 +104,7 @@ public class MainActivity extends AppCompatActivity implements TodoRecViewAdapte
             finish();
         }else if(item.getItemId()==R.id.mnPostComment){
             //to post activity
-            Intent i = new Intent(this, AddNewTodo.class);
+            Intent i = new Intent(this, TrialActivity.class);
             startActivity(i);
 
         }
