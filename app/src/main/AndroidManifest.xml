@@ -6,7 +6,6 @@
 
     <application
         android:name=".ToDoApplication"
-
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -17,7 +16,9 @@
         android:theme="@style/Theme.ToDoApp"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
-
+        <activity
+            android:name=".model.TrialActivity"
+            android:exported="false" />
         <activity
             android:name=".TodoDetails"
             android:exported="false" />
