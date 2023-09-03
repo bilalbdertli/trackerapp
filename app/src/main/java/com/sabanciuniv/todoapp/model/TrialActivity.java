@@ -15,9 +15,12 @@ public class TrialActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_trial);
+        binding = ActivityTrialBinding.inflate(getLayoutInflater());
+
+        setContentView(binding.getRoot());
         binding.viewPager2.setAdapter(new ViewPager2Adapter(getSupportFragmentManager(), getLifecycle(), layout.length));
-        TabLayoutMediator mediator =new TabLayoutMediator(binding.tabLayout, binding.viewPager2, (tab, position) -> tab.setText(layout[position]));
+        TabLayoutMediator mediator = new TabLayoutMediator(binding.tabLayout, binding.viewPager2,
+                (tab, position) -> tab.setText(layout[position]));
         mediator.attach();
     }
 

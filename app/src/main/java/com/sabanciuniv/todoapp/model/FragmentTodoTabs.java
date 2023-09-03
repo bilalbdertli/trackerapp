@@ -27,7 +27,6 @@ public class FragmentTodoTabs extends Fragment implements TodoRecViewAdapter.Che
     private FragmentTodoTabsBinding binding;
 
     ToDoRepository repo = new ToDoRepository();
-    Application app = getActivity().getApplication();
 
     String isChecked;
     public FragmentTodoTabs(String isChecked) {
@@ -37,6 +36,7 @@ public class FragmentTodoTabs extends Fragment implements TodoRecViewAdapter.Che
     private final TodoRecViewAdapter.CheckListener checkListener = new TodoRecViewAdapter.CheckListener() {
         @Override
         public void onButtonClicked(String id) {
+            Application app = getActivity().getApplication();
             repo.changeChecked(((ToDoApplication) app).srv, id);
         }
     };
@@ -62,12 +62,14 @@ public class FragmentTodoTabs extends Fragment implements TodoRecViewAdapter.Che
         binding.recViewTodos.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.prgBarTodos.setVisibility(View.VISIBLE);
         binding.recViewTodos.setVisibility(View.INVISIBLE);
+        Application app = getActivity().getApplication();
         repo.getAllToDos(((ToDoApplication) app).srv,dataHandler);
         return v;
     }
 
     @Override
     public void onButtonClicked(String id) {
+        Application app = getActivity().getApplication();
         repo.changeChecked(((ToDoApplication) app).srv, id);
     }
 }
