@@ -3,6 +3,10 @@ package com.sabanciuniv.todoapp;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,64 +22,48 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.elevation.SurfaceColors;
+import com.google.android.material.tabs.TabLayoutMediator;
 import com.sabanciuniv.todoapp.databinding.ActivityMainBinding;
 import com.sabanciuniv.todoapp.model.ToDo;
 import com.sabanciuniv.todoapp.model.ToDoRepository;
 import com.sabanciuniv.todoapp.model.TrialActivity;
+import com.sabanciuniv.todoapp.model.ViewPager2Adapter;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 
-public class MainActivity extends AppCompatActivity implements TodoRecViewAdapter.CheckListener {
+public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
 
-    private final TodoRecViewAdapter.CheckListener checkListener = new TodoRecViewAdapter.CheckListener() {
-        @Override
-        public void onButtonClicked(String id) {
-            repo.changeChecked(((ToDoApplication)getApplication()).srv, id);
-        }
-    };
-    List<ToDo> todoList = new ArrayList<>();
+    String[] layout = {"TODOS", "NOTES", "DONE"};
 
-    ToDoRepository repo = new ToDoRepository();
-    Handler dataHandler =new Handler(new Handler.Callback() {
-        @Override
-        public boolean handleMessage(@NonNull Message msg) {
 
-            todoList = (List<ToDo>)msg.obj;
 
-            /*Toast.makeText(MainActivity.this.getApplicationContext(), "none", Toast.LENGTH_SHORT).show();*/
-            binding.prgBar.setVisibility(View.INVISIBLE);
-            if(todoList.size() == 0){
-                binding.recTodo.setVisibility(View.INVISIBLE);
-                binding.zeroTodo.setVisibility(View.VISIBLE);
 
-            }
-            else{
-                TodoRecViewAdapter todoRecViewAdapter = new TodoRecViewAdapter(todoList, MainActivity.this, checkListener);
-                binding.recTodo.setAdapter(todoRecViewAdapter);
-                binding.recTodo.setLayoutManager(new LinearLayoutManager(MainActivity.this));
-            }
-            return true;
-        }
-    });
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        /*getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);*/
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         getSupportActionBar().setTitle("To-Do's of the Day");
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         getWindow().setStatusBarColor(SurfaceColors.SURFACE_2.getColor(this));
         getWindow().setNavigationBarColor(SurfaceColors.SURFACE_2.getColor(this));
-
+        binding.tabLayout.setBackgroundColor(SurfaceColors.SURFACE_2.getColor(this));
+        binding.viewPager2.setAdapter(new ViewPager2Adapter(getSupportFragmentManager(), getLifecycle(), layout.length));
+        TabLayoutMediator mediator = new TabLayoutMediator(binding.tabLayout, binding.viewPager2,
+                (tab, position) -> tab.setText(layout[position]));
+        mediator.attach();
     }
 
 
@@ -104,52 +92,18 @@ public class MainActivity extends AppCompatActivity implements TodoRecViewAdapte
             finish();
         }else if(item.getItemId()==R.id.mnPostComment){
             //to post activity
-            Intent i = new Intent(this, TrialActivity.class);
+            Intent i = new Intent(this, AddNewTodo.class);
             startActivity(i);
 
         }
-
         return true;
     }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        binding.recTodo.setVisibility(View.VISIBLE);
-        binding.zeroTodo.setVisibility(View.INVISIBLE);
-        binding.prgBar.setVisibility(View.VISIBLE);
-        repo.getAllToDos(((ToDoApplication)getApplication()).srv,dataHandler);
-
-        binding.refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                binding.refreshLayout.setRefreshing(false);
-                repo.getAllToDos(((ToDoApplication)getApplication()).srv,dataHandler);
-
-            }
-        });
-        /*
-        dataHolder.observe(this, toDo -> {
-            repo.changeChecked(((ToDoApplication)getApplication()).srv, toDo.getId());
-        });*/
-
-    }
-
-    @Override
-    public void onButtonClicked(String id) {
-        repo.changeChecked(((ToDoApplication)getApplication()).srv, id);
-    }
-
-
     /*
     @Override
-    protected void onResume() {
-        super.onResume();
-        // Refresh the answers when coming back from posting an answer
-
-        repo.getAllToDos(((ToDoApplication)getApplication()).srv,dataHandler);
-
-
-    }
-    */
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        View decorView = getWindow().getDecorView();
+        int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
+        decorView.setSystemUiVisibility(uiOptions);
+    }*/
 }

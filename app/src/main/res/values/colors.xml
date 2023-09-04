@@ -15,6 +15,8 @@
     <color name="lightSecondary">#536162</color>
     <color name="lightTertiary">#424642</color>
     <color name="lightQuaternary">#C06014</color>
+    <color name="trial">#FFC06014</color>
+
     <!--
            #FFF8EA #9E7676 #815B5B #594545
     -->

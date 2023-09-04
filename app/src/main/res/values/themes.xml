@@ -6,6 +6,7 @@
         <item name="colorSecondaryVariant">@color/black</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowLightStatusBar">true</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
 
         <item name="colorSurfaceContainer">@color/darkBlue</item>
         <item name="colorOnPrimaryFixed">@color/lightPrimary</item>
@@ -15,7 +16,9 @@
         <item name="colorPrimary">?attr/colorOnTertiaryFixedVariant</item>
         <!-- Following affect the toolbar and its text color: -->
         <item name="colorSurface">@color/white</item>
-        <item name="colorOnSurface">@color/blue</item>
+        <item name="colorOnSurface">@color/black</item>
+
+        <item name="colorSurfaceDim">@android:color/transparent</item>
 
     </style>
     <style name="checkbox_checked" parent="Theme.Material3.Light">
