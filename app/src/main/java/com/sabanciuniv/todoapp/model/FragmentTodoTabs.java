@@ -4,8 +4,10 @@ import android.app.Application;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.os.Handler;
 import android.os.Message;
@@ -23,7 +25,7 @@ import com.sabanciuniv.todoapp.databinding.FragmentTodoTabsBinding;
 import java.util.List;
 
 
-public class FragmentTodoTabs extends Fragment implements TodoRecViewAdapter.CheckListener {
+public class FragmentTodoTabs extends Fragment  {
 
     private FragmentTodoTabsBinding binding;
 
@@ -37,7 +39,7 @@ public class FragmentTodoTabs extends Fragment implements TodoRecViewAdapter.Che
     private final TodoRecViewAdapter.CheckListener checkListener = new TodoRecViewAdapter.CheckListener() {
         @Override
         public void onButtonClicked(String id) {
-            Application app = getActivity().getApplication();
+            Application app = requireActivity().getApplication();
             repo.changeChecked(((ToDoApplication) app).srv, id);
         }
     };
@@ -65,14 +67,22 @@ public class FragmentTodoTabs extends Fragment implements TodoRecViewAdapter.Che
         binding.recViewTodos.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.prgBarTodos.setVisibility(View.VISIBLE);
         binding.recViewTodos.setVisibility(View.INVISIBLE);
-        Application app = getActivity().getApplication();
+        Application app = requireActivity().getApplication();
         repo.getAllToDos(((ToDoApplication) app).srv,dataHandler);
         return v;
     }
 
+
     @Override
-    public void onButtonClicked(String id) {
-        Application app = getActivity().getApplication();
-        repo.changeChecked(((ToDoApplication) app).srv, id);
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        binding.swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                binding.prgBarTodos.setVisibility(View.VISIBLE);
+                binding.swipeRefresh.setRefreshing(false);
+                repo.getAllToDos(((ToDoApplication)requireActivity().getApplication()).srv,dataHandler);
+            }
+        });
     }
 }
