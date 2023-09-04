@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,7 +47,8 @@ public class FragmentTodoTabs extends Fragment implements TodoRecViewAdapter.Che
             List<ToDo> todoList = (List<ToDo>) msg.obj;
             TodoRecViewAdapter todoRecViewAdapter = new TodoRecViewAdapter(todoList, getContext(), checkListener);
             binding.recViewTodos.setAdapter(todoRecViewAdapter);
-            binding.prgBarTodos.setVisibility(View.VISIBLE);
+            binding.prgBarTodos.setVisibility(View.INVISIBLE);
+            binding.recViewTodos.setVisibility(View.VISIBLE);
             return true;
         }
     });
@@ -58,7 +60,8 @@ public class FragmentTodoTabs extends Fragment implements TodoRecViewAdapter.Che
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v =  inflater.inflate(R.layout.fragment_todo_tabs, null);
+        binding = FragmentTodoTabsBinding.inflate(inflater, container, false);
+        View v =  binding.getRoot();
         binding.recViewTodos.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.prgBarTodos.setVisibility(View.VISIBLE);
         binding.recViewTodos.setVisibility(View.INVISIBLE);
