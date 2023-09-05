@@ -85,6 +85,7 @@ public class MainActivity extends AppCompatActivity {
         binding.recTodo.getAdapter().notifyItemInserted(todoList.size()-1);
     }*/
 
+    /*
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
@@ -97,7 +98,8 @@ public class MainActivity extends AppCompatActivity {
 
         }
         return true;
-    }
+    }*/
+
     /*
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {

@@ -1,6 +1,7 @@
 package com.sabanciuniv.todoapp.model;
 
 import android.app.Application;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -16,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.sabanciuniv.todoapp.AddNewTodo;
 import com.sabanciuniv.todoapp.MainActivity;
 import com.sabanciuniv.todoapp.R;
 import com.sabanciuniv.todoapp.ToDoApplication;
@@ -83,6 +85,11 @@ public class FragmentTodoTabs extends Fragment  {
                 binding.swipeRefresh.setRefreshing(false);
                 repo.getAllToDos(((ToDoApplication)requireActivity().getApplication()).srv,dataHandler);
             }
+        });
+
+        binding.floatingActionButton.setOnClickListener(v -> {
+            Intent i = new Intent(getActivity(), AddNewTodo.class);
+            startActivity(i);
         });
     }
 }

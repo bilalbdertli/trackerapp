@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/swipeRefresh"
     android:layout_width="match_parent"
@@ -24,6 +25,17 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginVertical="20dp"
             android:visibility="invisible" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/floatingActionButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|bottom"
+            android:clickable="true"
+            android:src="@drawable/calendar_plus"
+            android:contentDescription="Add Todo"
+            android:layout_marginBottom="60dp"
+            android:layout_marginEnd="20dp"/>
     </FrameLayout>
 
 
