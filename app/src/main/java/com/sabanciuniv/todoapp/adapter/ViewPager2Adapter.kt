@@ -5,6 +5,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.sabanciuniv.todoapp.activity.FragmentTodoTabs
+import com.sabanciuniv.todoapp.fragment.FragmentNotesTab
 
 class ViewPager2Adapter(
     fragmentManager: FragmentManager, lifecycle: Lifecycle,
@@ -14,7 +15,7 @@ class ViewPager2Adapter(
     override fun createFragment(position: Int): Fragment {
         return when (position) {
             0 -> FragmentTodoTabs("true")
-            1 -> FragmentTodoTabs("yes")
+            1 -> FragmentNotesTab()
             2 -> FragmentTodoTabs("false")
             else -> FragmentTodoTabs("no")
         }
