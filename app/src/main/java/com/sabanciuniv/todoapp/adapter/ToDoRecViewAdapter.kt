@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.sabanciuniv.todoapp.TodoRecViewAdapter.TodoViewHolder
 import com.sabanciuniv.todoapp.databinding.TodoRowBinding
 import com.sabanciuniv.todoapp.model.ToDo
-import com.sabanciuniv.todoapp.model.ToDoRepository
+import com.sabanciuniv.todoapp.repository.ToDoRepository
 
 class TodoRecViewAdapter(
     var data: List<ToDo>,

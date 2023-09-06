@@ -7,7 +7,7 @@ import com.google.android.material.elevation.SurfaceColors
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.sabanciuniv.todoapp.databinding.ActivityMainBinding
-import com.sabanciuniv.todoapp.model.ViewPager2Adapter
+import com.sabanciuniv.todoapp.adapter.ViewPager2Adapter
 
 class MainActivity : AppCompatActivity() {
     private var binding: ActivityMainBinding? = null

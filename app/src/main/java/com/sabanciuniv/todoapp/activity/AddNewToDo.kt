@@ -7,7 +7,7 @@ import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.sabanciuniv.todoapp.databinding.ActivityAddNewTodoBinding
-import com.sabanciuniv.todoapp.model.ToDoRepository
+import com.sabanciuniv.todoapp.repository.ToDoRepository
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 

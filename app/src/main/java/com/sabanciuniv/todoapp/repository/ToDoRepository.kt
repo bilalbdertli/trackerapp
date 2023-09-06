@@ -1,8 +1,9 @@
-package com.sabanciuniv.todoapp.model
+package com.sabanciuniv.todoapp.repository
 
 import android.os.Handler
 import android.os.Message
 import android.util.Log
+import com.sabanciuniv.todoapp.model.ToDo
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject

@@ -8,7 +8,7 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import com.sabanciuniv.todoapp.databinding.ActivityTodoDetailsBinding
 import com.sabanciuniv.todoapp.model.ToDo
-import com.sabanciuniv.todoapp.model.ToDoRepository
+import com.sabanciuniv.todoapp.repository.ToDoRepository
 
 class TodoDetails : AppCompatActivity() {
     private var binding: ActivityTodoDetailsBinding? = null

@@ -1,4 +1,4 @@
-package com.sabanciuniv.todoapp.model
+package com.sabanciuniv.todoapp.activity
 
 import android.content.Intent
 import android.os.Bundle
@@ -13,6 +13,8 @@ import com.sabanciuniv.todoapp.ToDoApplication
 import com.sabanciuniv.todoapp.TodoRecViewAdapter
 import com.sabanciuniv.todoapp.TodoRecViewAdapter.CheckListener
 import com.sabanciuniv.todoapp.databinding.FragmentTodoTabsBinding
+import com.sabanciuniv.todoapp.model.ToDo
+import com.sabanciuniv.todoapp.repository.ToDoRepository
 
 class FragmentTodoTabs(var isChecked: String) : Fragment() {
 
