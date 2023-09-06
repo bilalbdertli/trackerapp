@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.sabanciuniv.todoapp.AddNewTodo
 import com.sabanciuniv.todoapp.ToDoApplication
 import com.sabanciuniv.todoapp.TodoRecViewAdapter
 import com.sabanciuniv.todoapp.TodoRecViewAdapter.CheckListener

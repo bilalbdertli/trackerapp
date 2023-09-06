@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.sabanciuniv.todoapp.TodoRecViewAdapter.TodoViewHolder
+import com.sabanciuniv.todoapp.activity.TodoDetails
 import com.sabanciuniv.todoapp.databinding.TodoRowBinding
 import com.sabanciuniv.todoapp.model.ToDo
 import com.sabanciuniv.todoapp.repository.ToDoRepository

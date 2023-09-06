@@ -20,13 +20,13 @@
             android:name=".activity.TrialActivity"
             android:exported="false" />
         <activity
-            android:name=".TodoDetails"
+            android:name=".activity.TodoDetails"
             android:exported="false" />
         <activity
-            android:name=".AddNewTodo"
+            android:name=".activity.AddNewTodo"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".activity.MainActivity"
             android:exported="true"
             android:launchMode="singleTask">
             <intent-filter>

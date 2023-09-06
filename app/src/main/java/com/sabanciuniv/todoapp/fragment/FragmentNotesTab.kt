@@ -8,7 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.sabanciuniv.todoapp.AddNewTodo
+import com.sabanciuniv.todoapp.activity.AddNewTodo
 import com.sabanciuniv.todoapp.R
 import com.sabanciuniv.todoapp.ToDoApplication
 import com.sabanciuniv.todoapp.TodoRecViewAdapter

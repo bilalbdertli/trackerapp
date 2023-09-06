@@ -1,4 +1,4 @@
-package com.sabanciuniv.todoapp
+package com.sabanciuniv.todoapp.activity
 
 import android.os.Bundle
 import android.view.Menu
@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.elevation.SurfaceColors
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import com.sabanciuniv.todoapp.R
 import com.sabanciuniv.todoapp.databinding.ActivityMainBinding
 import com.sabanciuniv.todoapp.adapter.ViewPager2Adapter
 

@@ -1,4 +1,4 @@
-package com.sabanciuniv.todoapp
+package com.sabanciuniv.todoapp.activity
 
 import android.os.Bundle
 import android.os.Handler
@@ -6,6 +6,8 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import com.sabanciuniv.todoapp.R
+import com.sabanciuniv.todoapp.ToDoApplication
 import com.sabanciuniv.todoapp.databinding.ActivityTodoDetailsBinding
 import com.sabanciuniv.todoapp.model.ToDo
 import com.sabanciuniv.todoapp.repository.ToDoRepository
