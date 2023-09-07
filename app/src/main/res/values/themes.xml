@@ -7,6 +7,8 @@
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowLightStatusBar">true</item>
         <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:windowActivityTransitions">true</item>
+
 
         <item name="colorSurfaceContainer">@color/darkBlue</item>
         <item name="colorOnPrimaryFixed">@color/lightPrimary</item>

@@ -8,7 +8,7 @@
             @android:color/transparent
         </item>
         <item name="android:navigationBarColor">@android:color/transparent</item>
-
+        <item name="android:windowActivityTransitions">true</item>
 
         <item name="colorSurfaceContainer">@color/grey</item>
         <item name="colorOnPrimaryFixed">@color/darkPrimary</item>
