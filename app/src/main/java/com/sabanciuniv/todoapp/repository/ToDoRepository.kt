@@ -201,4 +201,34 @@ class ToDoRepository {
             uiHandler.sendMessage(msgErr)
         }
     }
+
+    fun deleteNoteById(srv: ExecutorService, id: String, uiHandler: Handler) {
+        srv.execute {
+            var reply = "Could not connect to the services, please try again later."
+            try {
+                val url = URL("$host/todoapp/todoapp/deleteNote/$id")
+                val connection = url.openConnection() as HttpURLConnection
+                connection.doInput = true
+                connection.doOutput = true
+                connection.requestMethod = "DELETE"
+                val reader =
+                    BufferedReader(InputStreamReader(connection.inputStream))
+                var line: String? = ""
+                val stringBuilder = StringBuilder()
+                while (reader.readLine().also { line = it } != null) {
+                    stringBuilder.append(line)
+                }
+                reply = stringBuilder.toString()
+                Log.i("RESPONSE TO DELETION", reply)
+            } catch (e: MalformedURLException) {
+                e.printStackTrace()
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
+            val msgErr = Message()
+            msgErr.obj = reply
+            uiHandler.sendMessage(msgErr)
+        }
+    }
+
 }

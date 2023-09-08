@@ -46,7 +46,7 @@ class NoteDetails : AppCompatActivity() {
             val srv = (application as ToDoApplication).srv
             val current = intent.getSerializableExtra("noteDetails") as Note?
             val repo = ToDoRepository()
-            current!!.id?.let { repo.deleteToDoById(srv, it, handler) }
+            current!!.id?.let { repo.deleteNoteById(srv, it, handler) }
             finish()
         }
         return true
