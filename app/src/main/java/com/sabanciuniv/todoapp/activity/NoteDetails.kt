@@ -24,7 +24,7 @@ class NoteDetails : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityNoteDetailsBinding.inflate(layoutInflater)
-        setContentView(R.layout.activity_note_details)
+        setContentView(binding!!.root)
         val current = intent.getSerializableExtra("noteDetails") as Note?
         supportActionBar!!.title = "Details of Note"
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
