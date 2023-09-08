@@ -3,6 +3,7 @@ package com.sabanciuniv.todoapp.repository
 import android.os.Handler
 import android.os.Message
 import android.util.Log
+import com.sabanciuniv.todoapp.model.Note
 import com.sabanciuniv.todoapp.model.ToDo
 import org.json.JSONArray
 import org.json.JSONException
@@ -159,6 +160,44 @@ class ToDoRepository {
             }
             val msgErr = Message()
             msgErr.obj = reply
+            uiHandler.sendMessage(msgErr)
+        }
+    }
+
+    fun getAllNotes(srv: ExecutorService, uiHandler: Handler) {
+        val retVal: MutableList<Note> = ArrayList()
+        srv.execute {
+            try {
+                val url = URL("$host/todoapp/todoapp/getAllNotes")
+                val connection = url.openConnection() as HttpURLConnection
+                val reader =
+                    BufferedReader(InputStreamReader(connection.inputStream))
+                var line: String? = ""
+                val stringBuilder = StringBuilder()
+                while (reader.readLine().also { line = it } != null) {
+                    stringBuilder.append(line)
+                }
+                val jsonArray = JSONArray(stringBuilder.toString())
+                for (i in 0 until jsonArray.length()) {
+                    val currentNote = jsonArray.getJSONObject(i)
+                    retVal.add(
+                        Note(
+                            currentNote.getString("description"),
+                            currentNote.getString("title"),
+                            currentNote.getString("dueDate"),
+                            currentNote.getString("id")
+                        )
+                    )
+                }
+            } catch (e: MalformedURLException) {
+                e.printStackTrace()
+            } catch (e: IOException) {
+                e.printStackTrace()
+            } catch (e: JSONException) {
+                e.printStackTrace()
+            }
+            val msgErr = Message()
+            msgErr.obj = retVal
             uiHandler.sendMessage(msgErr)
         }
     }
