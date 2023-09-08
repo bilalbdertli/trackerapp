@@ -231,4 +231,49 @@ class ToDoRepository {
         }
     }
 
+
+    fun addNote(
+        srv: ExecutorService,
+        handler: Handler,
+        title: String?,
+        note: String?,
+        dueDate: String?
+    ) {
+        val obj = JSONObject()
+        try {
+            obj.put("description", note)
+            obj.put("title", title)
+            obj.put("dueDate", dueDate)
+        } catch (e: JSONException) {
+            e.printStackTrace()
+        }
+        srv.execute {
+            try {
+                val url = URL("$host/todoapp/todoapp/addNote")
+                val conn =
+                    url.openConnection() as HttpURLConnection
+                conn.doInput = true
+                conn.doOutput = true
+                conn.requestMethod = "POST"
+                conn.setRequestProperty("content-type", "application/json")
+                val writer =
+                    BufferedOutputStream(conn.outputStream)
+                writer.write(obj.toString().toByteArray())
+                writer.flush()
+                val reader =
+                    BufferedReader(InputStreamReader(conn.inputStream))
+                val buffer = StringBuilder()
+                var line: String? = ""
+                while (reader.readLine().also { line = it } != null) {
+                    buffer.append(line)
+                }
+                handler.sendEmptyMessage(0)
+            } catch (e: MalformedURLException) {
+                e.printStackTrace()
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
+        }
+    }
+
 }

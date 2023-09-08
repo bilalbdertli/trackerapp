@@ -13,6 +13,7 @@ import com.sabanciuniv.todoapp.activity.AddNewTodo
 import com.sabanciuniv.todoapp.R
 import com.sabanciuniv.todoapp.ToDoApplication
 import com.sabanciuniv.todoapp.TodoRecViewAdapter
+import com.sabanciuniv.todoapp.activity.AddNewNote
 import com.sabanciuniv.todoapp.databinding.FragmentNotesTabBinding
 import com.sabanciuniv.todoapp.databinding.FragmentTodoTabsBinding
 import com.sabanciuniv.todoapp.model.Note
@@ -68,7 +69,7 @@ class FragmentNotesTab : Fragment() {
             repo.getAllNotes((requireActivity().application as ToDoApplication).srv, dataHandler)
         }
         binding!!.floatingActionButton.setOnClickListener { v ->
-            val i = Intent(activity, AddNewTodo::class.java)
+            val i = Intent(activity, AddNewNote::class.java)
             startActivity(i)
         }
     }
