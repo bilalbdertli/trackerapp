@@ -5,6 +5,7 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.sabanciuniv.todoapp.activity.NoteDetails
 import com.sabanciuniv.todoapp.databinding.NoteRowBinding
 import com.sabanciuniv.todoapp.model.Note
 import com.sabanciuniv.todoapp.repository.ToDoRepository
@@ -34,11 +35,11 @@ class NoteRecViewAdapter(
     override fun onBindViewHolder(holder: NoteViewHolder, position: Int) {
         holder.binding.NoteTitleTodo.text = data[position].title
         holder.binding.NoteDueDate.text = data[position].dueDate
-        /*holder.binding.NotedetailsContainer.setOnClickListener {
-            val i = Intent(context, TodoDetails::class.java)
+        holder.binding.NotedetailsContainer.setOnClickListener {
+            val i = Intent(context, NoteDetails::class.java)
             i.putExtra("noteDetails", data[holder.adapterPosition])
             context.startActivity(i)
-        }*/
+        }
     }
 
     inner class NoteViewHolder(val binding: NoteRowBinding) : RecyclerView.ViewHolder(

@@ -17,6 +17,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".activity.NoteDetails"
+            android:exported="false" />
+        <activity
             android:name=".activity.TrialActivity"
             android:exported="false" />
         <activity
