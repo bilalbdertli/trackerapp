@@ -10,20 +10,19 @@ import androidx.recyclerview.widget.RecyclerView
 import com.sabanciuniv.todoapp.TodoRecViewAdapter.TodoViewHolder
 import com.sabanciuniv.todoapp.activity.TodoDetails
 import com.sabanciuniv.todoapp.databinding.TodoRowBinding
+import com.sabanciuniv.todoapp.`interface`.RecyclerViewInterface
 import com.sabanciuniv.todoapp.model.ToDo
 import com.sabanciuniv.todoapp.repository.ToDoRepository
 
 class TodoRecViewAdapter(
     var data: List<ToDo>,
     var context: Context,
-    var checkListener: CheckListener
+    var checkListener: RecyclerViewInterface
 ) :
     RecyclerView.Adapter<TodoViewHolder>() {
     var repo = ToDoRepository()
 
-    interface CheckListener {
-        fun onButtonClicked(id: String?)
-    }
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TodoViewHolder {
         return TodoViewHolder(
@@ -61,7 +60,11 @@ class TodoRecViewAdapter(
                     holder.binding.txtTitleTodo.paintFlags =
                         currentFlags or Paint.STRIKE_THRU_TEXT_FLAG
                 }
-                checkListener.onButtonClicked(data[holder.adapterPosition].id)
+                data[holder.adapterPosition].id?.let {
+                    checkListener.onCheckboxClicked(holder.adapterPosition,
+                        it
+                    )
+                }
                 data[holder.adapterPosition].isLoading = false
             } else {
                 Log.i("BUSY", "CANNOT DO RIGHT NOW")

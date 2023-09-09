@@ -10,37 +10,32 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sabanciuniv.todoapp.ToDoApplication
 import com.sabanciuniv.todoapp.TodoRecViewAdapter
-import com.sabanciuniv.todoapp.TodoRecViewAdapter.CheckListener
 import com.sabanciuniv.todoapp.databinding.FragmentTodoTabsBinding
+import com.sabanciuniv.todoapp.`interface`.RecyclerViewInterface
 import com.sabanciuniv.todoapp.model.ToDo
 import com.sabanciuniv.todoapp.repository.ToDoRepository
 
-class FragmentTodoTabs(var isChecked: String) : Fragment() {
+class FragmentTodoTabs(var isChecked: String) : Fragment(), RecyclerViewInterface {
 
     private var binding: FragmentTodoTabsBinding? = null
 
     var repo = ToDoRepository()
 
+    lateinit var todoList: MutableList<ToDo>
+    lateinit var todoRecViewAdapter : TodoRecViewAdapter
 
-    private val checkListener =
-        object : CheckListener {
-            override fun onButtonClicked(id: String?) {
-                val app = requireActivity().application
-                if (id != null) {
-                    repo.changeChecked((app as ToDoApplication).srv, id)
-                }
-            }
-        }
+
+
 
 
     var dataHandler = Handler { msg ->
-        val todoList = msg.obj as List<ToDo>
-        val todoRecViewAdapter = context?.let {
-            TodoRecViewAdapter(
-                todoList,
-                it, checkListener
-            )
-        }
+        todoList = msg.obj as MutableList<ToDo>
+         todoRecViewAdapter = context?.let {
+             TodoRecViewAdapter(
+                 todoList,
+                 it, this
+             )
+         }!!
         binding!!.recViewTodos.adapter = todoRecViewAdapter
         binding!!.prgBarTodos.visibility = View.INVISIBLE
         binding!!.recViewTodos.visibility = View.VISIBLE
@@ -78,4 +73,13 @@ class FragmentTodoTabs(var isChecked: String) : Fragment() {
             startActivity(i)
         }
     }
+
+    override fun onCheckboxClicked(position: Int, id: String) {
+        val app = requireActivity().application
+        todoList.removeAt(position)
+        todoRecViewAdapter.notifyItemRemoved(position)
+        repo.changeChecked((app as ToDoApplication).srv, id)
+    }
+
+
 }
