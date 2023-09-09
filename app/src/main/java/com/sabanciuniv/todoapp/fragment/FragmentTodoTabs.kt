@@ -62,7 +62,7 @@ class FragmentTodoTabs(var isChecked: String) : Fragment() {
         binding!!.prgBarTodos.visibility = View.VISIBLE
         binding!!.recViewTodos.visibility = View.INVISIBLE
         val app = requireActivity().application
-        repo.getAllToDos((app as ToDoApplication).srv, dataHandler)
+        repo.getAllToDos((app as ToDoApplication).srv, dataHandler, isChecked)
         return v
     }
 
@@ -71,7 +71,7 @@ class FragmentTodoTabs(var isChecked: String) : Fragment() {
         binding!!.swipeRefresh.setOnRefreshListener {
             binding!!.prgBarTodos.visibility = View.VISIBLE
             binding!!.swipeRefresh.isRefreshing = false
-            repo.getAllToDos((requireActivity().application as ToDoApplication).srv, dataHandler)
+            repo.getAllToDos((requireActivity().application as ToDoApplication).srv, dataHandler, isChecked)
         }
         binding!!.floatingActionButton.setOnClickListener { v ->
             val i = Intent(activity, AddNewTodo::class.java)

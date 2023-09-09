@@ -14,10 +14,10 @@ class ViewPager2Adapter(
     FragmentStateAdapter(fragmentManager, lifecycle) {
     override fun createFragment(position: Int): Fragment {
         return when (position) {
-            0 -> FragmentTodoTabs("true")
+            0 -> FragmentTodoTabs("false")
             1 -> FragmentNotesTab()
-            2 -> FragmentTodoTabs("false")
-            else -> FragmentTodoTabs("no")
+            2 -> FragmentTodoTabs("true")
+            else -> FragmentTodoTabs("false")
         }
     }
 

@@ -19,11 +19,11 @@ import java.util.concurrent.ExecutorService
 
 class ToDoRepository {
     private val host = "https://todoapp-1-c1be29230266.herokuapp.com"
-    fun getAllToDos(srv: ExecutorService, uiHandler: Handler) {
+    fun getAllToDos(srv: ExecutorService, uiHandler: Handler, checked: String) {
         val retVal: MutableList<ToDo> = ArrayList()
         srv.execute {
             try {
-                val url = URL("$host/todoapp/todoapp/getAll")
+                val url = URL("$host/todoapp/todoapp/getAll/$checked")
                 val connection = url.openConnection() as HttpURLConnection
                 val reader =
                     BufferedReader(InputStreamReader(connection.inputStream))
