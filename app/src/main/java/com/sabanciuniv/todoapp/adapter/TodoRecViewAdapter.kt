@@ -60,12 +60,13 @@ class TodoRecViewAdapter(
                     holder.binding.txtTitleTodo.paintFlags =
                         currentFlags or Paint.STRIKE_THRU_TEXT_FLAG
                 }
+                data[holder.adapterPosition].isLoading = false
+
                 data[holder.adapterPosition].id?.let {
                     checkListener.onCheckboxClicked(holder.adapterPosition,
                         it
                     )
                 }
-                data[holder.adapterPosition].isLoading = false
             } else {
                 Log.i("BUSY", "CANNOT DO RIGHT NOW")
             }
