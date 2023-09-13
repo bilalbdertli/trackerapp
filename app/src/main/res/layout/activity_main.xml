@@ -24,7 +24,10 @@
         app:layout_constraintTop_toTopOf="parent"
         app:tabBackground="?attr/colorSurfaceDim"
         app:tabTextColor="?attr/colorOnTertiaryFixed"
-        app:tabSelectedTextColor="?attr/colorOnTertiaryFixedVariant"
+        app:tabSelectedTextColor="?attr/colorPrimaryInverse"
+        app:tabIndicatorFullWidth="true"
+        app:tabIndicatorAnimationMode="fade"
+        app:tabIndicatorColor="?attr/colorPrimaryInverse"
         >
 
         <com.google.android.material.tabs.TabItem

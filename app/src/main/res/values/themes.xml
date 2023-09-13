@@ -22,6 +22,8 @@
 
         <item name="colorSurfaceDim">@android:color/transparent</item>
 
+        <item name="colorPrimaryInverse">@color/orangery</item>
+
     </style>
     <style name="checkbox_checked" parent="Theme.Material3.Light">
         <item name="colorAccent">@color/lightQuaternary </item>

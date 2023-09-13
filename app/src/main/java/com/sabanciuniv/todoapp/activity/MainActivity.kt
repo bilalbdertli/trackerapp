@@ -1,6 +1,7 @@
 package com.sabanciuniv.todoapp.activity
 
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.elevation.SurfaceColors
