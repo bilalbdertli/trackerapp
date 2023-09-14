@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.view.MenuItem
 import android.view.View
+import android.widget.ScrollView
 import androidx.appcompat.app.AppCompatActivity
 import com.sabanciuniv.todoapp.ToDoApplication
 import com.sabanciuniv.todoapp.databinding.ActivityAddNewTodoBinding
@@ -49,6 +50,7 @@ class AddNewTodo : AppCompatActivity() {
                 )
             } else {
                 binding!!.txtError.visibility = View.VISIBLE
+                binding!!.scrollview.fullScroll(ScrollView.FOCUS_UP)
             }
         }
     }

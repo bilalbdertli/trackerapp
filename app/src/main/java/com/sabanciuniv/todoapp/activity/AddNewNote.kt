@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.view.MenuItem
 import android.view.View
+import android.widget.ScrollView
 import com.sabanciuniv.todoapp.R
 import com.sabanciuniv.todoapp.ToDoApplication
 import com.sabanciuniv.todoapp.databinding.ActivityAddNewNoteBinding
@@ -48,6 +49,7 @@ class AddNewNote : AppCompatActivity() {
                 )
             } else {
                 binding!!.txtError.visibility = View.VISIBLE
+                binding!!.scrollview.fullScroll(ScrollView.FOCUS_UP)
             }
         }
     }

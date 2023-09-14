@@ -33,7 +33,7 @@ class NoteRecViewAdapter(
     }
 
     override fun onBindViewHolder(holder: NoteViewHolder, position: Int) {
-        holder.binding.NoteTitleTodo.text = data[position].title
+        holder.binding.NoteTitleTodo.text = data[position].getShortened()
         holder.binding.NoteDueDate.text = data[position].dueDate
         holder.binding.NotedetailsContainer.setOnClickListener {
             val i = Intent(context, NoteDetails::class.java)

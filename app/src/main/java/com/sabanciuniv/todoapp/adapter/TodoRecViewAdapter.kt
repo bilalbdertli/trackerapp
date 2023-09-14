@@ -35,7 +35,7 @@ class TodoRecViewAdapter(
     }
 
     override fun onBindViewHolder(holder: TodoViewHolder, position: Int) {
-        holder.binding.txtTitleTodo.text = data[position].title
+        holder.binding.txtTitleTodo.text = data[position].getShortened()
         holder.binding.txtDueDate.text = data[position].dueDate
         holder.binding.checkBox.isChecked = data[position].isChecked
         val currentFlags = holder.binding.txtTitleTodo.paintFlags

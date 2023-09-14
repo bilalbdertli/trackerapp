@@ -16,4 +16,11 @@ class Note: Serializable {
     }
 
     constructor()
+    fun getShortened(): String{
+
+        if(this.title!!.length > 25){
+            return this.title!!.substring(0,  25) + "..."
+        }
+            return this.title!!
+    }
 }
