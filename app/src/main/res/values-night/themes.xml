@@ -24,6 +24,8 @@
         <item name="colorSurfaceDim">@android:color/transparent</item>
 
         <item name="colorPrimaryInverse">@color/blue</item>
+        <item name="colorSurfaceBright">@color/buttonDark</item>
+
     </style>
     <style name="checkbox_checked" parent="Theme.Material3.Light">
         <item name="colorAccent">@color/black </item>
