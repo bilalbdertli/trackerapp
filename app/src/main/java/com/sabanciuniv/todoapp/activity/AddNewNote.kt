@@ -62,6 +62,7 @@ class AddNewNote : AppCompatActivity() {
             val date: String = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(Date(it))
             binding.dateText.setText(date)
             selectedDate = LocalDate.parse(date, dateFormatter)
+            binding.dateWrapper.hint = "Selected Date"
         }
         binding.btnTime.setOnClickListener{
             timePicker.show(supportFragmentManager, "tag")
@@ -80,7 +81,7 @@ class AddNewNote : AppCompatActivity() {
             if(selectedTime == null || selectedDate == null){
                 Snackbar.make(it, "Please select the date and time.", Snackbar.LENGTH_LONG).show()
             }
-            else if(binding.titleText.length() > 32 || binding.descriptionText.length() > 64){
+            else if(binding.titleText.length() > 32 || binding.descriptionText.length() > 128){
                 Snackbar.make(it, "Please match the character bound of the fields.", Snackbar.LENGTH_LONG).show()
             }
             else if( binding.titleText.length()== 0 || binding.descriptionText.length() == 0 ){

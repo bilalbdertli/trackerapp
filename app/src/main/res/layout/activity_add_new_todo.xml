@@ -40,7 +40,7 @@
         android:layout_marginEnd="20dp"
         android:hint="@string/todo_label"
         app:counterEnabled="true"
-        app:counterMaxLength="32"
+        app:counterMaxLength="128"
         app:endIconMode="clear_text"
         app:helperText="@string/todo_helper"
         app:layout_constraintEnd_toEndOf="parent"
