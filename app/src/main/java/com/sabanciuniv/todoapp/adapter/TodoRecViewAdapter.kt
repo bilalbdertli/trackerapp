@@ -13,6 +13,7 @@ import com.sabanciuniv.todoapp.databinding.TodoRowBinding
 import com.sabanciuniv.todoapp.`interface`.RecyclerViewInterface
 import com.sabanciuniv.todoapp.model.ToDo
 import com.sabanciuniv.todoapp.repository.ToDoRepository
+import java.time.format.DateTimeFormatter
 
 class TodoRecViewAdapter(
     var data: List<ToDo>,
@@ -21,7 +22,7 @@ class TodoRecViewAdapter(
 ) :
     RecyclerView.Adapter<TodoViewHolder>() {
     var repo = ToDoRepository()
-
+    private val dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TodoViewHolder {
@@ -36,7 +37,7 @@ class TodoRecViewAdapter(
 
     override fun onBindViewHolder(holder: TodoViewHolder, position: Int) {
         holder.binding.txtTitleTodo.text = data[position].getShortened()
-        holder.binding.txtDueDate.text = data[position].dueDate
+        holder.binding.txtDueDate.text = data[position].dueDate?.format(dateFormatter)
         holder.binding.checkBox.isChecked = data[position].isChecked
         val currentFlags = holder.binding.txtTitleTodo.paintFlags
         if (holder.binding.checkBox.isChecked) {

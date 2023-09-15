@@ -11,6 +11,7 @@ import com.sabanciuniv.todoapp.ToDoApplication
 import com.sabanciuniv.todoapp.databinding.ActivityTodoDetailsBinding
 import com.sabanciuniv.todoapp.model.ToDo
 import com.sabanciuniv.todoapp.repository.ToDoRepository
+import java.time.format.DateTimeFormatter
 
 class TodoDetails : AppCompatActivity() {
     private var binding: ActivityTodoDetailsBinding? = null
@@ -19,6 +20,7 @@ class TodoDetails : AppCompatActivity() {
         finish()
         true
     }
+    private val dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,7 +32,7 @@ class TodoDetails : AppCompatActivity() {
         if (current != null) {
             binding!!.seeDetailsTitle.text = current.title
             binding!!.seeDetailsDesc.text = current.toDo
-            binding!!.seeDetailsDueDate.text = current.dueDate
+            binding!!.seeDetailsDueDate.text = current.dueDate?.format(dateFormatter)
         }
     }
 

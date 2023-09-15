@@ -69,7 +69,7 @@ class FragmentTodoTabs(var isChecked: String) : Fragment(), RecyclerViewInterfac
             repo.getAllToDos((requireActivity().application as ToDoApplication).srv, dataHandler, isChecked)
         }
         binding!!.floatingActionButton.setOnClickListener { v ->
-            val i = Intent(activity, AddNewTrialForLayout::class.java)
+            val i = Intent(activity, AddNewTodo::class.java)
             startActivity(i)
         }
     }

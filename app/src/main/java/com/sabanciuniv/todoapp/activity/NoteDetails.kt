@@ -11,6 +11,7 @@ import com.sabanciuniv.todoapp.ToDoApplication
 import com.sabanciuniv.todoapp.databinding.ActivityNoteDetailsBinding
 import com.sabanciuniv.todoapp.model.Note
 import com.sabanciuniv.todoapp.repository.ToDoRepository
+import java.time.format.DateTimeFormatter
 
 class NoteDetails : AppCompatActivity() {
     private var binding: ActivityNoteDetailsBinding? = null
@@ -19,7 +20,7 @@ class NoteDetails : AppCompatActivity() {
         finish()
         true
     }
-
+    private val dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,7 +32,7 @@ class NoteDetails : AppCompatActivity() {
         if (current != null) {
             binding!!.seeDetailsTitle.text = current.title
             binding!!.seeDetailsDesc.text = current.note
-            binding!!.seeDetailsDueDate.text = current.dueDate
+            binding!!.seeDetailsDueDate.text = current.dueDate?.format(dateFormatter)
         }
     }
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

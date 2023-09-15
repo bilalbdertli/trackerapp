@@ -9,6 +9,7 @@ import com.sabanciuniv.todoapp.activity.NoteDetails
 import com.sabanciuniv.todoapp.databinding.NoteRowBinding
 import com.sabanciuniv.todoapp.model.Note
 import com.sabanciuniv.todoapp.repository.ToDoRepository
+import java.time.format.DateTimeFormatter
 
 class NoteRecViewAdapter(
     var data: List<Note>,
@@ -17,6 +18,7 @@ class NoteRecViewAdapter(
     RecyclerView.Adapter<NoteRecViewAdapter.NoteViewHolder>()
 {
     var repo = ToDoRepository()
+    private val dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder {
         return NoteViewHolder(
@@ -34,7 +36,7 @@ class NoteRecViewAdapter(
 
     override fun onBindViewHolder(holder: NoteViewHolder, position: Int) {
         holder.binding.NoteTitleTodo.text = data[position].getShortened()
-        holder.binding.NoteDueDate.text = data[position].dueDate
+        holder.binding.NoteDueDate.text = data[position].dueDate?.format(dateFormatter)
         holder.binding.NotedetailsContainer.setOnClickListener {
             val i = Intent(context, NoteDetails::class.java)
             i.putExtra("noteDetails", data[holder.adapterPosition])

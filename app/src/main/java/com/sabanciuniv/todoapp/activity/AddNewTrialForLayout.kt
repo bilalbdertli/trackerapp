@@ -3,15 +3,20 @@ package com.sabanciuniv.todoapp.activity
 import android.icu.util.Calendar
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
 import android.text.format.DateFormat.is24HourFormat
 import android.util.Log
+import android.view.MenuItem
+import android.view.View
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.MaterialTimePicker.INPUT_MODE_KEYBOARD
 import com.google.android.material.timepicker.TimeFormat
 import com.sabanciuniv.todoapp.R
+import com.sabanciuniv.todoapp.ToDoApplication
 import com.sabanciuniv.todoapp.databinding.ActivityAddNewTrialForLayoutBinding
+import com.sabanciuniv.todoapp.repository.ToDoRepository
 import java.text.MessageFormat
 import java.text.SimpleDateFormat
 import java.time.LocalDate
@@ -41,12 +46,15 @@ class AddNewTrialForLayout : AppCompatActivity() {
     var selectedTime: LocalTime? = null
     val dateFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy", Locale.getDefault())
     val timeFormatter = DateTimeFormatter.ofPattern("HH:mm")
-
+    var handler = Handler {
+        finish()
+        true
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_add_new_trial_for_layout)
         val binding = ActivityAddNewTrialForLayoutBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        val srv = (application as ToDoApplication).srv
         supportActionBar!!.title = "Add a New To-Do"
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         binding.dateText.isEnabled = false
@@ -85,8 +93,20 @@ class AddNewTrialForLayout : AppCompatActivity() {
                 Snackbar.make(it, "Please fill all fields.", Snackbar.LENGTH_LONG).show()
             }
             else{
+                binding.progressBar.visibility = View.VISIBLE
                 val selectedDateTime: LocalDateTime = LocalDateTime.of(selectedDate, selectedTime)
+                val repo = ToDoRepository()
+                repo.addToDo(srv, handler, binding.titleText.text.toString(), binding.descriptionText.text.toString(), selectedDateTime )
             }
         }
+    }
+
+
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == android.R.id.home) {
+            finish()
+        }
+        return true
     }
 }

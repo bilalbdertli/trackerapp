@@ -15,6 +15,7 @@ import java.io.InputStreamReader
 import java.net.HttpURLConnection
 import java.net.MalformedURLException
 import java.net.URL
+import java.time.LocalDateTime
 import java.util.concurrent.ExecutorService
 
 class ToDoRepository {
@@ -38,13 +39,7 @@ class ToDoRepository {
                     Log.i("DEV", currentToDo.getString("dueDate"))
                     Log.i("DEVTRIAL", currentToDo.toString())
                     retVal.add(
-                        ToDo(
-                            currentToDo.getString("description"),
-                            currentToDo.getString("title"),
-                            currentToDo.getString("dueDate"),
-                            currentToDo.getBoolean("checked"),
-                            currentToDo.getString("id")
-                        )
+                        ToDo.fromBackendJson(currentToDo)
                     )
                 }
             } catch (e: MalformedURLException) {
@@ -65,7 +60,7 @@ class ToDoRepository {
         handler: Handler,
         title: String?,
         toDo: String?,
-        dueDate: String?
+        dueDate: LocalDateTime?
     ) {
         val obj = JSONObject()
         try {
@@ -181,12 +176,7 @@ class ToDoRepository {
                 for (i in 0 until jsonArray.length()) {
                     val currentNote = jsonArray.getJSONObject(i)
                     retVal.add(
-                        Note(
-                            currentNote.getString("description"),
-                            currentNote.getString("title"),
-                            currentNote.getString("dueDate"),
-                            currentNote.getString("id")
-                        )
+                       Note.fromBackendJson(currentNote)
                     )
                 }
             } catch (e: MalformedURLException) {
@@ -237,7 +227,7 @@ class ToDoRepository {
         handler: Handler,
         title: String?,
         note: String?,
-        dueDate: String?
+        dueDate: LocalDateTime?
     ) {
         val obj = JSONObject()
         try {
