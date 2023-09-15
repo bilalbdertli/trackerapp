@@ -7,4 +7,9 @@
     <string name="selected_date">Select A Date</string>
     <string name="selected_time">Time</string>
     <string name="snack_missing_date">No date or time is selected.</string>
+    <string name="note_title">Note Title</string>
+    <string name="note_desc">Note Description</string>
+    <string name="todo_title">Todo Title</string>
+    <string name="todo_desc">Todo Description</string>
+
 </resources>
