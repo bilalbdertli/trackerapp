@@ -1,10 +1,12 @@
 package com.sabanciuniv.todoapp.activity
 
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.view.MenuItem
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.ScrollView
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.snackbar.Snackbar
@@ -88,6 +90,10 @@ class AddNewNote : AppCompatActivity() {
                 Snackbar.make(it, "Please fill all fields.", Snackbar.LENGTH_LONG).show()
             }
             else{
+                val imm: InputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                if(this.currentFocus != null){
+                    imm.hideSoftInputFromWindow(this.currentFocus!!.windowToken, 0)
+                }
                 binding.progressBar.visibility = View.VISIBLE
                 val selectedDateTime: LocalDateTime = LocalDateTime.of(selectedDate, selectedTime)
                 val repo = ToDoRepository()
