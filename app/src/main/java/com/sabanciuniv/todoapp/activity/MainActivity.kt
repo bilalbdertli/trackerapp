@@ -1,5 +1,6 @@
 package com.sabanciuniv.todoapp.activity
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
@@ -32,6 +33,11 @@ class MainActivity : AppCompatActivity() {
             tab.text = layout[position]
         }
         mediator.attach()
+
+        binding!!.floatingActionButton.setOnClickListener { v ->
+            val i = Intent(this, AddNewTodo::class.java)
+            startActivity(i)
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

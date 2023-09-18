@@ -68,10 +68,6 @@ class FragmentNotesTab : Fragment() {
             binding!!.swipeRefresh.isRefreshing = false
             repo.getAllNotes((requireActivity().application as ToDoApplication).srv, dataHandler)
         }
-        binding!!.floatingActionButton.setOnClickListener { v ->
-            val i = Intent(activity, AddNewNote::class.java)
-            startActivity(i)
-        }
     }
 
 

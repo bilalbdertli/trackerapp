@@ -27,16 +27,7 @@
             android:visibility="invisible"
             android:indeterminateTint="@color/blue"/>
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/floatingActionButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end|bottom"
-            android:clickable="true"
-            android:src="@drawable/calendar_plus"
-            android:contentDescription="Add Todo"
-            android:layout_marginBottom="60dp"
-            android:layout_marginEnd="20dp"/>
+
     </FrameLayout>
 
 

@@ -68,10 +68,6 @@ class FragmentTodoTabs(var isChecked: String) : Fragment(), RecyclerViewInterfac
             binding!!.swipeRefresh.isRefreshing = false
             repo.getAllToDos((requireActivity().application as ToDoApplication).srv, dataHandler, isChecked)
         }
-        binding!!.floatingActionButton.setOnClickListener { v ->
-            val i = Intent(activity, AddNewTodo::class.java)
-            startActivity(i)
-        }
     }
 
     override fun onCheckboxClicked(position: Int, id: String) {
