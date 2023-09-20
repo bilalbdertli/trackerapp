@@ -6,20 +6,18 @@ import android.os.Handler
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import androidx.activity.viewModels
 import com.sabanciuniv.todoapp.R
 import com.sabanciuniv.todoapp.ToDoApplication
 import com.sabanciuniv.todoapp.databinding.ActivityNoteDetailsBinding
 import com.sabanciuniv.todoapp.model.Note
 import com.sabanciuniv.todoapp.repository.ToDoRepository
+import com.sabanciuniv.todoapp.viewmodel.NoteViewModel
 import java.time.format.DateTimeFormatter
 
 class NoteDetails : AppCompatActivity() {
     private var binding: ActivityNoteDetailsBinding? = null
-    var handler = Handler { msg ->
-        Log.i("DELETE", msg.obj.toString())
-        finish()
-        true
-    }
+    private val viewModel: NoteViewModel by viewModels()
     private val dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,11 +42,11 @@ class NoteDetails : AppCompatActivity() {
         if (item.itemId == android.R.id.home) {
             finish()
         } else if (item.itemId == R.id.mnDeleteToDo) {
-            val srv = (application as ToDoApplication).srv
             val current = intent.getSerializableExtra("noteDetails") as Note?
-            val repo = ToDoRepository()
-            current!!.id?.let { repo.deleteNoteById(srv, it, handler) }
-            finish()
+            Log.i("DEV", "BUTTON PRESSED")
+            current!!.id?.let { viewModel.deleteNote(it) }
+            Log.i("DEV", "REPO CALL COMPLETED")
+            viewModel.responseDeletion?.let { Log.i("DEV", it) }
         }
         return true
     }

@@ -1,14 +1,19 @@
 package com.sabanciuniv.todoapp.model
 
+import com.google.gson.annotations.SerializedName
 import org.json.JSONObject
 import java.io.Serializable
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 class Note: Serializable {
+    @SerializedName("note")
     var note: String? = null
+    @SerializedName("title")
     var title: String? = null
+    @SerializedName("dueDate")
     var dueDate: LocalDateTime? = null
+    @SerializedName("id")
     var id: String? = null
 
     constructor(note: String?, title: String?, dueDate: LocalDateTime?,  id: String?) {

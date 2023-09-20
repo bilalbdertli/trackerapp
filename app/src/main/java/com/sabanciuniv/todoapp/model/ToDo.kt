@@ -1,5 +1,6 @@
 package com.sabanciuniv.todoapp.model
 
+import com.google.gson.annotations.SerializedName
 import org.json.JSONObject
 import java.io.Serializable
 import java.time.LocalDateTime
