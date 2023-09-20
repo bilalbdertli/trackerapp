@@ -8,12 +8,11 @@ import retrofit2.converter.scalars.ScalarsConverterFactory
 
 object RetrofitInstance {
     private const val BASE_URL= "https://todoapp-1-c1be29230266.herokuapp.com"
-    private val gson = GsonBuilder().setLenient().create()
     val api:ToDoApi by lazy{
         Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(ScalarsConverterFactory.create())
-            .addConverterFactory(GsonConverterFactory.create(gson))
+            .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(ToDoApi::class.java)
     }

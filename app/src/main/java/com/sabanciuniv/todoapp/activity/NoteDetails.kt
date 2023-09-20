@@ -32,6 +32,11 @@ class NoteDetails : AppCompatActivity() {
             binding!!.seeDetailsDesc.text = current.note
             binding!!.seeDetailsDueDate.text = current.dueDate?.format(dateFormatter)
         }
+
+        viewModel.responseDeletion.observe(this) { responseDeletion ->
+            finish()
+        }
+
     }
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_details, menu)
@@ -43,10 +48,7 @@ class NoteDetails : AppCompatActivity() {
             finish()
         } else if (item.itemId == R.id.mnDeleteToDo) {
             val current = intent.getSerializableExtra("noteDetails") as Note?
-            Log.i("DEV", "BUTTON PRESSED")
             current!!.id?.let { viewModel.deleteNote(it) }
-            Log.i("DEV", "REPO CALL COMPLETED")
-            viewModel.responseDeletion?.let { Log.i("DEV", it) }
         }
         return true
     }

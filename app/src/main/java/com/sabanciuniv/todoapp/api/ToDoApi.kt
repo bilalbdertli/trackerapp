@@ -8,7 +8,7 @@ import retrofit2.http.POST
 import retrofit2.http.Path
 
 interface ToDoApi {
-    @DELETE("/todoapp/todoapp/deleteToDo/{noteId}")
+    @DELETE("/todoapp/todoapp/deleteNote/{noteId}")
     suspend fun deleteNote(
         @Path ("noteId") noteId: String,
         @Header("Content-Type") contentType: String = "application/json"
