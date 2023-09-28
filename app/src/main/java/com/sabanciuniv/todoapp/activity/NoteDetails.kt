@@ -33,9 +33,9 @@ class NoteDetails : AppCompatActivity() {
             binding!!.seeDetailsDueDate.text = current.dueDate?.format(dateFormatter)
         }
 
-        viewModel.responseDeletion.observe(this) { responseDeletion ->
+        /*viewModel.responseDeletion.observe(this) { responseDeletion ->
             finish()
-        }
+        }*/
 
     }
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -49,6 +49,7 @@ class NoteDetails : AppCompatActivity() {
         } else if (item.itemId == R.id.mnDeleteToDo) {
             val current = intent.getSerializableExtra("noteDetails") as Note?
             current!!.id?.let { viewModel.deleteNote(it) }
+            finish()
         }
         return true
     }
