@@ -1,22 +1,27 @@
 package com.sabanciuniv.todoapp.adapter
 
+import androidx.datastore.core.DataStore
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.sabanciuniv.todoapp.activity.FragmentTodoTabs
+import com.sabanciuniv.todoapp.fragment.CaloryFragment
 import com.sabanciuniv.todoapp.fragment.FragmentNotesTab
+import com.sabanciuniv.todoapp.model.FoodData
 
 class ViewPager2Adapter(
     fragmentManager: FragmentManager, lifecycle: Lifecycle,
-    private val tabCount: Int
+    private val tabCount: Int,
+    private val dataStore: DataStore<FoodData>
 ) :
     FragmentStateAdapter(fragmentManager, lifecycle) {
     override fun createFragment(position: Int): Fragment {
         return when (position) {
-            0 -> FragmentTodoTabs("false")
-            1 -> FragmentNotesTab()
-            2 -> FragmentTodoTabs("true")
+            0 -> CaloryFragment(dataStore)
+            1 -> FragmentTodoTabs("false")
+            2 -> FragmentNotesTab()
+            3 -> FragmentTodoTabs("true")
             else -> FragmentTodoTabs("false")
         }
     }
