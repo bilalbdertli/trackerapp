@@ -26,11 +26,20 @@ import kotlinx.coroutines.launch
 class CaloryFragment(private val dataStore: DataStore<FoodData> ) : Fragment() {
    private var binding: FragmentCaloryBinding? = null
     private var calories: Int = 2000
+    private var earnedCals: Int = 0
     private var foodItems: MutableList<Food> = mutableListOf()
-
+    private var displayCalories: String = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        lifecycleScope.launch {
+            calories = getCalories()
+        }
 
+        lifecycleScope.launch {
+            foodItems = getFoodItems()
+            earnedCals = calculateTotalCalories(foodItems)
+            displayCalories = "$earnedCals/$calories"
+        }
     }
 
     override fun onCreateView(
@@ -46,13 +55,13 @@ class CaloryFragment(private val dataStore: DataStore<FoodData> ) : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        lifecycleScope.launch {
-            calories = getCalories()
+        binding!!.textInputCalory.setText(displayCalories)
+
+        binding!!.button.setOnClickListener {
+            binding!!.textInputCalory.setText(displayCalories)
+
         }
 
-        lifecycleScope.launch {
-               foodItems = getFoodItems()
-        }
     }
 
     private suspend fun getAllFoods(){
@@ -112,7 +121,7 @@ class CaloryFragment(private val dataStore: DataStore<FoodData> ) : Fragment() {
 
         return foodList
     }
-    fun calculateTotalCalories(foodList: List<Food>): Int {
+    fun calculateTotalCalories(foodList: MutableList<Food>): Int {
         return foodList.sumOf { it.calories }
     }
 
