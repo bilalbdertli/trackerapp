@@ -23,9 +23,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
-class CaloryFragment(val dataStore: DataStore<FoodData> ) : Fragment() {
+class CaloryFragment(private val dataStore: DataStore<FoodData> ) : Fragment() {
    private var binding: FragmentCaloryBinding? = null
     private var calories: Int = 2000
+    private var foodItems: MutableList<Food> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,32 +45,19 @@ class CaloryFragment(val dataStore: DataStore<FoodData> ) : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding!!.btn.setOnClickListener{
-            lifecycleScope.launch(Dispatchers.IO) {
-                addList()
-            }
-
-
-        }
-
-        binding!!.btn3.setOnClickListener {
-            lifecycleScope.launch(Dispatchers.IO) {
-                getAllFoods()
-            }
-        }
 
         lifecycleScope.launch {
             calories = getCalories()
-            binding!!.editTextNumber.setText(calories.toString())
+        }
+
+        lifecycleScope.launch {
+               foodItems = getFoodItems()
         }
     }
 
     private suspend fun getAllFoods(){
         dataStore.data.collect(){
-            val foodListAsString = it.food.joinToString(separator = "\n") { food ->
-                "Name: ${food.name}, Calories: ${food.calories}"
-            }
-            Log.i("DEVELOPMENT", /*foodListAsString*/it.calories.toString())
+            Log.i("DEVELOPMENT", it.food)
         }
 
     }
@@ -87,13 +75,47 @@ class CaloryFragment(val dataStore: DataStore<FoodData> ) : Fragment() {
         return foodData.calories
     }
 
-    private suspend fun addList(){
+    private suspend fun getFoodItems(): MutableList<Food>{
+        val foodData = dataStore.data.first()
+        return parseFoodListFromString(foodData.food)
+    }
+
+    private suspend fun addList(name:String, cal:Int){
         dataStore.updateData { it ->
-            it.copy(
-                food = it.food.mutate {
-                    it.add(Food("aaa", 300))
-                }
-            )
+            val newItem : String = "$name,$cal"
+            val updatedFoodListAsString =
+                if (it.food.isEmpty()) {
+                newItem
+            }
+                else {
+                "${it.food}:$newItem"
+            }
+            it.copy(food = updatedFoodListAsString)
         }
     }
+
+    private fun parseFoodListFromString(foodListAsString: String): MutableList<Food> {
+        val items = foodListAsString.split(":")
+        val foodList = mutableListOf<Food>()
+
+        for (item in items) {
+            val parts = item.split(",")
+            if (parts.size == 2) {
+                val name = parts[0]
+                val calories = parts[1].toIntOrNull()
+
+                if (calories != null) {
+                    foodList.add(Food(name, calories))
+                }
+            }
+        }
+
+        return foodList
+    }
+    fun calculateTotalCalories(foodList: List<Food>): Int {
+        return foodList.sumOf { it.calories }
+    }
+
+
+
 }

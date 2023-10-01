@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class FoodData(
-    val food: PersistentList<Food> = persistentListOf(),
+    val food: String = "",
     val calories: Int = 2000
 )
 
