@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <!--
+
     <item
-        android:id="@+id/mnPostComment"
-        android:icon="@drawable/calendar_plus"
+        android:id="@+id/dialogCalOpen"
+        android:icon="@drawable/flame"
         android:title="Post Comment"
         app:showAsAction="always" />
-        -->
+
 </menu>
 

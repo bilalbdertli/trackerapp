@@ -10,6 +10,8 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.datastore.dataStore
 import androidx.lifecycle.lifecycleScope
+import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.elevation.SurfaceColors
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
@@ -22,13 +24,18 @@ import com.sabanciuniv.todoapp.model.FoodDataSerializer
 import kotlinx.collections.immutable.mutate
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+
 
 val Context.dataStore by dataStore("food-data.json", FoodDataSerializer)
 class MainActivity : AppCompatActivity() {
     private var binding: ActivityMainBinding? = null
-    var layout = arrayOf("CALORIES", "TODOS", "NOTES", "DONE")
-
+    var layout = arrayOf("TODOS", "NOTES", "DONE")
+    private var calories: Int = 2000
+    private var earnedCals: Int = 0
+    private var foodItems: MutableList<Food> = mutableListOf()
+    private var displayCalories: String = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         /*getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);*/
@@ -49,9 +56,14 @@ class MainActivity : AppCompatActivity() {
         }
         mediator.attach()
 
-        binding!!.floatingActionButton.setOnClickListener { v ->
-            val i = Intent(this, AddNewTodo::class.java)
-            startActivity(i)
+        lifecycleScope.launch() {
+            initialize()
+        }
+
+        binding!!.floatingActionButton.setOnClickListener {
+            lifecycleScope.launch() {
+                changeDailyGoal(2650)
+            }
         }
 
 
@@ -62,6 +74,16 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if(item.itemId ==R.id.dialogCalOpen){
+            MaterialAlertDialogBuilder(this)
+        .setTitle(displayCalories)
+        .setMessage(foodItems.joinToString (","){it.name})
+
+        .show()
+        }
+        return true
+    }
 
     /*
     @Override
@@ -94,4 +116,83 @@ class MainActivity : AppCompatActivity() {
         decorView.setSystemUiVisibility(uiOptions);
     }*/
 
+    private suspend fun initialize(){
+        calories = getCalories()
+        foodItems = getFoodItems()
+        earnedCals = calculateTotalCalories(foodItems)
+        displayCalories = "$earnedCals/$calories"
+    }
+    private suspend fun addFoodItem(){
+
+
+    }
+
+    private suspend fun changeDailyGoal(t:Int){
+        setCalories(t)
+        calories = getCalories()
+        displayCalories = "$earnedCals/$calories"
+
+    }
+
+
+
+    private suspend fun getAllFoods(){
+        dataStore.data.collect(){
+            Log.i("DEVELOPMENT", it.food)
+        }
+
+    }
+
+    private suspend fun setCalories(t: Int){
+        dataStore.updateData {
+            it.copy(
+                calories = t
+            )
+        }
+    }
+
+    private suspend fun getCalories(): Int{
+        return dataStore.data.first().calories
+    }
+
+    private suspend fun getFoodItems(): MutableList<Food>{
+        val foodData = dataStore.data.first()
+        return parseFoodListFromString(foodData.food)
+    }
+
+    private suspend fun addList(name:String, cal:Int){
+        dataStore.updateData { it ->
+            val newItem : String = "$name,$cal"
+            val updatedFoodListAsString =
+                if (it.food.isEmpty()) {
+                    newItem
+                }
+                else {
+                    "${it.food}:$newItem"
+                }
+            it.copy(food = updatedFoodListAsString)
+        }
+    }
+
+    private fun parseFoodListFromString(foodListAsString: String): MutableList<Food> {
+        val items = foodListAsString.split(":")
+        val foodList = mutableListOf<Food>()
+
+        for (item in items) {
+            val parts = item.split(",")
+            if (parts.size == 2) {
+                val name = parts[0]
+                val calories = parts[1].toIntOrNull()
+
+                if (calories != null) {
+                    foodList.add(Food(name, calories))
+                }
+            }
+        }
+
+        return foodList
+    }
+    private fun calculateTotalCalories(foodList: MutableList<Food>): Int {
+        return foodList.sumOf { it.calories }
+    }
 }

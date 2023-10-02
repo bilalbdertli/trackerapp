@@ -18,10 +18,9 @@ class ViewPager2Adapter(
     FragmentStateAdapter(fragmentManager, lifecycle) {
     override fun createFragment(position: Int): Fragment {
         return when (position) {
-            0 -> CaloryFragment(dataStore)
-            1 -> FragmentTodoTabs("false")
-            2 -> FragmentNotesTab()
-            3 -> FragmentTodoTabs("true")
+            0 -> FragmentTodoTabs("false")
+            1 -> FragmentNotesTab()
+            2 -> FragmentTodoTabs("true")
             else -> FragmentTodoTabs("false")
         }
     }

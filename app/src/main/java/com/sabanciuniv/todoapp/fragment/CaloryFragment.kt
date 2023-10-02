@@ -58,6 +58,9 @@ class CaloryFragment(private val dataStore: DataStore<FoodData> ) : Fragment() {
         binding!!.textInputCalory.setText(displayCalories)
 
         binding!!.button.setOnClickListener {
+            lifecycleScope.launch {
+                getCalories()
+            }
             binding!!.textInputCalory.setText(displayCalories)
 
         }
@@ -121,7 +124,7 @@ class CaloryFragment(private val dataStore: DataStore<FoodData> ) : Fragment() {
 
         return foodList
     }
-    fun calculateTotalCalories(foodList: MutableList<Food>): Int {
+    private fun calculateTotalCalories(foodList: MutableList<Food>): Int {
         return foodList.sumOf { it.calories }
     }
 
