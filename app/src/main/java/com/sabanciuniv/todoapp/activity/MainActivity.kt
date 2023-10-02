@@ -26,6 +26,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import java.time.LocalDate
+import java.time.LocalDateTime
 
 
 val Context.dataStore by dataStore("food-data.json", FoodDataSerializer)
@@ -62,7 +64,7 @@ class MainActivity : AppCompatActivity() {
 
         binding!!.floatingActionButton.setOnClickListener {
             lifecycleScope.launch() {
-                changeDailyGoal(2650)
+                Log.i("DEV", LocalDateTime.now().toString())
             }
         }
 
@@ -78,7 +80,7 @@ class MainActivity : AppCompatActivity() {
         if(item.itemId ==R.id.dialogCalOpen){
             MaterialAlertDialogBuilder(this)
         .setTitle(displayCalories)
-        .setMessage(foodItems.joinToString (","){it.name})
+        .setMessage(foodItems.joinToString("\n") { "${it.name}\t${it.calories}" })
 
         .show()
         }
@@ -121,10 +123,11 @@ class MainActivity : AppCompatActivity() {
         foodItems = getFoodItems()
         earnedCals = calculateTotalCalories(foodItems)
         displayCalories = "$earnedCals/$calories"
+
     }
     private suspend fun addFoodItem(){
-
-
+        addList("exampleFood", 500)
+        initialize()
     }
 
     private suspend fun changeDailyGoal(t:Int){
