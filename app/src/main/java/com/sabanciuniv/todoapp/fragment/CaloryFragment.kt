@@ -22,6 +22,7 @@ import kotlinx.collections.immutable.mutate
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import java.time.LocalDate
 
 class CaloryFragment(private val dataStore: DataStore<FoodData> ) : Fragment() {
    private var binding: FragmentCaloryBinding? = null
@@ -67,6 +68,35 @@ class CaloryFragment(private val dataStore: DataStore<FoodData> ) : Fragment() {
 
     }
 
+    private suspend fun getDate(): String{
+        return dataStore.data.first().currentDay
+    }
+    private suspend fun initialize(){
+        Log.i("initial", getDate().toString())
+        Log.i("initial", LocalDate.now().toString())
+        if(LocalDate.now().toString() != getDate()){
+            deleteDailyList()
+        }
+        calories = getCalories()
+        foodItems = getFoodItems()
+        earnedCals = calculateTotalCalories(foodItems)
+        displayCalories = "$earnedCals/$calories"
+
+    }
+    private suspend fun addFoodItem(){
+        addList("exampleFood", 500)
+        initialize()
+    }
+
+    private suspend fun changeDailyGoal(t:Int){
+        setCalories(t)
+        calories = getCalories()
+        displayCalories = "$earnedCals/$calories"
+
+    }
+
+
+
     private suspend fun getAllFoods(){
         dataStore.data.collect(){
             Log.i("DEVELOPMENT", it.food)
@@ -83,8 +113,7 @@ class CaloryFragment(private val dataStore: DataStore<FoodData> ) : Fragment() {
     }
 
     private suspend fun getCalories(): Int{
-        val foodData = dataStore.data.first()
-        return foodData.calories
+        return dataStore.data.first().calories
     }
 
     private suspend fun getFoodItems(): MutableList<Food>{
@@ -92,17 +121,53 @@ class CaloryFragment(private val dataStore: DataStore<FoodData> ) : Fragment() {
         return parseFoodListFromString(foodData.food)
     }
 
+    private suspend fun deleteDailyList(){
+        dataStore.updateData {
+            it.copy(
+                food = ""
+            )
+        }
+    }
+
+    /*
     private suspend fun addList(name:String, cal:Int){
         dataStore.updateData { it ->
             val newItem : String = "$name,$cal"
+            val dateNow = LocalDate.now().toString()
             val updatedFoodListAsString =
-                if (it.food.isEmpty()) {
-                newItem
-            }
+                if (it.food.isEmpty() || it.currentDay != dateNow) {
+                    newItem
+                }
                 else {
-                "${it.food}:$newItem"
-            }
-            it.copy(food = updatedFoodListAsString)
+                    "${it.food}:$newItem"
+                }
+            val updatedCurrentDay =
+                if(it.currentDay.isEmpty() || it.currentDay !=dateNow) {
+                    dateNow
+                } else {
+                    it.currentDay
+                }
+
+            it.copy(food = updatedFoodListAsString, currentDay = updatedCurrentDay)
+        }
+    }*/
+
+
+    private suspend fun addList(name: String, cal: Int) {
+        dataStore.updateData { it ->
+            val newItem: String = "$name,$cal"
+            val updatedCurrentDay = LocalDate.now().toString()
+
+            val updatedFoodListAsString =
+                if (it.currentDay != updatedCurrentDay) {
+                    // If the currentDay doesn't match the current date, replace with the new item
+                    newItem
+                } else {
+                    // If currentDay matches the current date, append the new item
+                    "${it.food}:$newItem"
+                }
+
+            it.copy(food = updatedFoodListAsString, currentDay = updatedCurrentDay)
         }
     }
 
@@ -127,7 +192,4 @@ class CaloryFragment(private val dataStore: DataStore<FoodData> ) : Fragment() {
     private fun calculateTotalCalories(foodList: MutableList<Food>): Int {
         return foodList.sumOf { it.calories }
     }
-
-
-
 }

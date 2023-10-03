@@ -18,6 +18,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.sabanciuniv.todoapp.R
 import com.sabanciuniv.todoapp.databinding.ActivityMainBinding
 import com.sabanciuniv.todoapp.adapter.ViewPager2Adapter
+import com.sabanciuniv.todoapp.fragment.CaloryFragment
 import com.sabanciuniv.todoapp.model.Food
 import com.sabanciuniv.todoapp.model.FoodData
 import com.sabanciuniv.todoapp.model.FoodDataSerializer
@@ -64,7 +65,7 @@ class MainActivity : AppCompatActivity() {
 
         binding!!.floatingActionButton.setOnClickListener {
             lifecycleScope.launch() {
-                Log.i("DEV", LocalDateTime.now().toString())
+                addFoodItem()
             }
         }
 
@@ -78,11 +79,11 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if(item.itemId ==R.id.dialogCalOpen){
-            MaterialAlertDialogBuilder(this)
-        .setTitle(displayCalories)
-        .setMessage(foodItems.joinToString("\n") { "${it.name}\t${it.calories}" })
+            lifecycleScope.launch() {
+                initialize()
+                showDialog()
+            }
 
-        .show()
         }
         return true
     }
@@ -118,7 +119,23 @@ class MainActivity : AppCompatActivity() {
         decorView.setSystemUiVisibility(uiOptions);
     }*/
 
+    private fun showDialog(){
+        MaterialAlertDialogBuilder(this)
+            .setTitle(displayCalories)
+            .setMessage(foodItems.joinToString("\n") { "${it.name}\t${it.calories}" })
+
+            .show()
+    }
+
+    private suspend fun getDate(): String{
+        return dataStore.data.first().currentDay
+    }
     private suspend fun initialize(){
+        Log.i("initial", getDate().toString())
+        Log.i("initial", LocalDate.now().toString())
+        if(LocalDate.now().toString() != getDate()){
+            deleteDailyList()
+        }
         calories = getCalories()
         foodItems = getFoodItems()
         earnedCals = calculateTotalCalories(foodItems)
@@ -163,17 +180,53 @@ class MainActivity : AppCompatActivity() {
         return parseFoodListFromString(foodData.food)
     }
 
+    private suspend fun deleteDailyList(){
+        dataStore.updateData {
+            it.copy(
+                food = ""
+            )
+        }
+    }
+
+    /*
     private suspend fun addList(name:String, cal:Int){
         dataStore.updateData { it ->
             val newItem : String = "$name,$cal"
+            val dateNow = LocalDate.now().toString()
             val updatedFoodListAsString =
-                if (it.food.isEmpty()) {
+                if (it.food.isEmpty() || it.currentDay != dateNow) {
                     newItem
                 }
                 else {
                     "${it.food}:$newItem"
                 }
-            it.copy(food = updatedFoodListAsString)
+            val updatedCurrentDay =
+                if(it.currentDay.isEmpty() || it.currentDay !=dateNow) {
+                    dateNow
+                } else {
+                    it.currentDay
+                }
+
+            it.copy(food = updatedFoodListAsString, currentDay = updatedCurrentDay)
+        }
+    }*/
+
+
+    private suspend fun addList(name: String, cal: Int) {
+        dataStore.updateData { it ->
+            val newItem: String = "$name,$cal"
+            val updatedCurrentDay = LocalDate.now().toString()
+
+            val updatedFoodListAsString =
+                if (it.currentDay != updatedCurrentDay) {
+                    // If the currentDay doesn't match the current date, replace with the new item
+                    newItem
+                } else {
+                    // If currentDay matches the current date, append the new item
+                    "${it.food}:$newItem"
+                }
+
+            it.copy(food = updatedFoodListAsString, currentDay = updatedCurrentDay)
         }
     }
 
