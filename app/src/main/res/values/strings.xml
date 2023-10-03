@@ -14,4 +14,10 @@
     <string name="dismissDialog">Dismiss</string>
     <string name="addToDialog">Add</string>
     <string name="resetDialog">Reset</string>
+    <string name="foodName">Enter food name</string>
+    <string name="foodCal">Calories</string>
+    <string name="submitDialog">Submit</string>
+    <string name="cancelAdd">Cancel</string>
+    <string name="submitAdd">Submit</string>
+
 </resources>

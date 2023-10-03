@@ -21,6 +21,7 @@ import com.sabanciuniv.todoapp.databinding.ActivityMainBinding
 import com.sabanciuniv.todoapp.adapter.ViewPager2Adapter
 import com.sabanciuniv.todoapp.dialog.CustomDialog
 import com.sabanciuniv.todoapp.fragment.CaloryFragment
+import com.sabanciuniv.todoapp.`interface`.ResetDailyList
 import com.sabanciuniv.todoapp.model.Food
 import com.sabanciuniv.todoapp.model.FoodData
 import com.sabanciuniv.todoapp.model.FoodDataSerializer
@@ -34,13 +35,14 @@ import java.time.LocalDateTime
 
 
 val Context.dataStore by dataStore("food-data.json", FoodDataSerializer)
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), ResetDailyList {
     private var binding: ActivityMainBinding? = null
     var layout = arrayOf("TODOS", "NOTES", "DONE")
     private var calories: Int = 2000
     private var earnedCals: Int = 0
     private var foodItems: MutableList<Food> = mutableListOf()
     private var displayCalories: String = ""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         /*getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);*/
@@ -122,8 +124,9 @@ class MainActivity : AppCompatActivity() {
     }*/
 
     private fun showDialog(){
-        CustomDialog(this, foodItems, calories)
-            .show()
+        val dialog = CustomDialog(this, foodItems, calories, this)
+        dialog.show()
+
     }
 
     private suspend fun getDate(): String{
@@ -250,4 +253,10 @@ class MainActivity : AppCompatActivity() {
     private fun calculateTotalCalories(foodList: MutableList<Food>): Int {
         return foodList.sumOf { it.calories }
     }
+
+    override suspend fun onResetClicked() {
+        deleteDailyList()
+    }
+
+
 }
