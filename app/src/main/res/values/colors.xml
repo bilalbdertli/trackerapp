@@ -24,6 +24,13 @@
     <color name="buttonDark">#4F378B</color>
 
     <color name="yellow">#FFFF00</color>
+
+    <color name="lightDialog">#ECE6F0</color>
+    <color name="darkDialog">#2B2930</color>
+
+    <color name="lightDivider">#79747E</color>
+    <color name="darkDivider">#938F99</color>
+
     <!--
            #FFF8EA #9E7676 #815B5B #594545
     -->

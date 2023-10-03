@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toolbar.LayoutParams
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.datastore.dataStore
@@ -18,6 +19,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.sabanciuniv.todoapp.R
 import com.sabanciuniv.todoapp.databinding.ActivityMainBinding
 import com.sabanciuniv.todoapp.adapter.ViewPager2Adapter
+import com.sabanciuniv.todoapp.dialog.CustomDialog
 import com.sabanciuniv.todoapp.fragment.CaloryFragment
 import com.sabanciuniv.todoapp.model.Food
 import com.sabanciuniv.todoapp.model.FoodData
@@ -120,10 +122,7 @@ class MainActivity : AppCompatActivity() {
     }*/
 
     private fun showDialog(){
-        MaterialAlertDialogBuilder(this)
-            .setTitle(displayCalories)
-            .setMessage(foodItems.joinToString("\n") { "${it.name}\t${it.calories}" })
-
+        CustomDialog(this, foodItems, calories)
             .show()
     }
 

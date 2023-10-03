@@ -11,5 +11,7 @@
     <string name="note_desc">Note Description</string>
     <string name="todo_title">Todo Title</string>
     <string name="todo_desc">Todo Description</string>
-
+    <string name="dismissDialog">Dismiss</string>
+    <string name="addToDialog">Add</string>
+    <string name="resetDialog">Reset</string>
 </resources>

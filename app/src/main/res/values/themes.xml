@@ -25,6 +25,8 @@
         <item name="colorPrimaryInverse">@color/orangery</item>
         <item name="colorSurfaceBright">@color/buttonLight</item>
 
+        <item name="colorSwitchThumbNormal">@color/lightDialog</item>
+        <item name="colorControlActivated">@color/lightDivider</item>
     </style>
     <style name="checkbox_checked" parent="Theme.Material3.Light">
         <item name="colorAccent">@color/lightQuaternary </item>
