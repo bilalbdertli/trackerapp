@@ -55,15 +55,29 @@ class CustomDialog(context: Context, var dailyEaten: MutableList<Food>, var goal
         }
 
         binding!!.submitButton.setOnClickListener {
-            dialogScope.launch(){
-                resetDailyList.onAddClicked(binding!!.foodText.text.toString(), binding!!.calText.text.toString().toInt())
+            try {
+                val foodName = binding!!.foodText.text.toString()
+                val foodCal = binding!!.calText.text.toString().toInt()
+                if(foodName.isNotEmpty() && foodCal.toString().isNotEmpty()){
+                    dialogScope.launch(){
+                        resetDailyList.onAddClicked(foodName, foodCal)
+                    }
+                    val newFood = Food(foodName, foodCal)
+                    dailyEaten.add(newFood)
+                    dialogAdapter.notifyItemInserted(dailyEaten.size - 1)
+                    binding!!.recView.scrollToPosition(dailyEaten.size - 1)
+                    binding!!.additionalHolder.visibility = View.GONE
+                    binding!!.addButton.isEnabled = true
+                }
+                else{
+                    TODO(" ENTRIES ARE EMPTY (OR ONE OF THEM)")
+                }
+
             }
-            val newFood = Food(binding!!.foodText.text.toString(), binding!!.calText.text.toString().toInt())
-            dailyEaten.add(newFood)
-            dialogAdapter.notifyItemInserted(dailyEaten.size - 1)
-            binding!!.recView.scrollToPosition(dailyEaten.size - 1)
-            binding!!.additionalHolder.visibility = View.GONE
-            binding!!.addButton.isEnabled = true
+            catch (e:Exception){
+                TODO("Implement what to do")
+            }
+
         }
         binding!!.cancelButton.setOnClickListener {
             binding!!.additionalHolder.visibility = View.GONE
