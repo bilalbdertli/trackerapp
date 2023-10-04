@@ -27,6 +27,8 @@
 
         <item name="colorSwitchThumbNormal">@color/lightDialog</item>
         <item name="colorControlActivated">@color/lightDivider</item>
+
+        <item name="colorSurfaceContainerHighest">@color/red</item>
     </style>
     <style name="checkbox_checked" parent="Theme.Material3.Light">
         <item name="colorAccent">@color/lightQuaternary </item>
