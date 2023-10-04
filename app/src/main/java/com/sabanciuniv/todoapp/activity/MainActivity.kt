@@ -2,6 +2,8 @@ package com.sabanciuniv.todoapp.activity
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
@@ -125,6 +127,7 @@ class MainActivity : AppCompatActivity(), ResetDailyList {
 
     private fun showDialog(){
         val dialog = CustomDialog(this, foodItems, calories, this)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog.show()
 
     }
@@ -256,6 +259,10 @@ class MainActivity : AppCompatActivity(), ResetDailyList {
 
     override suspend fun onResetClicked() {
         deleteDailyList()
+    }
+
+    override suspend fun onAddClicked(name: String, cal: Int) {
+        addList(name, cal)
     }
 
 

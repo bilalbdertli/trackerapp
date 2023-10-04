@@ -17,7 +17,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import okhttp3.internal.notifyAll
 
-class CustomDialog(context: Context, var dailyEaten: List<Food>, var goal: Int, val resetDailyList: ResetDailyList): Dialog(context) {
+class CustomDialog(context: Context, var dailyEaten: MutableList<Food>, var goal: Int, val resetDailyList: ResetDailyList): Dialog(context) {
     private var binding: CustomDialogBinding? = null
     private val dialogScope = CoroutineScope(Dispatchers.Main)
     private lateinit var dialogAdapter: FoodListRecViewAdapter
@@ -45,18 +45,29 @@ class CustomDialog(context: Context, var dailyEaten: List<Food>, var goal: Int, 
             dialogScope.launch(){
                 resetDailyList.onResetClicked()
             }
-            dialogAdapter.notifyItemRangeRemoved(0, dailyEaten.size -1 )
+            val size = dailyEaten.size
+            dialogAdapter.notifyItemRangeRemoved(0, size)
 
         }
         binding!!.addButton.setOnClickListener {
             binding!!.additionalHolder.visibility = View.VISIBLE
+            binding!!.addButton.isEnabled = false
         }
 
         binding!!.submitButton.setOnClickListener {
-            Log.i("DEV", "CLICKABLE")
+            dialogScope.launch(){
+                resetDailyList.onAddClicked(binding!!.foodText.text.toString(), binding!!.calText.text.toString().toInt())
+            }
+            val newFood = Food(binding!!.foodText.text.toString(), binding!!.calText.text.toString().toInt())
+            dailyEaten.add(newFood)
+            dialogAdapter.notifyItemInserted(dailyEaten.size - 1)
+            binding!!.recView.scrollToPosition(dailyEaten.size - 1)
+            binding!!.additionalHolder.visibility = View.GONE
+            binding!!.addButton.isEnabled = true
         }
         binding!!.cancelButton.setOnClickListener {
             binding!!.additionalHolder.visibility = View.GONE
+            binding!!.addButton.isEnabled = true
         }
 
 
