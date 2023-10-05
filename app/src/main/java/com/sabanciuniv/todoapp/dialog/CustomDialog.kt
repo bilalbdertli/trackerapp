@@ -17,7 +17,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import okhttp3.internal.notifyAll
 
-class CustomDialog(context: Context, var dailyEaten: MutableList<Food>, var goal: Int, val resetDailyList: ResetDailyList): Dialog(context) {
+class CustomDialog(context: Context, var dailyEaten: MutableList<Food>, var goal: Int, val earned: Int, val resetDailyList: ResetDailyList): Dialog(context) {
     private var binding: CustomDialogBinding? = null
     private val dialogScope = CoroutineScope(Dispatchers.Main)
     private lateinit var dialogAdapter: FoodListRecViewAdapter

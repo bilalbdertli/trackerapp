@@ -43,7 +43,6 @@ class MainActivity : AppCompatActivity(), ResetDailyList {
     private var calories: Int = 2000
     private var earnedCals: Int = 0
     private var foodItems: MutableList<Food> = mutableListOf()
-    private var displayCalories: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -126,7 +125,7 @@ class MainActivity : AppCompatActivity(), ResetDailyList {
     }*/
 
     private fun showDialog(){
-        val dialog = CustomDialog(this, foodItems, calories, this)
+        val dialog = CustomDialog(this, foodItems, calories, earnedCals, this)
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog.show()
 
@@ -144,7 +143,6 @@ class MainActivity : AppCompatActivity(), ResetDailyList {
         calories = getCalories()
         foodItems = getFoodItems()
         earnedCals = calculateTotalCalories(foodItems)
-        displayCalories = "$earnedCals/$calories"
 
     }
     private suspend fun addFoodItem(){
@@ -155,7 +153,6 @@ class MainActivity : AppCompatActivity(), ResetDailyList {
     private suspend fun changeDailyGoal(t:Int){
         setCalories(t)
         calories = getCalories()
-        displayCalories = "$earnedCals/$calories"
 
     }
 
