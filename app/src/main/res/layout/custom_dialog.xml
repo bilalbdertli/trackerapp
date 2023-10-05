@@ -5,8 +5,8 @@
 
     <data>
         <variable
-            name="calory"
-            type="com.sabanciuniv.todoapp.model.UserCalory" />
+            name="viewmodel"
+            type="com.sabanciuniv.todoapp.viewmodel.UseCaloryViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -36,7 +36,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="16pt"
-                android:text="@{calory.earned/calory.goal}" />
+                android:text="@{String.valueOf(viewmodel.personLiveData.title)}" />
 
             <Space
                 android:layout_width="0dp"
@@ -54,14 +54,14 @@
                     android:layout_height="match_parent"
                     android:indeterminateOnly="false"
                     android:progressDrawable="@drawable/circular_progressbar"
-                    android:progress="@{calory.percentage}" />
+                    android:progress="@{viewmodel.personLiveData.percentage}" />
 
                 <TextView
                     android:id="@+id/textView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="@{calory.percentage%}" />
+                    android:text="@{viewmodel.personLiveData.percentageText}" />
 
             </FrameLayout>
         </LinearLayout>

@@ -125,7 +125,7 @@ class MainActivity : AppCompatActivity(), ResetDailyList {
     }*/
 
     private fun showDialog(){
-        val dialog = CustomDialog(this, foodItems, calories, earnedCals, this)
+        val dialog = CustomDialog(this, foodItems, calories, earnedCals, this, this)
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog.show()
 

@@ -6,6 +6,8 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.viewModels
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sabanciuniv.todoapp.`interface`.ResetDailyList
@@ -13,13 +15,17 @@ import com.sabanciuniv.todoapp.adapter.FoodListRecViewAdapter
 import com.sabanciuniv.todoapp.databinding.CustomDialogBinding
 import com.sabanciuniv.todoapp.model.Food
 import com.sabanciuniv.todoapp.model.UserCalory
+import com.sabanciuniv.todoapp.viewmodel.NoteViewModel
+import com.sabanciuniv.todoapp.viewmodel.UseCaloryViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import okhttp3.internal.notifyAll
 
-class CustomDialog(context: Context, var dailyEaten: MutableList<Food>, var goal: Int, val earned: Int, val resetDailyList: ResetDailyList): Dialog(context) {
+class CustomDialog(context: Context, var dailyEaten: MutableList<Food>, var goal: Int, val earned: Int,
+                   val resetDailyList: ResetDailyList, val parentLifecycleOwner: LifecycleOwner): Dialog(context) {
     private var binding: CustomDialogBinding? = null
+    private val viewModel: UseCaloryViewModel = UseCaloryViewModel(UserCalory(earned, goal))
     private val dialogScope = CoroutineScope(Dispatchers.Main)
     private lateinit var dialogAdapter: FoodListRecViewAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,7 +33,8 @@ class CustomDialog(context: Context, var dailyEaten: MutableList<Food>, var goal
         binding = CustomDialogBinding.inflate(layoutInflater)
         setContentView(binding!!.root)
         dialogAdapter = FoodListRecViewAdapter(dailyEaten,context)
-        binding!!.calory = UserCalory(earned, goal)
+        binding!!.viewmodel = viewModel
+        binding!!.lifecycleOwner = parentLifecycleOwner
         binding!!.recView.adapter = dialogAdapter
         binding!!.recView.layoutManager = LinearLayoutManager(context)
         window!!.setLayout(
@@ -46,6 +53,7 @@ class CustomDialog(context: Context, var dailyEaten: MutableList<Food>, var goal
         binding!!.resetButton.setOnClickListener {
             dialogScope.launch(){
                 resetDailyList.onResetClicked()
+                viewModel.resetClicked()
             }
             val size = dailyEaten.size
             dialogAdapter.notifyItemRangeRemoved(0, size)
@@ -63,6 +71,7 @@ class CustomDialog(context: Context, var dailyEaten: MutableList<Food>, var goal
                 if(foodName.isNotEmpty() && foodCal.toString().isNotEmpty()){
                     dialogScope.launch(){
                         resetDailyList.onAddClicked(foodName, foodCal)
+                        viewModel.foodAdded(foodCal)
                     }
                     val newFood = Food(foodName, foodCal)
                     dailyEaten.add(newFood)
