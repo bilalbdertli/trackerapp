@@ -12,6 +12,7 @@ import com.sabanciuniv.todoapp.`interface`.ResetDailyList
 import com.sabanciuniv.todoapp.adapter.FoodListRecViewAdapter
 import com.sabanciuniv.todoapp.databinding.CustomDialogBinding
 import com.sabanciuniv.todoapp.model.Food
+import com.sabanciuniv.todoapp.model.UserCalory
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -26,6 +27,7 @@ class CustomDialog(context: Context, var dailyEaten: MutableList<Food>, var goal
         binding = CustomDialogBinding.inflate(layoutInflater)
         setContentView(binding!!.root)
         dialogAdapter = FoodListRecViewAdapter(dailyEaten,context)
+        binding!!.calory = UserCalory(earned, goal)
         binding!!.recView.adapter = dialogAdapter
         binding!!.recView.layoutManager = LinearLayoutManager(context)
         window!!.setLayout(
