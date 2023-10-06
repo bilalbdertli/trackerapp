@@ -10,6 +10,7 @@ import androidx.activity.viewModels
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.snackbar.Snackbar
 import com.sabanciuniv.todoapp.`interface`.ResetDailyList
 import com.sabanciuniv.todoapp.adapter.FoodListRecViewAdapter
 import com.sabanciuniv.todoapp.databinding.CustomDialogBinding
@@ -79,20 +80,26 @@ class CustomDialog(context: Context, var dailyEaten: MutableList<Food>, var goal
                     binding!!.recView.scrollToPosition(dailyEaten.size - 1)
                     binding!!.additionalHolder.visibility = View.GONE
                     binding!!.addButton.isEnabled = true
+                    binding!!.foodText.text = null
+                    binding!!.calText.text = null
                 }
                 else{
-                    TODO(" ENTRIES ARE EMPTY (OR ONE OF THEM)")
+                    Snackbar.make(it, "Please fill all the fields.", Snackbar.LENGTH_LONG).show()
+
                 }
 
             }
             catch (e:Exception){
-                TODO("Implement what to do")
+                Snackbar.make(it, "Please fill all the fields.", Snackbar.LENGTH_LONG).show()
+
             }
 
         }
         binding!!.cancelButton.setOnClickListener {
             binding!!.additionalHolder.visibility = View.GONE
             binding!!.addButton.isEnabled = true
+            binding!!.foodText.text = null
+            binding!!.calText.text = null
         }
 
 

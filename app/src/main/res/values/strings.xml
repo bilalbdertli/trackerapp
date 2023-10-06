@@ -21,5 +21,6 @@
     <string name="submitAdd">Submit</string>
     <string name="setGoal">Set Calory Goal</string>
     <string name="openDialog">Open Calory List</string>
+    <string name="calGoal">Current calory goal:</string>
 
 </resources>

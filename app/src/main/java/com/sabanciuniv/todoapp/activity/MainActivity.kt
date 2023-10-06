@@ -75,7 +75,6 @@ class MainActivity : AppCompatActivity(), ResetDailyList {
             }
         }
 
-
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -91,7 +90,11 @@ class MainActivity : AppCompatActivity(), ResetDailyList {
             }
         }
         else if (item.itemId == R.id.dialogSetCal){
-            showCaloryPicker()
+            lifecycleScope.launch() {
+                calories = getCalories()
+                showCaloryPicker()
+            }
+
         }
 
         return true
@@ -129,7 +132,7 @@ class MainActivity : AppCompatActivity(), ResetDailyList {
     }*/
 
     private fun showCaloryPicker(){
-        val dialog = GoalPickerDialog(this)
+        val dialog = GoalPickerDialog(this, calories, this)
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog.show()
     }
@@ -144,8 +147,6 @@ class MainActivity : AppCompatActivity(), ResetDailyList {
         return dataStore.data.first().currentDay
     }
     private suspend fun initialize(){
-        Log.i("initial", getDate().toString())
-        Log.i("initial", LocalDate.now().toString())
         if(LocalDate.now().toString() != getDate()){
             deleteDailyList()
         }
@@ -269,6 +270,10 @@ class MainActivity : AppCompatActivity(), ResetDailyList {
 
     override suspend fun onAddClicked(name: String, cal: Int) {
         addList(name, cal)
+    }
+
+    override suspend fun onGoalChanged(newGoal: Int) {
+        setCalories(newGoal)
     }
 
 
