@@ -5,8 +5,13 @@
     <item
         android:id="@+id/dialogCalOpen"
         android:icon="@drawable/flame"
-        android:title="Post Comment"
+        android:title="@string/openDialog"
         app:showAsAction="always" />
+    <item
+        android:id="@+id/dialogSetCal"
+        android:icon="@drawable/settings_2"
+        android:title="@string/setGoal"
+        app:showAsAction="ifRoom" />
 
 </menu>
 

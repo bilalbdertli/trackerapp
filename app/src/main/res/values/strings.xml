@@ -19,5 +19,7 @@
     <string name="submitDialog">Submit</string>
     <string name="cancelAdd">Cancel</string>
     <string name="submitAdd">Submit</string>
+    <string name="setGoal">Set Calory Goal</string>
+    <string name="openDialog">Open Calory List</string>
 
 </resources>
