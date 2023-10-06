@@ -3,13 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/dialogCalOpen"
-        android:icon="@drawable/flame"
+        android:id="@+id/dialogSetCal"
+        android:icon="@drawable/settings_2"
         android:title="@string/openDialog"
         app:showAsAction="always" />
     <item
-        android:id="@+id/dialogSetCal"
-        android:icon="@drawable/settings_2"
+        android:id="@+id/dialogCalOpen"
+        android:icon="@drawable/flame"
         android:title="@string/setGoal"
         app:showAsAction="ifRoom" />
 

@@ -22,6 +22,7 @@ import com.sabanciuniv.todoapp.R
 import com.sabanciuniv.todoapp.databinding.ActivityMainBinding
 import com.sabanciuniv.todoapp.adapter.ViewPager2Adapter
 import com.sabanciuniv.todoapp.dialog.CustomDialog
+import com.sabanciuniv.todoapp.dialog.GoalPickerDialog
 import com.sabanciuniv.todoapp.fragment.CaloryFragment
 import com.sabanciuniv.todoapp.`interface`.ResetDailyList
 import com.sabanciuniv.todoapp.model.Food
@@ -88,8 +89,11 @@ class MainActivity : AppCompatActivity(), ResetDailyList {
                 initialize()
                 showDialog()
             }
-
         }
+        else if (item.itemId == R.id.dialogSetCal){
+            showCaloryPicker()
+        }
+
         return true
     }
 
@@ -124,6 +128,11 @@ class MainActivity : AppCompatActivity(), ResetDailyList {
         decorView.setSystemUiVisibility(uiOptions);
     }*/
 
+    private fun showCaloryPicker(){
+        val dialog = GoalPickerDialog(this)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.show()
+    }
     private fun showDialog(){
         val dialog = CustomDialog(this, foodItems, calories, earnedCals, this, this)
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
