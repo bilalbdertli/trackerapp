@@ -3,25 +3,23 @@ package com.sabanciuniv.todoapp.dialog
 import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.viewModels
+import android.view.WindowManager
+import android.view.inputmethod.InputMethodManager
 import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
-import com.sabanciuniv.todoapp.`interface`.ResetDailyList
 import com.sabanciuniv.todoapp.adapter.FoodListRecViewAdapter
 import com.sabanciuniv.todoapp.databinding.CustomDialogBinding
+import com.sabanciuniv.todoapp.`interface`.ResetDailyList
 import com.sabanciuniv.todoapp.model.Food
 import com.sabanciuniv.todoapp.model.UserCalory
-import com.sabanciuniv.todoapp.viewmodel.NoteViewModel
 import com.sabanciuniv.todoapp.viewmodel.UseCaloryViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import okhttp3.internal.notifyAll
+
 
 class CustomDialog(context: Context, var dailyEaten: MutableList<Food>, var goal: Int, val earned: Int,
                    val resetDailyList: ResetDailyList, val parentLifecycleOwner: LifecycleOwner): Dialog(context) {
@@ -104,6 +102,26 @@ class CustomDialog(context: Context, var dailyEaten: MutableList<Food>, var goal
         }
 
 
+    }
+
+    override fun dismiss() {
+        //TODO: find a way to hide soft keyboard before dialog dismiss
+        super.dismiss()
+
+    }
+
+    private fun hideSoftKeyboard(view: View?) {
+        val imm: InputMethodManager = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        if(this.currentFocus != null){
+            imm.hideSoftInputFromWindow(this.currentFocus!!.windowToken, 0)
+        }
+    }
+    fun closeInput(caller: View) {
+        caller.postDelayed({
+            val imm =
+                caller.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.hideSoftInputFromWindow(caller.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
+        }, 100)
     }
 
 
