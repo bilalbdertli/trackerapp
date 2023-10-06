@@ -57,6 +57,7 @@ class CustomDialog(context: Context, var dailyEaten: MutableList<Food>, var goal
                 viewModel.resetClicked()
             }
             val size = dailyEaten.size
+            dailyEaten.clear()
             dialogAdapter.notifyItemRangeRemoved(0, size)
 
         }

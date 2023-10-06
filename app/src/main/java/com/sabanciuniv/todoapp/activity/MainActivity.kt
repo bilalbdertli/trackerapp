@@ -70,9 +70,8 @@ class MainActivity : AppCompatActivity(), ResetDailyList {
         }
 
         binding!!.floatingActionButton.setOnClickListener {
-            lifecycleScope.launch() {
-                addFoodItem()
-            }
+            val i = Intent(this, AddNewTodo::class.java)
+            startActivity(i)
         }
 
     }
