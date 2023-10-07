@@ -5,11 +5,11 @@ import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
+import com.sabanciuniv.todoapp.*
 import com.sabanciuniv.todoapp.adapter.FoodListRecViewAdapter
 import com.sabanciuniv.todoapp.databinding.CustomDialogBinding
 import com.sabanciuniv.todoapp.`interface`.ResetDailyList
@@ -124,5 +124,14 @@ class CustomDialog(context: Context, var dailyEaten: MutableList<Food>, var goal
         }, 100)
     }
 
+    private fun hideDeviceKeyboard() {
+        val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0)
+    }
 
+    private fun closeKeyboard(){
+        val inputMethodManager =
+            context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.hideSoftInputFromWindow(binding?.foodText?.windowToken , 0)
+    }
 }

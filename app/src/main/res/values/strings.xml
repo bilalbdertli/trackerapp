@@ -22,5 +22,6 @@
     <string name="setGoal">Set Calory Goal</string>
     <string name="openDialog">Open Calory List</string>
     <string name="calGoal">Current calory goal:</string>
+    <string name="calChart">See calory chart for previous days</string>
 
 </resources>

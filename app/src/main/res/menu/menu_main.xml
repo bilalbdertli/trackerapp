@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-
+    <item
+        android:id="@+id/dialogChart"
+        android:icon="@drawable/bar_chart_big"
+        android:title="@string/calChart"
+        app:showAsAction="ifRoom" />
     <item
         android:id="@+id/dialogSetCal"
         android:icon="@drawable/settings_2"

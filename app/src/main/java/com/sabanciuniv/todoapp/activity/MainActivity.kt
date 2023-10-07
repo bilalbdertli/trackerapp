@@ -21,6 +21,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.sabanciuniv.todoapp.R
 import com.sabanciuniv.todoapp.databinding.ActivityMainBinding
 import com.sabanciuniv.todoapp.adapter.ViewPager2Adapter
+import com.sabanciuniv.todoapp.dialog.ChartDialog
 import com.sabanciuniv.todoapp.dialog.CustomDialog
 import com.sabanciuniv.todoapp.dialog.GoalPickerDialog
 import com.sabanciuniv.todoapp.fragment.CaloryFragment
@@ -82,18 +83,23 @@ class MainActivity : AppCompatActivity(), ResetDailyList {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if(item.itemId ==R.id.dialogCalOpen){
-            lifecycleScope.launch() {
-                initialize()
-                showDialog()
+        when (item.itemId) {
+            R.id.dialogCalOpen -> {
+                lifecycleScope.launch() {
+                    initialize()
+                    showDialog()
+                }
             }
-        }
-        else if (item.itemId == R.id.dialogSetCal){
-            lifecycleScope.launch() {
-                calories = getCalories()
-                showCaloryPicker()
-            }
+            R.id.dialogSetCal -> {
+                lifecycleScope.launch() {
+                    calories = getCalories()
+                    showCaloryPicker()
+                }
 
+            }
+            R.id.dialogChart -> {
+                showChartDialog()
+            }
         }
 
         return true
@@ -140,6 +146,14 @@ class MainActivity : AppCompatActivity(), ResetDailyList {
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog.show()
 
+    }
+
+    private fun showChartDialog(){
+        val dialog = ChartDialog(this, mutableListOf(Food("test1", 100),Food("test2", 200),
+            Food("test3", 300),Food("test4", 400),Food("test5", 500),Food("test6", 600),
+            Food("test7", 700),Food("test8", 800),Food("test9", 900)), 1000 )
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.show()
     }
 
     private suspend fun getDate(): String{
