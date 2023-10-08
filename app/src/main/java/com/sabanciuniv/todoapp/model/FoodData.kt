@@ -7,9 +7,9 @@ import java.time.LocalDate
 
 @Serializable
 data class FoodData(
-    val food: String = "",
     val calories: Int = 2000,
-    val currentDay: String = ""
+    val currentDay: String = "",
+    val foodList: MutableList<Food> = mutableListOf<Food>()
 )
 
 @Serializable

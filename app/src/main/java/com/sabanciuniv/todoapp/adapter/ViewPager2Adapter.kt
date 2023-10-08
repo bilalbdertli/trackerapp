@@ -6,7 +6,6 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.sabanciuniv.todoapp.activity.FragmentTodoTabs
-import com.sabanciuniv.todoapp.fragment.CaloryFragment
 import com.sabanciuniv.todoapp.fragment.FragmentNotesTab
 import com.sabanciuniv.todoapp.model.FoodData
 

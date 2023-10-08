@@ -8,13 +8,9 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toolbar.LayoutParams
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.datastore.dataStore
 import androidx.lifecycle.lifecycleScope
-import androidx.viewpager2.widget.ViewPager2
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.elevation.SurfaceColors
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
@@ -24,28 +20,23 @@ import com.sabanciuniv.todoapp.adapter.ViewPager2Adapter
 import com.sabanciuniv.todoapp.dialog.ChartDialog
 import com.sabanciuniv.todoapp.dialog.CustomDialog
 import com.sabanciuniv.todoapp.dialog.GoalPickerDialog
-import com.sabanciuniv.todoapp.fragment.CaloryFragment
 import com.sabanciuniv.todoapp.`interface`.ResetDailyList
 import com.sabanciuniv.todoapp.model.Food
-import com.sabanciuniv.todoapp.model.FoodData
 import com.sabanciuniv.todoapp.model.FoodDataSerializer
-import kotlinx.collections.immutable.mutate
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import java.time.LocalDate
-import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 
 val Context.dataStore by dataStore("food-data.json", FoodDataSerializer)
 class MainActivity : AppCompatActivity(), ResetDailyList {
     private var binding: ActivityMainBinding? = null
-    var layout = arrayOf("TODOS", "NOTES", "DONE")
+    private val layout = arrayOf("TODOS", "NOTES", "DONE")
     private var calories: Int = 2000
     private var earnedCals: Int = 0
     private var foodItems: MutableList<Food> = mutableListOf()
-
+    private val formatter = DateTimeFormatter.ofPattern("dd MMM, E")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         /*getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);*/
@@ -66,7 +57,7 @@ class MainActivity : AppCompatActivity(), ResetDailyList {
         }
         mediator.attach()
 
-        lifecycleScope.launch() {
+        lifecycleScope.launch {
             initialize()
         }
 
@@ -85,20 +76,20 @@ class MainActivity : AppCompatActivity(), ResetDailyList {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.dialogCalOpen -> {
-                lifecycleScope.launch() {
+                lifecycleScope.launch {
                     initialize()
                     showDialog()
                 }
             }
             R.id.dialogSetCal -> {
-                lifecycleScope.launch() {
+                lifecycleScope.launch {
                     calories = getCalories()
                     showCaloryPicker()
                 }
 
             }
             R.id.dialogChart -> {
-                showChartDialog()
+               showChartDialog()
             }
         }
 
@@ -160,34 +151,14 @@ class MainActivity : AppCompatActivity(), ResetDailyList {
         return dataStore.data.first().currentDay
     }
     private suspend fun initialize(){
-        if(LocalDate.now().toString() != getDate()){
-            deleteDailyList()
+        if(LocalDate.now().format(formatter) != getDate()){
+            updateDate()
         }
         calories = getCalories()
-        foodItems = getFoodItems()
+        foodItems = getTrialList()
         earnedCals = calculateTotalCalories(foodItems)
 
     }
-    private suspend fun addFoodItem(){
-        addList("exampleFood", 500)
-        initialize()
-    }
-
-    private suspend fun changeDailyGoal(t:Int){
-        setCalories(t)
-        calories = getCalories()
-
-    }
-
-
-
-    private suspend fun getAllFoods(){
-        dataStore.data.collect(){
-            Log.i("DEVELOPMENT", it.food)
-        }
-
-    }
-
     private suspend fun setCalories(t: Int){
         dataStore.updateData {
             it.copy(
@@ -199,62 +170,73 @@ class MainActivity : AppCompatActivity(), ResetDailyList {
     private suspend fun getCalories(): Int{
         return dataStore.data.first().calories
     }
-
-    private suspend fun getFoodItems(): MutableList<Food>{
-        val foodData = dataStore.data.first()
-        return parseFoodListFromString(foodData.food)
-    }
-
     private suspend fun deleteDailyList(){
         dataStore.updateData {
             it.copy(
-                food = ""
+                foodList = mutableListOf()
             )
         }
     }
 
-    /*
-    private suspend fun addList(name:String, cal:Int){
-        dataStore.updateData { it ->
-            val newItem : String = "$name,$cal"
-            val dateNow = LocalDate.now().toString()
-            val updatedFoodListAsString =
-                if (it.food.isEmpty() || it.currentDay != dateNow) {
-                    newItem
-                }
-                else {
-                    "${it.food}:$newItem"
-                }
-            val updatedCurrentDay =
-                if(it.currentDay.isEmpty() || it.currentDay !=dateNow) {
-                    dateNow
-                } else {
-                    it.currentDay
-                }
-
-            it.copy(food = updatedFoodListAsString, currentDay = updatedCurrentDay)
-        }
-    }*/
-
-
-    private suspend fun addList(name: String, cal: Int) {
-        dataStore.updateData { it ->
-            val newItem: String = "$name,$cal"
-            val updatedCurrentDay = LocalDate.now().toString()
-
-            val updatedFoodListAsString =
-                if (it.currentDay != updatedCurrentDay) {
-                    // If the currentDay doesn't match the current date, replace with the new item
-                    newItem
-                } else {
-                    // If currentDay matches the current date, append the new item
-                    "${it.food}:$newItem"
-                }
-
-            it.copy(food = updatedFoodListAsString, currentDay = updatedCurrentDay)
+    private suspend fun updateDate(){
+        dataStore.updateData {
+            it.copy(
+                foodList = mutableListOf(),
+                currentDay = LocalDate.now().format(formatter)
+            )
         }
     }
 
+    private suspend fun addList(name: String, cal: Int) {
+        dataStore.updateData {
+            val newItem = Food(name,cal)
+            val updatedCurrentDay = LocalDate.now().format(formatter)
+            val updatedFoodList =
+                if (it.currentDay != updatedCurrentDay) {
+                    // If the currentDay doesn't match the current date, replace with the new item
+                    mutableListOf<Food>(newItem)
+                } else {
+                    // If currentDay matches the current date, append the new item
+                    val newFoodList: MutableList<Food> = it.foodList.toMutableList()
+                    newFoodList.add(newItem)
+                    newFoodList
+                }
+
+            it.copy(foodList = updatedFoodList, currentDay = updatedCurrentDay)
+        }
+    }
+
+    private fun calculateTotalCalories(foodList: MutableList<Food>): Int {
+        return foodList.sumOf { it.calories }
+    }
+
+    override suspend fun onResetClicked() {
+        deleteDailyList()
+    }
+
+    override suspend fun onAddClicked(name: String, cal: Int) {
+        addList(name, cal)
+    }
+
+    override suspend fun onGoalChanged(newGoal: Int) {
+        setCalories(newGoal)
+    }
+    private suspend fun getTrialList(): MutableList<Food>{
+        return dataStore.data.first().foodList
+    }
+
+    /*
+    suspend fun trialAddToList(){
+        dataStore.updateData {
+            val newFoodList: MutableList<Food> = it.foodList.toMutableList()
+            newFoodList.add(Food("test", 200))
+            it.copy(foodList = newFoodList)
+        }
+    }
+    private suspend fun addFoodItem() {
+        addList("exampleFood", 500)
+        initialize()
+    }
     private fun parseFoodListFromString(foodListAsString: String): MutableList<Food> {
         val items = foodListAsString.split(":")
         val foodList = mutableListOf<Food>()
@@ -273,21 +255,21 @@ class MainActivity : AppCompatActivity(), ResetDailyList {
 
         return foodList
     }
-    private fun calculateTotalCalories(foodList: MutableList<Food>): Int {
-        return foodList.sumOf { it.calories }
+    private suspend fun changeDailyGoal(t:Int){
+        setCalories(t)
+        calories = getCalories()
+
     }
 
-    override suspend fun onResetClicked() {
-        deleteDailyList()
-    }
+   private suspend fun getFoodItems(): MutableList<Food>{
+       val foodData = dataStore.data.first()
+       return parseFoodListFromString(foodData.food)
+   }
 
-    override suspend fun onAddClicked(name: String, cal: Int) {
-        addList(name, cal)
-    }
+    private suspend fun getAllFoods(): String{
+        return dataStore.data.first().food
 
-    override suspend fun onGoalChanged(newGoal: Int) {
-        setCalories(newGoal)
-    }
+    }*/
 
 
 }
