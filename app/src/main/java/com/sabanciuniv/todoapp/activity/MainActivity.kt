@@ -155,7 +155,7 @@ class MainActivity : AppCompatActivity(), ResetDailyList {
             updateDate()
         }
         calories = getCalories()
-        foodItems = getTrialList()
+        foodItems = getFoodList()
         earnedCals = calculateTotalCalories(foodItems)
 
     }
@@ -167,8 +167,14 @@ class MainActivity : AppCompatActivity(), ResetDailyList {
         }
     }
 
+    private fun calculateTotalCalories(foodList: MutableList<Food>): Int {
+        return foodList.sumOf { it.calories }
+    }
     private suspend fun getCalories(): Int{
         return dataStore.data.first().calories
+    }
+    private suspend fun getConsumedCals(): Int{
+        return dataStore.data.first().consumed
     }
     private suspend fun deleteDailyList(){
         dataStore.updateData {
@@ -191,24 +197,24 @@ class MainActivity : AppCompatActivity(), ResetDailyList {
         dataStore.updateData {
             val newItem = Food(name,cal)
             val updatedCurrentDay = LocalDate.now().format(formatter)
-            val updatedFoodList =
-                if (it.currentDay != updatedCurrentDay) {
-                    // If the currentDay doesn't match the current date, replace with the new item
-                    mutableListOf<Food>(newItem)
-                } else {
-                    // If currentDay matches the current date, append the new item
-                    val newFoodList: MutableList<Food> = it.foodList.toMutableList()
-                    newFoodList.add(newItem)
-                    newFoodList
-                }
+            val updatedFoodList: MutableList<Food>
+            val newConsumed: Int
+            if (it.currentDay != updatedCurrentDay) {
+                // If the currentDay doesn't match the current date, replace with the new item
+                updatedFoodList = mutableListOf<Food>(newItem)
+                newConsumed = 0
+            } else {
+                // If currentDay matches the current date, append the new item
+                val newFoodList: MutableList<Food> = it.foodList.toMutableList()
+                newFoodList.add(newItem)
+                updatedFoodList = newFoodList
+                newConsumed = it.consumed + cal
+            }
 
-            it.copy(foodList = updatedFoodList, currentDay = updatedCurrentDay)
+            it.copy(foodList = updatedFoodList, currentDay = updatedCurrentDay, consumed = newConsumed)
         }
     }
 
-    private fun calculateTotalCalories(foodList: MutableList<Food>): Int {
-        return foodList.sumOf { it.calories }
-    }
 
     override suspend fun onResetClicked() {
         deleteDailyList()
@@ -221,7 +227,7 @@ class MainActivity : AppCompatActivity(), ResetDailyList {
     override suspend fun onGoalChanged(newGoal: Int) {
         setCalories(newGoal)
     }
-    private suspend fun getTrialList(): MutableList<Food>{
+    private suspend fun getFoodList(): MutableList<Food>{
         return dataStore.data.first().foodList
     }
 
@@ -269,7 +275,10 @@ class MainActivity : AppCompatActivity(), ResetDailyList {
     private suspend fun getAllFoods(): String{
         return dataStore.data.first().food
 
-    }*/
+    }
+
+
+    */
 
 
 }
