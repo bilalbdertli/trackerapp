@@ -23,6 +23,7 @@ import com.sabanciuniv.todoapp.dialog.GoalPickerDialog
 import com.sabanciuniv.todoapp.`interface`.ResetDailyList
 import com.sabanciuniv.todoapp.model.Food
 import com.sabanciuniv.todoapp.model.FoodDataSerializer
+import com.sabanciuniv.todoapp.model.RecentDayData
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import java.time.LocalDate
@@ -89,7 +90,7 @@ class MainActivity : AppCompatActivity(), ResetDailyList {
 
             }
             R.id.dialogChart -> {
-               showChartDialog()
+                showChartDialog()
             }
         }
 
@@ -140,9 +141,11 @@ class MainActivity : AppCompatActivity(), ResetDailyList {
     }
 
     private fun showChartDialog(){
-        val dialog = ChartDialog(this, mutableListOf(Food("test1", 100),Food("test2", 200),
-            Food("test3", 300),Food("test4", 400),Food("test5", 500),Food("test6", 600),
-            Food("test7", 700),Food("test8", 800),Food("test9", 900)), 1000 )
+        val dialog = ChartDialog(this, mutableListOf(RecentDayData("16 Sep, Mon",2200,3031),
+            RecentDayData("17 Sep, Tue",2000,2016),RecentDayData("18 Sep, Wed",2300,2659),
+            RecentDayData("19 Sep, Thu",1900,1752),RecentDayData("20 Sep, Fri",1800,2451),
+            RecentDayData("21 Sep, Sat",2200,2751),RecentDayData("22 Sep, Sun",2200,1956))
+            , 1000 )
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog.show()
     }
@@ -156,8 +159,7 @@ class MainActivity : AppCompatActivity(), ResetDailyList {
         }
         calories = getCalories()
         foodItems = getFoodList()
-        earnedCals = calculateTotalCalories(foodItems)
-
+        earnedCals = getConsumedCals()
     }
     private suspend fun setCalories(t: Int){
         dataStore.updateData {
@@ -167,9 +169,7 @@ class MainActivity : AppCompatActivity(), ResetDailyList {
         }
     }
 
-    private fun calculateTotalCalories(foodList: MutableList<Food>): Int {
-        return foodList.sumOf { it.calories }
-    }
+
     private suspend fun getCalories(): Int{
         return dataStore.data.first().calories
     }
@@ -179,7 +179,8 @@ class MainActivity : AppCompatActivity(), ResetDailyList {
     private suspend fun deleteDailyList(){
         dataStore.updateData {
             it.copy(
-                foodList = mutableListOf()
+                foodList = mutableListOf(),
+                consumed = 0
             )
         }
     }
@@ -276,7 +277,9 @@ class MainActivity : AppCompatActivity(), ResetDailyList {
         return dataStore.data.first().food
 
     }
-
+    private fun calculateTotalCalories(foodList: MutableList<Food>): Int {
+        return foodList.sumOf { it.calories }
+    }
 
     */
 

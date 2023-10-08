@@ -21,7 +21,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 
-class CustomDialog(context: Context, var dailyEaten: MutableList<Food>, var goal: Int, val earned: Int,
+class CustomDialog(context: Context, var dailyEaten: MutableList<Food>, var goal: Int, var earned: Int,
                    val resetDailyList: ResetDailyList, val parentLifecycleOwner: LifecycleOwner): Dialog(context) {
     private var binding: CustomDialogBinding? = null
     private val viewModel: UseCaloryViewModel = UseCaloryViewModel(UserCalory(earned, goal))

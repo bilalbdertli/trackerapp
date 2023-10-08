@@ -12,8 +12,9 @@ import com.github.mikephil.charting.data.BarEntry
 import com.github.mikephil.charting.utils.ColorTemplate
 import com.sabanciuniv.todoapp.databinding.ChartDialogBinding
 import com.sabanciuniv.todoapp.model.Food
+import com.sabanciuniv.todoapp.model.RecentDayData
 
-class ChartDialog(context: Context, var consumed: MutableList<Food>, var currentGoal: Int ):Dialog(context) {
+class ChartDialog(context: Context, var recentWeekList: MutableList<RecentDayData>, var currentGoal: Int ):Dialog(context) {
     private var binding: ChartDialogBinding? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,12 +27,15 @@ class ChartDialog(context: Context, var consumed: MutableList<Food>, var current
         val chart = binding!!.barChart
         chart.axisRight?.setDrawLabels(false)
         val entries: ArrayList<BarEntry> = arrayListOf()
-        entries.add(BarEntry(0f,45f))
-        entries.add(BarEntry(1f,67f))
-        entries.add(BarEntry(2f,35f))
-        entries.add(BarEntry(3f,15f))
+        entries.add(BarEntry(0f,1145f))
+        entries.add(BarEntry(1f,2467f))
+        entries.add(BarEntry(2f,3531f))
+        entries.add(BarEntry(3f,1875f))
         entries.add(BarEntry(4f,4000f))
-        chart.axisLeft.axisMinimum = 0f
+        entries.add(BarEntry(5f,2842f))
+        entries.add(BarEntry(6f,1548f))
+
+        chart.axisLeft.axisMinimum = 1000f
         chart.axisLeft.axisMaximum = 4000f
         chart.axisLeft.axisLineWidth = 2f
         chart.axisLeft.axisLineColor = Color.YELLOW
