@@ -5,10 +5,14 @@ import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
 import android.view.ViewGroup
+import com.github.mikephil.charting.animation.Easing
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
+import com.github.mikephil.charting.data.PieData
+import com.github.mikephil.charting.data.PieDataSet
+import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import com.github.mikephil.charting.utils.ColorTemplate
 import com.sabanciuniv.todoapp.databinding.ChartDialogBinding
@@ -50,10 +54,12 @@ class ChartDialog(context: Context, var recentWeekList: MutableList<RecentDayDat
         chart.axisLeft.axisLineWidth = 2f
         chart.axisLeft.axisLineColor = Color.BLACK
         chart.axisLeft.labelCount = 5
-        val dataSet: BarDataSet = BarDataSet(entries, "Goal for day")
+        val dataSet: BarDataSet = BarDataSet(entries , "Goal for day")
         val secDataSet: BarDataSet = BarDataSet(newEntries , "Consumed in day")
-        dataSet.colors = List(1){ Color.GRAY}
-        secDataSet.colors = List(1){ Color.CYAN}
+        val thirdDataSet: BarDataSet = BarDataSet(newEntries , "Consumed in day")
+        dataSet.color = Color.GRAY
+        secDataSet.color = Color.CYAN
+        thirdDataSet.color = Color.YELLOW
         val barData: BarData = BarData(dataSet, secDataSet)
         chart.data = barData
         chart.description.isEnabled = false
@@ -61,12 +67,28 @@ class ChartDialog(context: Context, var recentWeekList: MutableList<RecentDayDat
         chart.xAxis.granularity = 20f
         chart.xAxis.isGranularityEnabled = true
         chart.xAxis.valueFormatter = IndexAxisValueFormatter(days)
-        chart.isDragEnabled = true
+        /*chart.isDragEnabled = true
         chart.setVisibleXRangeMaximum(3.5f)
         barData.barWidth = 0.15f
         chart.xAxis.axisMinimum = 0f
-        chart.groupBars(0f, 0.45f, 0.1f)
+        chart.groupBars(0f, 0.45f, 0.1f)*/
+        chart.animateY(1500,  Easing.EaseOutCirc)
         chart.invalidate()
+
+        val pieEntries: ArrayList<PieEntry> = arrayListOf()
+        pieEntries.add(PieEntry(20f, "Goal is exceeded"))
+        pieEntries.add(PieEntry(30f, "Goal is not reached"))
+        pieEntries.add(PieEntry(50f, "No available data"))
+        val pieDataSet = PieDataSet(pieEntries, "Values")
+        pieDataSet.colors = ColorTemplate.createColors(ColorTemplate.MATERIAL_COLORS)
+        val pieData: PieData = PieData(pieDataSet)
+        val pieChart = binding!!.pieChart
+        pieChart.data = pieData
+        pieChart.description.isEnabled = false
+        pieChart.animateXY(1000, 1000, Easing.EaseOutElastic, Easing.EaseInCirc)
+        pieChart.invalidate()
+
+
 
 
 
