@@ -49,6 +49,14 @@ class ChartDialog(context: Context, var recentWeekList: MutableList<RecentDayDat
         newEntries.add(BarEntry(4f,2000f))
         newEntries.add(BarEntry(5f,3842f))
         newEntries.add(BarEntry(6f,2548f))
+        val thirdEntries: ArrayList<BarEntry> = arrayListOf()
+        thirdEntries.add(BarEntry(0f,3000f))
+        thirdEntries.add(BarEntry(1f,3000f))
+        thirdEntries.add(BarEntry(2f,3900f))
+        thirdEntries.add(BarEntry(3f,3970f))
+        thirdEntries.add(BarEntry(4f,4000f))
+        thirdEntries.add(BarEntry(5f,3970f))
+        thirdEntries.add(BarEntry(6f,3000f))
         chart.axisLeft.axisMinimum = 1000f
         chart.axisLeft.axisMaximum = 4000f
         chart.axisLeft.axisLineWidth = 2f
@@ -56,10 +64,10 @@ class ChartDialog(context: Context, var recentWeekList: MutableList<RecentDayDat
         chart.axisLeft.labelCount = 5
         val dataSet: BarDataSet = BarDataSet(entries , "Goal for day")
         val secDataSet: BarDataSet = BarDataSet(newEntries , "Consumed in day")
-        val thirdDataSet: BarDataSet = BarDataSet(newEntries , "Consumed in day")
-        dataSet.color = Color.GRAY
-        secDataSet.color = Color.CYAN
-        thirdDataSet.color = Color.YELLOW
+        val thirdDataSet: BarDataSet = BarDataSet(thirdEntries , "Consumed in day")
+        dataSet.color = Color.RED
+        secDataSet.color = Color.TRANSPARENT
+        thirdDataSet.color = Color.TRANSPARENT
         val barData: BarData = BarData(dataSet, secDataSet)
         chart.data = barData
         chart.description.isEnabled = false
