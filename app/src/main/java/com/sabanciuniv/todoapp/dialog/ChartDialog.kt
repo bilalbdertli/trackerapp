@@ -10,6 +10,7 @@ import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
+import com.github.mikephil.charting.data.CombinedData
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
@@ -60,55 +61,38 @@ class ChartDialog(context: Context, var recentWeekList: MutableList<RecentDayDat
             }
             columnNum += 1
         }
-        val trialFirstEntries: ArrayList<BarEntry> = arrayListOf()
-        trialFirstEntries.add(BarEntry(0f,3000f))
-        trialFirstEntries.add(BarEntry(1f,3000f))
-        trialFirstEntries.add(BarEntry(2f,3900f))
-        trialFirstEntries.add(BarEntry(3f,3970f))
-        trialFirstEntries.add(BarEntry(4f,4000f))
-        trialFirstEntries.add(BarEntry(5f,3970f))
-        trialFirstEntries.add(BarEntry(6f,3000f))
 
+        val trialHigherCalGoals: ArrayList<BarEntry> = arrayListOf()
+        higherCaloryGoalList.forEach{ calDay ->
+            trialHigherCalGoals.add(BarEntry(calDay.index.toFloat(), calDay.caloryGoal.toFloat()))
+        }
+        val trialHigherCalCals: ArrayList<BarEntry> = arrayListOf()
+        higherCaloryGoalList.forEach{ calDay ->
+            trialHigherCalCals.add(BarEntry(calDay.index.toFloat(), calDay.earnedCalories.toFloat()))
+        }
 
-        val entries: ArrayList<BarEntry> = arrayListOf()
-        entries.add(BarEntry(0f,1145f))
-        entries.add(BarEntry(1f,2467f))
-        entries.add(BarEntry(2f,3531f))
-        entries.add(BarEntry(3f,1875f))
-        entries.add(BarEntry(4f,4000f))
-        entries.add(BarEntry(5f,2842f))
-        entries.add(BarEntry(6f,1548f))
-        val newEntries: ArrayList<BarEntry> = arrayListOf()
-        newEntries.add(BarEntry(0f,2145f))
-        newEntries.add(BarEntry(1f,1467f))
-        newEntries.add(BarEntry(2f,1531f))
-        newEntries.add(BarEntry(3f,3875f))
-        newEntries.add(BarEntry(4f,2000f))
-        newEntries.add(BarEntry(5f,3842f))
-        newEntries.add(BarEntry(6f,2548f))
-        val thirdEntries: ArrayList<BarEntry> = arrayListOf()
-        thirdEntries.add(BarEntry(0f,3000f))
-        thirdEntries.add(BarEntry(1f,3000f))
-        thirdEntries.add(BarEntry(2f,3900f))
-        thirdEntries.add(BarEntry(3f,3970f))
-        thirdEntries.add(BarEntry(4f,4000f))
-        thirdEntries.add(BarEntry(5f,3970f))
-        thirdEntries.add(BarEntry(6f,3000f))
-        val dataSet: BarDataSet = BarDataSet(entries , "Goal for day")
-        val secDataSet: BarDataSet = BarDataSet(newEntries , "Consumed in day")
-        val thirdDataSet: BarDataSet = BarDataSet(thirdEntries , "Consumed in day")
-        dataSet.color = Color.RED
-        secDataSet.color = Color.TRANSPARENT
-        thirdDataSet.color = Color.TRANSPARENT
-        val barData: BarData = BarData(dataSet, secDataSet)
+        val higherCalDatasetCal: BarDataSet = BarDataSet(trialHigherCalCals , "Daily Calory Earned")
+        val higherCalDatasetGoal: BarDataSet = BarDataSet(trialHigherCalGoals , "Daily Calory Goal")
+        higherCalDatasetCal.color = Color.BLACK
+        higherCalDatasetGoal.color = Color.RED
+
+        val trialHigherGoalGoals: ArrayList<BarEntry> = arrayListOf()
+        higherEarnedCaloriesList.forEach{ calDay ->
+            trialHigherGoalGoals.add(BarEntry(calDay.index.toFloat(), calDay.caloryGoal.toFloat()))
+        }
+        val trialHigherGoalCals: ArrayList<BarEntry> = arrayListOf()
+        higherEarnedCaloriesList.forEach{ calDay ->
+            trialHigherGoalCals.add(BarEntry(calDay.index.toFloat(), calDay.earnedCalories.toFloat()))
+        }
+        val higherGoalFirstDataset: BarDataSet = BarDataSet(trialHigherGoalGoals , "")
+        val higherGoalSecondDataset: BarDataSet = BarDataSet(trialHigherGoalCals , "")
+        higherGoalFirstDataset.color = Color.RED
+        higherGoalSecondDataset.color = Color.BLACK
+        val barData: BarData = BarData(higherCalDatasetGoal, higherCalDatasetCal, higherGoalSecondDataset,
+            higherGoalFirstDataset)
         chart.data = barData
         chart.animateY(1500,  Easing.EaseOutCirc)
         chart.invalidate()
-        /*chart.isDragEnabled = true
-        chart.setVisibleXRangeMaximum(3.5f)
-        barData.barWidth = 0.15f
-        chart.xAxis.axisMinimum = 0f
-        chart.groupBars(0f, 0.45f, 0.1f)*/
 
         val pieEntries: ArrayList<PieEntry> = arrayListOf()
         pieEntries.add(PieEntry(20f, "Goal is exceeded"))
