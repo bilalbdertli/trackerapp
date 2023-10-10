@@ -33,6 +33,16 @@ class ChartDialog(context: Context, var recentWeekList: MutableList<RecentDayDat
         )
         val chart = binding!!.barChart
         chart.axisRight?.setDrawLabels(false)
+        chart.axisLeft.axisMinimum = 1000f
+        chart.axisLeft.axisMaximum = 4000f
+        chart.axisLeft.axisLineWidth = 2f
+        chart.axisLeft.axisLineColor = Color.BLACK
+        chart.axisLeft.labelCount = 5
+        chart.description.isEnabled = false
+        chart.xAxis.position = XAxis.XAxisPosition.BOTTOM
+        chart.xAxis.granularity = 20f
+        chart.xAxis.isGranularityEnabled = true
+        chart.xAxis.valueFormatter = IndexAxisValueFormatter(days)
         val entries: ArrayList<BarEntry> = arrayListOf()
         entries.add(BarEntry(0f,1145f))
         entries.add(BarEntry(1f,2467f))
@@ -57,11 +67,6 @@ class ChartDialog(context: Context, var recentWeekList: MutableList<RecentDayDat
         thirdEntries.add(BarEntry(4f,4000f))
         thirdEntries.add(BarEntry(5f,3970f))
         thirdEntries.add(BarEntry(6f,3000f))
-        chart.axisLeft.axisMinimum = 1000f
-        chart.axisLeft.axisMaximum = 4000f
-        chart.axisLeft.axisLineWidth = 2f
-        chart.axisLeft.axisLineColor = Color.BLACK
-        chart.axisLeft.labelCount = 5
         val dataSet: BarDataSet = BarDataSet(entries , "Goal for day")
         val secDataSet: BarDataSet = BarDataSet(newEntries , "Consumed in day")
         val thirdDataSet: BarDataSet = BarDataSet(thirdEntries , "Consumed in day")
@@ -70,18 +75,13 @@ class ChartDialog(context: Context, var recentWeekList: MutableList<RecentDayDat
         thirdDataSet.color = Color.TRANSPARENT
         val barData: BarData = BarData(dataSet, secDataSet)
         chart.data = barData
-        chart.description.isEnabled = false
-        chart.xAxis.position = XAxis.XAxisPosition.BOTTOM
-        chart.xAxis.granularity = 20f
-        chart.xAxis.isGranularityEnabled = true
-        chart.xAxis.valueFormatter = IndexAxisValueFormatter(days)
+        chart.animateY(1500,  Easing.EaseOutCirc)
+        chart.invalidate()
         /*chart.isDragEnabled = true
         chart.setVisibleXRangeMaximum(3.5f)
         barData.barWidth = 0.15f
         chart.xAxis.axisMinimum = 0f
         chart.groupBars(0f, 0.45f, 0.1f)*/
-        chart.animateY(1500,  Easing.EaseOutCirc)
-        chart.invalidate()
 
         val pieEntries: ArrayList<PieEntry> = arrayListOf()
         pieEntries.add(PieEntry(20f, "Goal is exceeded"))
