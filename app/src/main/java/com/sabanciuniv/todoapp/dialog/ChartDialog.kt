@@ -16,6 +16,7 @@ import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import com.github.mikephil.charting.utils.ColorTemplate
 import com.sabanciuniv.todoapp.databinding.ChartDialogBinding
+import com.sabanciuniv.todoapp.model.ChartData
 import com.sabanciuniv.todoapp.model.Food
 import com.sabanciuniv.todoapp.model.RecentDayData
 
@@ -43,6 +44,32 @@ class ChartDialog(context: Context, var recentWeekList: MutableList<RecentDayDat
         chart.xAxis.granularity = 20f
         chart.xAxis.isGranularityEnabled = true
         chart.xAxis.valueFormatter = IndexAxisValueFormatter(days)
+
+        val recentWeek: MutableList<RecentDayData> = mutableListOf(RecentDayData("16 Nov", 2500, 3200),
+            RecentDayData("17 Nov", 2500, 2200),RecentDayData("18 Nov", 3500, 3200),
+            RecentDayData("19 Nov", 3500, 3750),RecentDayData("20 Nov", 3000, 2300),
+            RecentDayData("21 Nov", 2800, 2130),RecentDayData("16 Nov", 2500, 3200))
+        var columnNum: Int = 0
+        val higherCaloryGoalList = mutableListOf<ChartData>()
+        val higherEarnedCaloriesList = mutableListOf<ChartData>()
+        recentWeek.forEach { dayData ->
+            if (dayData.caloryGoal > dayData.earnedCalories) {
+                higherCaloryGoalList.add(ChartData(columnNum, dayData.caloryGoal, dayData.earnedCalories))
+            } else if (dayData.earnedCalories > dayData.caloryGoal) {
+                higherEarnedCaloriesList.add(ChartData(columnNum, dayData.caloryGoal, dayData.earnedCalories))
+            }
+            columnNum += 1
+        }
+        val trialFirstEntries: ArrayList<BarEntry> = arrayListOf()
+        trialFirstEntries.add(BarEntry(0f,3000f))
+        trialFirstEntries.add(BarEntry(1f,3000f))
+        trialFirstEntries.add(BarEntry(2f,3900f))
+        trialFirstEntries.add(BarEntry(3f,3970f))
+        trialFirstEntries.add(BarEntry(4f,4000f))
+        trialFirstEntries.add(BarEntry(5f,3970f))
+        trialFirstEntries.add(BarEntry(6f,3000f))
+
+
         val entries: ArrayList<BarEntry> = arrayListOf()
         entries.add(BarEntry(0f,1145f))
         entries.add(BarEntry(1f,2467f))
