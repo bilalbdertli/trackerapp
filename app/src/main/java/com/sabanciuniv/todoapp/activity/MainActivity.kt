@@ -44,7 +44,7 @@ class MainActivity : AppCompatActivity(), ResetDailyList {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding!!.root)
-        supportActionBar!!.title = "To-Do's of the Day"
+        supportActionBar!!.title = "TrackerApp"
         supportActionBar!!.setDisplayHomeAsUpEnabled(false)
         window.statusBarColor = SurfaceColors.SURFACE_2.getColor(this)
         window.navigationBarColor = SurfaceColors.SURFACE_2.getColor(this)
