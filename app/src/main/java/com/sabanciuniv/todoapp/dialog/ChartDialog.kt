@@ -5,7 +5,9 @@ import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import com.github.mikephil.charting.animation.Easing
+import com.github.mikephil.charting.components.Description
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
@@ -42,7 +44,7 @@ class ChartDialog(context: Context, var recentWeekList: MutableList<RecentDayDat
         chart.axisLeft.labelCount = 5
         chart.description.isEnabled = false
         chart.xAxis.position = XAxis.XAxisPosition.BOTTOM
-        chart.xAxis.granularity = 20f
+        chart.xAxis.granularity = 1000f
         chart.xAxis.isGranularityEnabled = true
         chart.xAxis.valueFormatter = IndexAxisValueFormatter(days)
 
@@ -73,8 +75,10 @@ class ChartDialog(context: Context, var recentWeekList: MutableList<RecentDayDat
 
         val higherCalDatasetCal: BarDataSet = BarDataSet(trialHigherCalCals , "Daily Calory Earned")
         val higherCalDatasetGoal: BarDataSet = BarDataSet(trialHigherCalGoals , "Daily Calory Goal")
-        higherCalDatasetCal.color = Color.BLACK
-        higherCalDatasetGoal.color = Color.RED
+        val barFirstColor = Color.parseColor("#D0BCFF")
+        val barSecondaryColor = Color.parseColor("#8C1D18")
+        higherCalDatasetCal.color = barFirstColor
+        higherCalDatasetGoal.color = barSecondaryColor
 
         val trialHigherGoalGoals: ArrayList<BarEntry> = arrayListOf()
         higherEarnedCaloriesList.forEach{ calDay ->
@@ -86,14 +90,20 @@ class ChartDialog(context: Context, var recentWeekList: MutableList<RecentDayDat
         }
         val higherGoalFirstDataset: BarDataSet = BarDataSet(trialHigherGoalGoals , "")
         val higherGoalSecondDataset: BarDataSet = BarDataSet(trialHigherGoalCals , "")
-        higherGoalFirstDataset.color = Color.RED
-        higherGoalSecondDataset.color = Color.BLACK
+        higherGoalFirstDataset.color = barSecondaryColor
+        higherGoalSecondDataset.color = barFirstColor
         val barData: BarData = BarData(higherCalDatasetGoal, higherCalDatasetCal, higherGoalSecondDataset,
             higherGoalFirstDataset)
         chart.data = barData
+        /*chart.description = Description()    // Hide the description
+        chart.axisLeft.setDrawLabels(false);
+        chart.axisRight.setDrawLabels(false);
+        chart.xAxis.setDrawLabels(false);*/
+        chart.legend.isEnabled = false;
+
         chart.animateY(1500,  Easing.EaseOutCirc)
         chart.invalidate()
-
+        /*
         val pieEntries: ArrayList<PieEntry> = arrayListOf()
         pieEntries.add(PieEntry(20f, "Goal is exceeded"))
         pieEntries.add(PieEntry(30f, "Goal is not reached"))
@@ -105,11 +115,14 @@ class ChartDialog(context: Context, var recentWeekList: MutableList<RecentDayDat
         pieChart.data = pieData
         pieChart.description.isEnabled = false
         pieChart.animateXY(1000, 1000, Easing.EaseOutElastic, Easing.EaseInCirc)
-        pieChart.invalidate()
+        pieChart.invalidate()*/
+    }
 
-
-
-
-
+    override fun onStart() {
+        super.onStart()
+        binding!!.animationButton.setOnClickListener {
+            binding!!.barChart.animateY(1500,  Easing.EaseOutCirc)
+            binding!!.barChart.invalidate()
+        }
     }
 }
