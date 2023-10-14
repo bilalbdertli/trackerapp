@@ -5,4 +5,6 @@ interface ResetDailyList {
     suspend fun onAddClicked(name: String, cal: Int)
 
     suspend fun onGoalChanged(newGoal: Int)
+
+    suspend fun onClearRecentWeek()
 }

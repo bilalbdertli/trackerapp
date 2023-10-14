@@ -11,8 +11,7 @@ import com.sabanciuniv.todoapp.model.FoodData
 
 class ViewPager2Adapter(
     fragmentManager: FragmentManager, lifecycle: Lifecycle,
-    private val tabCount: Int,
-    private val dataStore: DataStore<FoodData>
+    private val tabCount: Int
 ) :
     FragmentStateAdapter(fragmentManager, lifecycle) {
     override fun createFragment(position: Int): Fragment {

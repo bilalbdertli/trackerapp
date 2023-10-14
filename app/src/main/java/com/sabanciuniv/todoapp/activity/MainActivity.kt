@@ -37,6 +37,7 @@ class MainActivity : AppCompatActivity(), ResetDailyList {
     private var calories: Int = 2000
     private var earnedCals: Int = 0
     private var foodItems: MutableList<Food> = mutableListOf()
+    private var recentWeekList: MutableList<RecentDayData> = mutableListOf()
     private val formatter = DateTimeFormatter.ofPattern("dd MMM, E")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,7 +51,7 @@ class MainActivity : AppCompatActivity(), ResetDailyList {
         window.navigationBarColor = SurfaceColors.SURFACE_2.getColor(this)
         binding!!.tabLayout.setBackgroundColor(SurfaceColors.SURFACE_2.getColor(this))
         binding!!.viewPager2.adapter =
-            ViewPager2Adapter(supportFragmentManager, lifecycle, layout.size, dataStore)
+            ViewPager2Adapter(supportFragmentManager, lifecycle, layout.size)
         val mediator = TabLayoutMediator(
             binding!!.tabLayout, binding!!.viewPager2
         ) { tab: TabLayout.Tab, position: Int ->
@@ -90,7 +91,10 @@ class MainActivity : AppCompatActivity(), ResetDailyList {
 
             }
             R.id.dialogChart -> {
-                showChartDialog()
+                lifecycleScope.launch {
+                    initialize()
+                    showChartDialog()
+                }
             }
         }
 
@@ -141,11 +145,7 @@ class MainActivity : AppCompatActivity(), ResetDailyList {
     }
 
     private fun showChartDialog(){
-        val dialog = ChartDialog(this, mutableListOf(RecentDayData("16 Sep, Mon",2200,3031),
-            RecentDayData("17 Sep, Tue",2000,2016),RecentDayData("18 Sep, Wed",2300,2659),
-            RecentDayData("19 Sep, Thu",1900,1752),RecentDayData("20 Sep, Fri",1800,2451),
-            RecentDayData("21 Sep, Sat",2200,2751),RecentDayData("22 Sep, Sun",2200,1956))
-            , 1000 )
+        val dialog = ChartDialog(this, recentWeekList, this)
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog.show()
     }
@@ -160,6 +160,7 @@ class MainActivity : AppCompatActivity(), ResetDailyList {
         calories = getCalories()
         foodItems = getFoodList()
         earnedCals = getConsumedCals()
+        recentWeekList = getRecentWeekData()
     }
     private suspend fun setCalories(t: Int){
         dataStore.updateData {
@@ -176,6 +177,10 @@ class MainActivity : AppCompatActivity(), ResetDailyList {
     private suspend fun getConsumedCals(): Int{
         return dataStore.data.first().consumed
     }
+
+    private suspend fun getRecentWeekData(): MutableList<RecentDayData>{
+        return dataStore.data.first().recentWeekData
+    }
     private suspend fun deleteDailyList(){
         dataStore.updateData {
             it.copy(
@@ -185,11 +190,28 @@ class MainActivity : AppCompatActivity(), ResetDailyList {
         }
     }
 
-    private suspend fun updateDate(){
+    private suspend fun clearRecentWeekData(){
         dataStore.updateData {
             it.copy(
+                recentWeekData = mutableListOf()
+            )
+        }
+    }
+
+    private suspend fun updateDate(){
+        dataStore.updateData {
+            val newRecentWeekData: MutableList<RecentDayData> = it.recentWeekData.toMutableList()
+            if(it.consumed > 1000){
+                newRecentWeekData.add(RecentDayData(it.currentDay, it.calories, it.consumed))
+            }
+            while(newRecentWeekData.size > 7){
+                newRecentWeekData.removeAt(0)
+            }
+            it.copy(
                 foodList = mutableListOf(),
-                currentDay = LocalDate.now().format(formatter)
+                currentDay = LocalDate.now().format(formatter),
+                consumed = 0,
+                recentWeekData = newRecentWeekData
             )
         }
     }
@@ -199,11 +221,16 @@ class MainActivity : AppCompatActivity(), ResetDailyList {
             val newItem = Food(name,cal)
             val updatedCurrentDay = LocalDate.now().format(formatter)
             val updatedFoodList: MutableList<Food>
+            val newRecentWeekData: MutableList<RecentDayData> = it.recentWeekData.toMutableList()
             val newConsumed: Int
             if (it.currentDay != updatedCurrentDay) {
                 // If the currentDay doesn't match the current date, replace with the new item
                 updatedFoodList = mutableListOf<Food>(newItem)
-                newConsumed = 0
+                newConsumed = cal
+                newRecentWeekData.add(RecentDayData(it.currentDay, it.calories, it.consumed))
+                while(newRecentWeekData.size > 7){
+                    newRecentWeekData.removeAt(0)
+                }
             } else {
                 // If currentDay matches the current date, append the new item
                 val newFoodList: MutableList<Food> = it.foodList.toMutableList()
@@ -212,7 +239,8 @@ class MainActivity : AppCompatActivity(), ResetDailyList {
                 newConsumed = it.consumed + cal
             }
 
-            it.copy(foodList = updatedFoodList, currentDay = updatedCurrentDay, consumed = newConsumed)
+            it.copy(foodList = updatedFoodList, currentDay = updatedCurrentDay,
+                consumed = newConsumed)
         }
     }
 
@@ -228,6 +256,11 @@ class MainActivity : AppCompatActivity(), ResetDailyList {
     override suspend fun onGoalChanged(newGoal: Int) {
         setCalories(newGoal)
     }
+
+    override suspend fun onClearRecentWeek() {
+        clearRecentWeekData()
+    }
+
     private suspend fun getFoodList(): MutableList<Food>{
         return dataStore.data.first().foodList
     }

@@ -19,12 +19,18 @@ import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import com.github.mikephil.charting.utils.ColorTemplate
 import com.sabanciuniv.todoapp.databinding.ChartDialogBinding
+import com.sabanciuniv.todoapp.`interface`.ResetDailyList
 import com.sabanciuniv.todoapp.model.ChartData
 import com.sabanciuniv.todoapp.model.Food
 import com.sabanciuniv.todoapp.model.RecentDayData
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
-class ChartDialog(context: Context, var recentWeekList: MutableList<RecentDayData>, var currentGoal: Int ):Dialog(context) {
+class ChartDialog(context: Context, private val recentWeek: MutableList<RecentDayData>,
+    private val clearRecentWeek: ResetDailyList):Dialog(context) {
     private var binding: ChartDialogBinding? = null
+    private val dialogScope = CoroutineScope(Dispatchers.Main)
     private val days = listOf("16 ", "17 ", "18 ",
         "19 ", "20 ","21 ", "22 ")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,7 +38,7 @@ class ChartDialog(context: Context, var recentWeekList: MutableList<RecentDayDat
         binding = ChartDialogBinding.inflate(layoutInflater)
         setContentView(binding!!.root)
         window!!.setLayout(
-            ViewGroup.LayoutParams.FILL_PARENT,
+            ViewGroup.LayoutParams.MATCH_PARENT,
             ViewGroup.LayoutParams.WRAP_CONTENT
         )
         val chart = binding!!.barChart
@@ -48,11 +54,8 @@ class ChartDialog(context: Context, var recentWeekList: MutableList<RecentDayDat
         chart.xAxis.isGranularityEnabled = true
         chart.xAxis.valueFormatter = IndexAxisValueFormatter(days)
 
-        val recentWeek: MutableList<RecentDayData> = mutableListOf(RecentDayData("16 Nov", 2500, 3200),
-            RecentDayData("17 Nov", 2500, 2200),RecentDayData("18 Nov", 3500, 3200),
-            RecentDayData("19 Nov", 3500, 3750),RecentDayData("20 Nov", 3000, 2300),
-            RecentDayData("21 Nov", 2800, 2130),RecentDayData("16 Nov", 2500, 3200))
-        var columnNum: Int = 0
+
+        var columnNum = 0
         val higherCaloryGoalList = mutableListOf<ChartData>()
         val higherEarnedCaloriesList = mutableListOf<ChartData>()
         recentWeek.forEach { dayData ->
@@ -73,8 +76,8 @@ class ChartDialog(context: Context, var recentWeekList: MutableList<RecentDayDat
             trialHigherCalCals.add(BarEntry(calDay.index.toFloat(), calDay.earnedCalories.toFloat()))
         }
 
-        val higherCalDatasetCal: BarDataSet = BarDataSet(trialHigherCalCals , "Daily Calory Earned")
-        val higherCalDatasetGoal: BarDataSet = BarDataSet(trialHigherCalGoals , "Daily Calory Goal")
+        val higherCalDatasetCal = BarDataSet(trialHigherCalCals , "Daily Calory Earned")
+        val higherCalDatasetGoal = BarDataSet(trialHigherCalGoals , "Daily Calory Goal")
         val barFirstColor = Color.parseColor("#D0BCFF")
         val barSecondaryColor = Color.parseColor("#8C1D18")
         higherCalDatasetCal.color = barFirstColor
@@ -88,18 +91,18 @@ class ChartDialog(context: Context, var recentWeekList: MutableList<RecentDayDat
         higherEarnedCaloriesList.forEach{ calDay ->
             trialHigherGoalCals.add(BarEntry(calDay.index.toFloat(), calDay.earnedCalories.toFloat()))
         }
-        val higherGoalFirstDataset: BarDataSet = BarDataSet(trialHigherGoalGoals , "")
-        val higherGoalSecondDataset: BarDataSet = BarDataSet(trialHigherGoalCals , "")
+        val higherGoalFirstDataset = BarDataSet(trialHigherGoalGoals , "")
+        val higherGoalSecondDataset = BarDataSet(trialHigherGoalCals , "")
         higherGoalFirstDataset.color = barSecondaryColor
         higherGoalSecondDataset.color = barFirstColor
-        val barData: BarData = BarData(higherCalDatasetGoal, higherCalDatasetCal, higherGoalSecondDataset,
+        val barData = BarData(higherCalDatasetGoal, higherCalDatasetCal, higherGoalSecondDataset,
             higherGoalFirstDataset)
         chart.data = barData
         /*chart.description = Description()    // Hide the description
         chart.axisLeft.setDrawLabels(false);
         chart.axisRight.setDrawLabels(false);
         chart.xAxis.setDrawLabels(false);*/
-        chart.legend.isEnabled = false;
+        chart.legend.isEnabled = false
 
         chart.animateY(1500,  Easing.EaseOutCirc)
         chart.invalidate()
@@ -123,6 +126,13 @@ class ChartDialog(context: Context, var recentWeekList: MutableList<RecentDayDat
         binding!!.animationButton.setOnClickListener {
             binding!!.barChart.animateY(1500,  Easing.EaseOutCirc)
             binding!!.barChart.invalidate()
+        }
+
+        binding!!.detailedHistoryButton.setOnClickListener {
+            dialogScope.launch {
+                clearRecentWeek.onClearRecentWeek()
+                dismiss()
+            }
         }
     }
 }

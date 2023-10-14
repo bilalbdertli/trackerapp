@@ -117,7 +117,7 @@
                 android:id="@+id/detailedHistoryButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Detailed Info"
+                android:text="Clear My Data"
                 />
             <Space
                 android:layout_width="0dp"
