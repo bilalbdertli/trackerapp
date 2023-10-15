@@ -28,11 +28,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class ChartDialog(context: Context, private val recentWeek: MutableList<RecentDayData>,
-    private val clearRecentWeek: ResetDailyList):Dialog(context) {
+                  private val clearRecentWeek: ResetDailyList):Dialog(context) {
     private var binding: ChartDialogBinding? = null
-    private val dialogScope = CoroutineScope(Dispatchers.Main)
-    private val days = listOf("16 ", "17 ", "18 ",
-        "19 ", "20 ","21 ", "22 ")
+    private val dialogScope = CoroutineScope(Dispatchers.IO)
+    private val days = mutableListOf<String>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ChartDialogBinding.inflate(layoutInflater)
@@ -52,13 +51,12 @@ class ChartDialog(context: Context, private val recentWeek: MutableList<RecentDa
         chart.xAxis.position = XAxis.XAxisPosition.BOTTOM
         chart.xAxis.granularity = 1000f
         chart.xAxis.isGranularityEnabled = true
-        chart.xAxis.valueFormatter = IndexAxisValueFormatter(days)
-
 
         var columnNum = 0
         val higherCaloryGoalList = mutableListOf<ChartData>()
         val higherEarnedCaloriesList = mutableListOf<ChartData>()
         recentWeek.forEach { dayData ->
+            days.add(dayData.day)
             if (dayData.caloryGoal > dayData.earnedCalories) {
                 higherCaloryGoalList.add(ChartData(columnNum, dayData.caloryGoal, dayData.earnedCalories))
             } else if (dayData.earnedCalories > dayData.caloryGoal) {
@@ -105,20 +103,9 @@ class ChartDialog(context: Context, private val recentWeek: MutableList<RecentDa
         chart.legend.isEnabled = false
 
         chart.animateY(1500,  Easing.EaseOutCirc)
+        chart.xAxis.valueFormatter = IndexAxisValueFormatter(days)
         chart.invalidate()
-        /*
-        val pieEntries: ArrayList<PieEntry> = arrayListOf()
-        pieEntries.add(PieEntry(20f, "Goal is exceeded"))
-        pieEntries.add(PieEntry(30f, "Goal is not reached"))
-        pieEntries.add(PieEntry(50f, "No available data"))
-        val pieDataSet = PieDataSet(pieEntries, "Values")
-        pieDataSet.colors = ColorTemplate.createColors(ColorTemplate.MATERIAL_COLORS)
-        val pieData: PieData = PieData(pieDataSet)
-        val pieChart = binding!!.pieChart
-        pieChart.data = pieData
-        pieChart.description.isEnabled = false
-        pieChart.animateXY(1000, 1000, Easing.EaseOutElastic, Easing.EaseInCirc)
-        pieChart.invalidate()*/
+
     }
 
     override fun onStart() {
@@ -136,3 +123,17 @@ class ChartDialog(context: Context, private val recentWeek: MutableList<RecentDa
         }
     }
 }
+
+/*
+        val pieEntries: ArrayList<PieEntry> = arrayListOf()
+        pieEntries.add(PieEntry(20f, "Goal is exceeded"))
+        pieEntries.add(PieEntry(30f, "Goal is not reached"))
+        pieEntries.add(PieEntry(50f, "No available data"))
+        val pieDataSet = PieDataSet(pieEntries, "Values")
+        pieDataSet.colors = ColorTemplate.createColors(ColorTemplate.MATERIAL_COLORS)
+        val pieData: PieData = PieData(pieDataSet)
+        val pieChart = binding!!.pieChart
+        pieChart.data = pieData
+        pieChart.description.isEnabled = false
+        pieChart.animateXY(1000, 1000, Easing.EaseOutElastic, Easing.EaseInCirc)
+        pieChart.invalidate()*/

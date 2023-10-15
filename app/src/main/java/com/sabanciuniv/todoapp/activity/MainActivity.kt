@@ -144,8 +144,11 @@ class MainActivity : AppCompatActivity(), ResetDailyList {
 
     }
 
+
     private fun showChartDialog(){
-        val dialog = ChartDialog(this, recentWeekList, this)
+        val recentWeekListWithCurrentDay: MutableList<RecentDayData> = recentWeekList.toMutableList()
+        recentWeekListWithCurrentDay.add(RecentDayData("Today", calories, earnedCals))
+        val dialog = ChartDialog(this, recentWeekListWithCurrentDay, this)
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog.show()
     }
