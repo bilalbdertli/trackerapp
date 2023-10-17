@@ -1,13 +1,14 @@
 package com.sabanciuniv.todoapp.activity
 
-import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.sabanciuniv.todoapp.ToDoApplication
 import com.sabanciuniv.todoapp.TodoRecViewAdapter
 import com.sabanciuniv.todoapp.databinding.FragmentTodoTabsBinding
@@ -63,6 +64,21 @@ class FragmentTodoTabs(var isChecked: String) : Fragment(), RecyclerViewInterfac
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val helper = ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT ) {
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
+                return false
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                todoList.removeAt(viewHolder.adapterPosition)
+                todoRecViewAdapter.notifyItemRemoved(viewHolder.adapterPosition)
+            }
+        })
+        helper.attachToRecyclerView(binding!!.recViewTodos)
         binding!!.swipeRefresh.setOnRefreshListener {
             binding!!.prgBarTodos.visibility = View.VISIBLE
             binding!!.swipeRefresh.isRefreshing = false
